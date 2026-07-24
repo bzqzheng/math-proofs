@@ -50,3 +50,16 @@ odd n ≤ N_CAP with δ(n) < DELTA_MAX, and silent about any weird number with
 δ ≥ DELTA_MAX. Known even weird numbers overwhelmingly have tiny δ, so the
 δ-window is believed to be where the action is — but "no odd weird found"
 must always be stated with the δ-window attached.
+
+## Run A result (2026-07-24): PARTIAL agreement check, filter validated
+- 61,761,000 DFS nodes in 1500s (Python), 263,768 abundant-with-small-δ
+  candidates tested, **0 weird found**. Consistent with Fang's 10^21 bound.
+- HONEST SCOPE: the run was time-limited, not space-complete — it did NOT
+  enumerate all odd n ≤ 10^21 (DFS is ordered by factorization, not by n).
+  What it proves: (a) the pipeline runs correctly at scale, (b) among the
+  263,768 candidates in the covered prefix the filter never fired — no
+  false positives, no surprises. The full below-10^21 agreement check needs
+  the C engine to finish the tree.
+- Production decision: C engine (delegated port) with N_CAP = 10^24,
+  DELTA_MAX = 10^7, multi-hour budget. 10^21–10^24 is genuinely fresh
+  territory (Fang stops at 10^21).

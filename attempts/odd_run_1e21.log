@@ -59,3 +59,6 @@ progress: nodes=57,000,000 tested=263,273 found=0 n=338091358946721096255 elapse
 progress: nodes=58,000,000 tested=263,362 found=0 n=117796014655398180255 elapsed=1442s
 progress: nodes=59,000,000 tested=263,463 found=0 n=58849309429778360955 elapsed=1457s
 progress: nodes=60,000,000 tested=263,571 found=0 n=205002616988689233945 elapsed=1473s
+progress: nodes=61,000,000 tested=263,668 found=0 n=465845198060875884405 elapsed=1488s
+
+done in 1500.0s | nodes=61,761,000 | tested=263,768 | weird=0

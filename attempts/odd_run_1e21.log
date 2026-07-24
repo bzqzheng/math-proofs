@@ -46,3 +46,9 @@ progress: nodes=44,000,000 tested=261,934 found=0 n=288046716360160065 elapsed=1
 progress: nodes=45,000,000 tested=262,086 found=0 n=148027928789448015 elapsed=1234s
 progress: nodes=46,000,000 tested=262,086 found=0 n=52265230257185715 elapsed=1250s
 progress: nodes=47,000,000 tested=262,250 found=0 n=192882215864024345505 elapsed=1267s
+progress: nodes=48,000,000 tested=262,396 found=0 n=174175504625396505 elapsed=1283s
+progress: nodes=49,000,000 tested=262,531 found=0 n=90630242066471415 elapsed=1298s
+progress: nodes=50,000,000 tested=262,531 found=0 n=20898200572361805 elapsed=1314s
+progress: nodes=51,000,000 tested=262,677 found=0 n=68232849078902264295 elapsed=1331s
+progress: nodes=52,000,000 tested=262,801 found=0 n=168955585178402715 elapsed=1347s
+progress: nodes=53,000,000 tested=262,926 found=0 n=109231948934380965 elapsed=1363s

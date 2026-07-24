@@ -33,3 +33,35 @@ diligence + frontier extension.
 Barbeau's prime-reciprocal product problem has a 2026 machine-checked
 barrier (Bonfioli): any solution needs ≥ 59 primes and prime-products
 ≥ 2·10^56. Brute force is dead; needs an ideas-first approach. Skipped.
+
+## Theory note (2026-07-24): why (2-full,3-full) is a Thue problem, not a Pell problem
+
+Canonical forms: n 2-full ⟺ n = c²d³ (d squarefree, unique). m 3-full ⟺
+m = x³y² with rad(y) | x (exponents e ≥ 3 are exactly those writable
+3f + 2g with no prime left at exponent exactly 2).
+
+So #366 asks for solutions of
+    x³y² − c²d³ = 1,   rad(y) | x, d squarefree.
+For each FIXED (y, d) this is a Thue equation (binary cubic form in x, c)
+— finitely many solutions, effectively computable (Baker + LLL). This
+explains the asymmetry with the famous cases:
+- (2-full, 2-full) consecutive pairs are infinite because they come from
+  PELL equations (degree 2: x² − 8y² = 1, Mahler's answer to Erdős).
+- (3-full, 2-full) examples exist (8/9, 12167/12168, ...) because
+  cube-vs-square Thue curves x³ − c²d³ = ±1 occasionally have points.
+- (2-full, 3-full) pairs require the SAME Thue family but with the rad(y)|x
+  constraint on the cube side and squarefree condition on the other —
+  the scan's job is to find one lattice point on any of these curves
+  satisfying the side conditions.
+
+Program if the scan returns null:
+1. For small (y, d), enumerate the Thue curves x³y² − c²d³ = 1 and solve
+   each (sage/pari `thue` would do it; or implement Baker-free small-case
+   search bounded by the scan frontier).
+2. Any solution automatically satisfies n+1 3-full IF rad(y) | x; check the
+   side conditions.
+3. The interesting theorem-shaped output even without a full solution:
+   "no (2-full,3-full) pair with y·d ≤ B" for the largest B our scan +
+   Thue bounds reach — a finite, publishable obstruction statement.
+
+Status: scan running first; this is the fallback path.

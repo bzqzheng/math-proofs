@@ -1,0 +1,48 @@
+=== DECIDABLE (9) ===
+  #  19   $500 lean=no  oeis=N/A                      graph theory,chromatic number
+  # 475        lean=no  oeis=N/A                      number theory,additive combinatorics
+  # 506        lean=no  oeis=possible                 geometry
+  # 547        lean=no  oeis=N/A                      graph theory,ramsey theory
+  # 551        lean=no  oeis=N/A                      graph theory,ramsey theory
+  # 556        lean=no  oeis=A389335                  graph theory,ramsey theory
+  # 580        lean=no  oeis=N/A                      graph theory
+  # 742        lean=yes oeis=N/A                      graph theory
+  # 848        lean=yes oeis=N/A                      number theory
+
+=== VERIFIABLE (7) ===
+  #   7        lean=yes oeis=N/A                      number theory,covering systems
+  # 307        lean=yes oeis=N/A                      number theory,unit fractions
+  # 364        lean=yes oeis=A060355,A076445          number theory
+  # 366        lean=yes oeis=A060355                  number theory
+  # 647    £25 lean=yes oeis=A062249,A087280          number theory
+  # 672        lean=yes oeis=N/A                      number theory
+  # 835        lean=yes oeis=N/A                      graph theory,hypergraphs
+
+=== FALSIFIABLE (27) ===
+  #  23        lean=yes oeis=A389646                  graph theory
+  #  64  $1000 lean=yes oeis=N/A                      graph theory,cycles
+  #  97   $100 lean=yes oeis=N/A                      geometry,distances,convex
+  # 106        lean=no  oeis=N/A                      geometry
+  # 107   $500 lean=yes oeis=A000051                  geometry,convex
+  # 114   $250 lean=no  oeis=N/A                      polynomials,analysis
+  # 128   $250 lean=yes oeis=N/A                      graph theory
+  # 167        lean=no  oeis=N/A                      graph theory
+  # 242        lean=yes oeis=A073101,A075245,A075246,A075247,A075248,A287116 number theory,unit fractions
+  # 287        lean=yes oeis=N/A                      number theory,unit fractions
+  # 375        lean=yes oeis=N/A                      number theory
+  # 398        lean=yes oeis=A146968,A141399          number theory,factorials
+  # 458        lean=yes oeis=A056604                  number theory,primes
+  # 488        lean=yes oeis=N/A                      number theory
+  # 548        lean=no  oeis=N/A                      graph theory
+  # 583        lean=no  oeis=N/A                      graph theory
+  # 617        lean=yes oeis=N/A                      graph theory
+  # 628        lean=no  oeis=N/A                      graph theory,chromatic number
+  # 699        lean=yes oeis=N/A                      number theory,binomial coefficients
+  # 723        lean=yes oeis=N/A                      combinatorics
+  # 743        lean=no  oeis=N/A                      graph theory
+  # 779        lean=yes oeis=A005235                  number theory,primes
+  # 982        lean=yes oeis=A004526                  geometry,convex,distances
+  # 993        lean=no  oeis=possible                 graph theory
+  #1020        lean=no  oeis=N/A                      graph theory,hypergraphs
+  #1041        lean=yes oeis=N/A                      analysis
+  #1082        lean=yes oeis=possible                 geometry,distances

@@ -1,47 +1,44 @@
 """
-Erdős #470(i): search for an odd weird number.
+Erdős #470(i): search for an odd weird number. (v2 — bounded branching)
 
-KEY STRUCTURAL TRICK (exact, derived in attempts/470-odd-weird.md):
-    n is weird  <=>  delta := sigma(n) - 2n > 0  AND  delta is NOT expressible
-    as a sum of distinct proper divisors of n.
-Proof: semiperfect means a subset of proper divisors sums to n; the complement
-of that subset (within all proper divisors, total sum sigma(n)-n) sums to
-sigma(n)-n-n = delta. So subset-sum testing collapses from target n
-(infeasible for n ~ 10^21) to target delta, which we force to be small.
+KEY TRICK (exact): n weird <=> delta = sigma(n) - 2n > 0 AND delta is not a
+sum of distinct proper divisors of n. (Complementation argument; see
+attempts/470-odd-weird.md.) Oracle cost is O(delta), and delta is forced
+small by construction.
 
-SEARCH: DFS over factorizations n = prod p_i^a_i (exact integer sigma and n).
-Pruning:
-  - delta > DELTA_MAX  => prune (delta is monotone increasing once abundant:
-    both (abundancy - 2) and n only grow as factors are appended).
-  - deficient node     => prune if even the most generous continuation
-    (appending the next k smallest available primes, k = as many as the size
-    cap allows) cannot push abundancy past 2.
-VALIDATION: run with allow_even=True below 10^6 must reproduce the known
-weird numbers 70, 836, 4030, 5830, 7192, 7912, 9272, ...
-Then the real run: odd n in (10^19, N_CAP] overlapping Fang's 10^21 bound
-to sanity-check that the filter agrees (no odd weird below 10^21).
+v2 FIXES (v1 was a runaway):
+- Per-node prime-branch cap. Deficient node with abundancy A = sigma/n and
+  size budget for k more factors: choosing next prime p can reach abundancy
+  2 only if A*(1+1/p)^(k+1) > 2 (each further factor contributes at most
+  (1+1/p), since primes only grow). Break the p-loop the moment this fails.
+  At the root this caps p at ~23 instead of ~10^21.
+- Abundant node (delta > 0): extending by prime p gives
+  delta' = delta*p + sigma (a=1), increasing in p — break when it exceeds
+  DELTA_MAX. Extensions with a >= 2 are strictly worse; try a=1 only.
+- Flushed progress logging + tight time checks.
+
+Validation (must pass before frontier runs): ALLOW_EVEN=1 N_CAP=1e6 must
+reproduce 70, 836, 4030, 5830, 7192, 7912, 9272 among the finds.
 """
 
-import math
 import os
 import time
 
 from sympy import nextprime
 
-# ---- parameters (env-overridable for validation runs) ----
 N_CAP = int(float(os.environ.get("N_CAP", 10**24)))
 DELTA_MAX = int(float(os.environ.get("DELTA_MAX", 10**7)))
 ALLOW_EVEN = os.environ.get("ALLOW_EVEN", "0") == "1"
-TIME_BUDGET = int(os.environ.get("TIME_BUDGET", 240))
+TIME_BUDGET = int(os.environ.get("TIME_BUDGET", 600))
 
 t0 = time.time()
 nodes = 0
 tested = 0
 found = []
+deadline_hit = False
 
 
 def divisors_upto(fac, limit):
-    """All divisors of n (from factorization fac) that are <= limit."""
     ds = [1]
     for p, a in fac:
         pp = 1
@@ -57,7 +54,6 @@ def divisors_upto(fac, limit):
 
 
 def delta_expressible(fac, delta):
-    """Is delta a sum of distinct proper divisors? (bitset subset-sum)"""
     ds = divisors_upto(fac, delta)
     bits = 1
     for v in ds:
@@ -65,29 +61,31 @@ def delta_expressible(fac, delta):
     return (bits >> delta) & 1
 
 
-def max_extra_abundancy(sig, n, p_next):
-    """Upper bound on reachable abundancy: greedily append the next smallest
-    primes (each once, factor (1+1/p)) while n * p <= N_CAP. Returns
-    (max_abundancy_num, max_abundancy_den) as a float comparison value."""
-    abund = sig / n
-    nn = n
-    p = p_next
-    while True:
-        if nn * p > N_CAP:
-            break
-        abund *= 1 + 1.0 / p
-        nn *= p
+def k_max(n, p_start):
+    """Max number of additional prime factors (>= p_start) fitting in N_CAP."""
+    k = 0
+    m = n
+    p = p_start
+    while m * p <= N_CAP:
+        m *= p
         p = nextprime(p)
-        if time.time() - t0 > TIME_BUDGET:
-            break
-    return abund
+        k += 1
+    return k
 
 
-def dfs(idx_start_prime, n, sig, fac):
-    global nodes, tested
-    nodes += 1
-    if nodes % 100000 == 0 and time.time() - t0 > TIME_BUDGET:
+def dfs(p_start, n, sig, fac):
+    global nodes, tested, deadline_hit
+    if deadline_hit:
         return
+    nodes += 1
+    if nodes % 1000 == 0:
+        if time.time() - t0 > TIME_BUDGET:
+            deadline_hit = True
+            return
+    if nodes % 1_000_000 == 0:
+        print(f"progress: nodes={nodes:,} tested={tested:,} found={len(found)} "
+              f"n={n} elapsed={time.time()-t0:.0f}s", flush=True)
+
     delta = sig - 2 * n
     if delta > 0:
         if delta >= DELTA_MAX:
@@ -95,42 +93,50 @@ def dfs(idx_start_prime, n, sig, fac):
         tested += 1
         if not delta_expressible(fac, delta):
             found.append((n, delta, list(fac)))
-            print(f"*** WEIRD CANDIDATE n={n} delta={delta} fac={fac}", flush=True)
-        # keep recursing: multiples can also have small delta (delta' ~ p*delta)
+            print(f"*** WEIRD n={n} delta={delta} fac={fac}", flush=True)
+        # extension by prime p (a=1) gives delta' = delta*p + sig; increasing
+        # in p, so the p-loop below breaks as soon as this exceeds DELTA_MAX.
+        abundant = True
     else:
-        # deficient: can we still reach abundancy 2 within the size cap?
-        if max_extra_abundancy(sig, n, idx_start_prime) <= 2.0:
+        abundant = False
+        km = k_max(n, p_start)
+        if km == 0:
             return
 
-    p = idx_start_prime
+    abund = sig / n
+    p = p_start
     while n * p <= N_CAP:
-        if time.time() - t0 > TIME_BUDGET:
-            return
-        # try p^a for a = 1, 2, ... while within cap
-        nn, ss = n * p, sig * (p + 1)
-        ppow = p
-        a = 1
-        while nn <= N_CAP:
-            # pruning on the deficient side is handled at recursion entry;
-            # but skip branches where even this prime can't help enough:
-            dfs(nextprime(p), nn, ss, fac + [(p, a)])
-            a += 1
-            ppow *= p
-            nn_next = n * ppow
-            if nn_next > N_CAP:
+        if abundant:
+            if delta * p + sig >= DELTA_MAX:
+                break  # even a=1 extension overshoots delta budget
+            dfs(nextprime(p), n * p, sig * (p + 1), fac + [(p, 1)])
+        else:
+            # can choosing p (any exponent) still reach abundancy 2? Each
+            # further prime-power factor q^b contributes multiplier
+            # sigma(q^b)/q^b < q/(q-1) <= p/(p-1); at most km+1 factors fit.
+            if abund * (p / (p - 1)) ** (km + 1) <= 2.0:
                 break
-            nn = nn_next
-            ss = sig * (ppow * p - 1) // (p - 1)
+            nn = n
+            ppow = 1
+            a = 0
+            while True:
+                ppow *= p
+                nn = n * ppow
+                if nn > N_CAP:
+                    break
+                a += 1
+                ss = sig * (ppow * p - 1) // (p - 1)
+                dfs(nextprime(p), nn, ss, fac + [(p, a)])
+                if deadline_hit:
+                    return
+        if deadline_hit:
+            return
         p = nextprime(p)
 
 
-if ALLOW_EVEN:
-    start = 2
-else:
-    start = 3
-
-print(f"search: odd={not ALLOW_EVEN}, N_CAP={N_CAP:.2e}, DELTA_MAX={DELTA_MAX:.1e}")
+start = 2 if ALLOW_EVEN else 3
+print(f"search v2: odd={not ALLOW_EVEN}, N_CAP={N_CAP:.2e}, DELTA_MAX={DELTA_MAX:.1e}", flush=True)
 dfs(start, 1, 1, [])
-print(f"\ndone in {time.time()-t0:.1f}s | nodes={nodes:,} | abundant-with-small-delta tested={tested:,} | weird found={len(found)}")
-for n, d, f in found:
-    print(f"  n={n} delta={d} fac={f}")
+print(f"\ndone in {time.time()-t0:.1f}s | nodes={nodes:,} | tested={tested:,} | weird={len(found)}", flush=True)
+for n, d, f in sorted(found):
+    print(f"  n={n} delta={d} fac={f}", flush=True)

@@ -41,6 +41,19 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I6. Cap the branching factor with a necessary condition from the goal
+##    inequality — not just the state space
+Found in: #470 (v1 runaway). The DFS iterated the "next prime" loop over all
+primes up to N_CAP/n (~10^21 at the root) because the size cap is not the
+real constraint — the *goal inequality* is. Deriving "choosing p can reach
+abundancy 2 only if A·(p/(p−1))^(k+1) > 2" collapsed the root branching from
+10^21 to ~8. General pattern: in any DFS/BFS over combinatorial objects,
+bound the branch variable by the *viability of ever satisfying the target
+predicate*, not by the container size. An unbounded loop over a legal-but-
+doomed range is the most common silent way search code "runs forever."
+Related: log with flushed progress from minute one — an empty log after 10
+minutes IS the bug report.
+
 ## I5. Validate pipelines on known-positive and known-negative cases
 Found in: #470. The DFS+δ-test was validated by (a) reproducing all 7 known
 weird numbers < 10^4 with correct δ, (b) running below Fang's 10^21 bound

@@ -40,3 +40,13 @@ factorizations and δ values.
   bottleneck. Watch tested-candidate counts: the density of
   abundant-with-small-δ odd numbers above 10^21 is the unknown that decides
   feasibility.
+
+## Completeness caveat (to state in any result writeup)
+The DFS enumerates every odd n ≤ N_CAP reachable via viable branches; every
+ancestor of an abundant node is explored (a deficient prefix of an abundant
+n always passes the viability cap, since the true continuation exists).
+BUT the δ-test only fires for δ < DELTA_MAX. So the search is COMPLETE for
+odd n ≤ N_CAP with δ(n) < DELTA_MAX, and silent about any weird number with
+δ ≥ DELTA_MAX. Known even weird numbers overwhelmingly have tiny δ, so the
+δ-window is believed to be where the action is — but "no odd weird found"
+must always be stated with the δ-window attached.

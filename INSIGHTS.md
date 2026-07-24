@@ -41,6 +41,19 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I7. Extra quantified variables often drop out after the right
+##    characterization — check before pricing the search
+Found in: #699 (binomial gcd). The conjecture quantifies over (n, i, j),
+but the Legendre-digit-sum characterization of p | C(n,m) for p ≥ m showed
+the witness condition depends only on (n, i): j is irrelevant. The search
+space went from O(n³)-ish triples to O(n · log n) effective pairs, and the
+scan became trivially fast. General pattern: before estimating a witness
+search's cost, push each atomic predicate through the strongest known
+characterization (Kummer/Legendre, CRT, valuation formulas). Variables that
+appear in the statement but not in the characterized predicate are free.
+**Never price a search on the statement's arity; price it on the
+characterized predicate's arity.**
+
 ## I6. Cap the branching factor with a necessary condition from the goal
 ##    inequality — not just the state space
 Found in: #470 (v1 runaway). The DFS iterated the "next prime" loop over all

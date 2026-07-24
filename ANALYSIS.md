@@ -189,16 +189,20 @@ systematic, witness-first batch hunt is real (P6).
   * Erdős #699 (binomial gcd): reduction corrected — composite `i` is closed
     by Sylvester–Schur; prime `i` reduces to a prime-factor survival problem.
     Direct Lucas survival check verified `n ≤ 3,000` with zero counterexamples.
-    Production scan to `n = 10^9` ongoing.
+    Production scan to `n = 10^9` ongoing (now at ~475M).
   * Erdős #470 (odd weird numbers): compiled C search sharded by smallest
-    prime factor, running to `10^24`; SPF=3 shard is the dense one, ~77B
-    nodes/9.4ks elapsed, zero weird finds (consistent with known frontier).
-  * Erdős #779 (Fortunate numbers): gmpy2 `next_prime` optimization; scan to
-    `n = 5000` ongoing, reached `n = 700` at 2,200 s with no composite
-    Fortunate numbers.
+    prime factor to `10^24`; SPF=5..53 shards completed with zero finds;
+    SPF=3 shard is the dense one, ~104B nodes/12ks elapsed, 262k candidates
+    tested, zero weird finds (consistent with known frontier).
+  * Erdős #779 (Fortunate numbers): gmpy2 `next_prime` optimization; scan hit
+    1-hour budget at `n = 780`, no composite Fortunate numbers.
   * Erdős #458 (lcm inequality): scan to `k = 10^7` completed in 125 s; zero
     counterexamples, min margin 0.15415 at `k = 4`.
   * Erdős #64 (graph cycles): nauty installed; brute-force cubic/min-degree-3
     enumeration explodes well below the 30-vertex cubic lower bound, so a
     counterexample hunt here requires a structural construction, not raw
     enumeration.
+  * Erdős #993 (tree independence-polynomial unimodality): new target.
+    Reproduced the n=26 non-log-concave seeds from Kadrawi–Levit families;
+    simulated-annealing search running, fitness climbed to 0.987 on T1 seed
+    before size cap added.  A counterexample would be a single tree.

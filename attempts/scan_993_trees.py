@@ -55,10 +55,11 @@ def independence_polynomial_tree(G, root=0):
         # start with empty product
         cur0 = [1]
         cur1 = [1]
+        from itertools import zip_longest
         for u in children:
             d0 = dp0[u]
             d1 = dp1[u]
-            du = [a + b for a, b in zip(d0, d1)]
+            du = [a + b for a, b in zip_longest(d0, d1, fillvalue=0)]
             # cur0 *= du, cur1 *= d0
             new0 = [0] * (len(cur0) + len(du) - 1)
             for i, a in enumerate(cur0):
@@ -78,7 +79,8 @@ def independence_polynomial_tree(G, root=0):
         # v chosen: shift by 1
         dp1[v] = [0] + cur1
     # root may be chosen or not
-    total = [a + b for a, b in zip(dp0[root], dp1[root])]
+    from itertools import zip_longest
+    total = [a + b for a, b in zip_longest(dp0[root], dp1[root], fillvalue=0)]
     return total
 
 

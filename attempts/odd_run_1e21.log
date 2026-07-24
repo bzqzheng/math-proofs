@@ -1,1 +1,7 @@
 search v2: odd=True, N_CAP=1.00e+21, DELTA_MAX=1.0e+07
+progress: nodes=1,000,000 tested=256,692 found=0 n=146262406905907215 elapsed=407s
+progress: nodes=2,000,000 tested=256,692 found=0 n=371534637491949855 elapsed=424s
+progress: nodes=3,000,000 tested=256,692 found=0 n=605739639433075455 elapsed=442s
+progress: nodes=4,000,000 tested=256,692 found=0 n=845328220677329235 elapsed=461s
+progress: nodes=5,000,000 tested=256,692 found=0 n=1088787859749514155 elapsed=480s
+progress: nodes=6,000,000 tested=256,692 found=0 n=1335336855701401245 elapsed=500s

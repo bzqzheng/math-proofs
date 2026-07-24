@@ -79,6 +79,7 @@ static int K;
 static unsigned long long nodes[MAXK], t2nodes, nsol, ndefer, t2_disc, t2_iter;
 static unsigned long long work_t = 0, work_q = 0;
 static uint64_t LIMIT = 3000000ULL;   /* per-node budget before deferring */
+static uint64_t SIGCAP = 100000ULL;   /* exact-enum width cap in HMODE=4; wider -> quadrature */
 static uint64_t P[MAXK];
 static uint8_t *sbuf[MAXK];
 static FILE *deferf;
@@ -390,6 +391,7 @@ int main(int argc, char **argv) {
     if (argc > 3 && argv[3][0]) deferf = fopen(argv[3], "w");
     if (argc > 4) LIMIT = strtoull(argv[4], NULL, 10);
     if (getenv("HMODE")) HMODE = atoi(getenv("HMODE"));
+    if (getenv("SIGCAP")) SIGCAP = strtoull(getenv("SIGCAP"), NULL, 10);
     mpz_t N, A; mpz_init_set_ui(N, 1); mpz_init_set_ui(A, 1);
     int j = 0;
     if (argc > 2 && argv[2][0] && argv[2][0] != '@') {

@@ -65,3 +65,19 @@ Program if the scan returns null:
    Thue bounds reach — a finite, publishable obstruction statement.
 
 Status: scan running first; this is the fallback path.
+
+## Full run results (2026-07-24)
+- **#366: 4,480,252 three-full numbers ≤ 10^18 enumerated; ZERO have a
+  2-full predecessor.** No (2-full, 3-full) consecutive pair exists below
+  10^18. Complete over this range (the 3-full side is the sparse side, so
+  enumeration is exhaustive — no window caveat). We are not aware of a
+  published bound for this question; treat 10^18 as our verified frontier,
+  to be cross-checked against literature before claiming novelty.
+- **#364: 2,158,391 powerful numbers ≤ 10^12; exactly 18 consecutive pairs
+  — matching A060355 term-for-term; ZERO triples.** Consistent with Erdős's
+  conjecture; frontier presumably well beyond 10^12 in the literature, so
+  this is pipeline validation, not new ground.
+- Throughput note: 24 min total, dominated by is_powerful on 18-digit
+  survivors. A compiled version reaches ~10^21 for #366 with days of CPU —
+  the heuristic (convergent integral) says expected witnesses up there are
+  O(1) at most; diminishing returns without the Thue angle.

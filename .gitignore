@@ -3,3 +3,8 @@ __pycache__/
 .DS_Store
 data/erdosproblems/
 data/formal-conjectures/
+attempts/k9/
+attempts/h9/
+attempts/*.defer
+attempts/defer_*.txt
+attempts/ppn

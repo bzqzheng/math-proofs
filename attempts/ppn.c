@@ -82,13 +82,12 @@ static uint64_t LIMIT = 3000000ULL;   /* per-node budget before deferring */
 static uint64_t P[MAXK];
 static uint8_t *sbuf[MAXK];
 static FILE *deferf;
-static int HMODE = 0;            /* 1 = heuristic accumulation only, no solving */
+static int HMODE = 0;   /* 1 = t=2 level, 2 = t=3 level (double integral) */            /* 1 = heuristic accumulation only, no solving */
 static double Hsum = 0.0;
 static double lamP(int j) { double r = 1.0; for (int i = 0; i < j; i++) r *= 1.0/(1.0 - 1.0/(double)P[i]); return r; }
 /* Simpson integral over the t=1 children of a t=2 state (see ppn_heuristic.py) */
-static void hcontrib(int j, mpz_t N, mpz_t A) {
+static double hinner(mpz_t N, mpz_t A, uint64_t m, double lamN) {
     mpz_t a, t1; mpz_inits(a, t1, NULL);
-    uint64_t m = (j > 0) ? P[j-1] : 1;
     mpz_fdiv_q(a, N, A);
     if (mpz_cmp_ui(a, m) < 0) mpz_set_ui(a, m);
     mpz_add_ui(a, a, 1);
@@ -96,18 +95,53 @@ static void hcontrib(int j, mpz_t N, mpz_t A) {
     double xa = mpz_get_d(t1); if (xa < 1.0) xa = 1.0;
     double xb = mpz_get_d(N);
     mpz_clears(a, t1, NULL);
-    if (xb <= xa) return;
+    if (xb <= xa) return 0.0;
     double fN = mpz_get_d(N), fA = mpz_get_d(A);
     const int NQ = 24;
     double y0 = log(xa), y1 = log(xb), h = (y1-y0)/NQ, tot = 0.0;
     for (int i = 0; i <= NQ; i++) {
         double x = exp(y0 + i*h);
-        double q = (x+fN)/fA;      double l1 = q > 2.5 ? log(q) : 1.0;
+        double q = (x+fN)/fA;        double l1 = q > 2.5 ? log(q) : 1.0;
         double z = fN*(x+fN)/(fA*x); double l2 = z > 2.5 ? log(z) : 1.0;
         double w = (i == 0 || i == NQ) ? 1 : (i % 2 ? 4 : 2);
         tot += w/(l1*l2);
     }
-    Hsum += lamP(j)/fA * tot*h/3.0;
+    return lamN/fA * tot*h/3.0;
+}
+
+/* t=3 level: integrate over q1 as well.  x = A*q1 - N = A1, y = log x. */
+static void hcontrib3(int j, mpz_t N, mpz_t A) {
+    mpz_t a, t1, N1, A1; mpz_inits(a, t1, N1, A1, NULL);
+    uint64_t m = (j > 0) ? P[j-1] : 1;
+    mpz_fdiv_q(a, N, A);
+    if (mpz_cmp_ui(a, m) < 0) mpz_set_ui(a, m);
+    mpz_add_ui(a, a, 1);
+    mpz_mul(t1, A, a); mpz_sub(t1, t1, N);
+    double xa = mpz_get_d(t1); if (xa < 1.0) xa = 1.0;
+    double xb = 2.0*mpz_get_d(N);
+    double fN = mpz_get_d(N), fA = mpz_get_d(A), lamN = lamP(j);
+    if (xb > xa) {
+        const int NQ = 32;
+        double y0 = log(xa), y1 = log(xb), h = (y1-y0)/NQ, tot = 0.0;
+        for (int i = 0; i <= NQ; i++) {
+            double x = exp(y0 + i*h);
+            double q = (x+fN)/fA;
+            if (q < 2.0) continue;
+            uint64_t qi = (uint64_t)q;
+            mpz_set_d(A1, x);
+            mpz_mul_ui(N1, N, qi ? qi : 1);
+            double lam1 = lamN * (1.0/(1.0 - 1.0/q));
+            double E = hinner(N1, A1, qi, lam1);
+            double w = (i == 0 || i == NQ) ? 1 : (i % 2 ? 4 : 2);
+            tot += w * E / log(q);
+        }
+        Hsum += tot*h/3.0;
+    }
+    mpz_clears(a, t1, N1, A1, NULL);
+}
+
+static void hcontrib(int j, mpz_t N, mpz_t A) {
+    Hsum += hinner(N, A, (j > 0) ? P[j-1] : 1, lamP(j));
 }
 
 static void emit(int j) {
@@ -259,6 +293,7 @@ static void dfs(int j, mpz_t N, mpz_t A, int t) {
         }
         mpz_clear(q); return;
     }
+    if (t == 3 && HMODE == 2) { hcontrib3(j, N, A); return; }
     if (t == 2) {
         t2nodes++;
         if ((t2nodes & 0xFFFFFF) == 0) {
@@ -292,7 +327,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < MAXK; i++) sbuf[i] = malloc(BLK);
     if (argc > 3 && argv[3][0]) deferf = fopen(argv[3], "w");
     if (argc > 4) LIMIT = strtoull(argv[4], NULL, 10);
-    if (getenv("HMODE")) HMODE = 1;
+    if (getenv("HMODE")) HMODE = atoi(getenv("HMODE"));
     mpz_t N, A; mpz_init_set_ui(N, 1); mpz_init_set_ui(A, 1);
     int j = 0;
     if (argc > 2 && argv[2][0]) {

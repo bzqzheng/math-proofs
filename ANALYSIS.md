@@ -178,3 +178,10 @@ systematic, witness-first batch hunt is real (P6).
 - 2026-07-24: Repo created. Source report imported. Jacobian counterexample
   independently re-verified (SymPy): det ≡ -2, 3-to-1 collision confirmed.
   Analysis + ranked target list written.
+- 2026-07-24: Full offline verification pass (see VERIFICATION_REPORT.md).
+  Jacobian: fully confirmed. Erdős #164: statement confirmed exhaustively on
+  all 163,368 primitive subsets of {2..26} (max attained exactly at primes).
+  Unit-distance: classical n^(1+c/log log n) baseline confirmed by direct
+  enumeration; n^1.014 construction not offline-verifiable (class field
+  towers). Ran–Teng and AlphaProof batch claims: no verifiable content in
+  the report; unconfirmed.

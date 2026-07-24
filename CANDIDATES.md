@@ -119,3 +119,14 @@ use this:
 
 Meanwhile I can start on Tier 1 items 1–2 (#647, #470) immediately — both
 need only this repo, the venv, and CPU time.
+
+## Update (2026-07-24): OEIS volume play DEPRIORITIZED
+- OEIS search API is Cloudflare-walled (403 + JS challenge for both FetchURL
+  and curl); the wiki's conjecture index is a dated (2008) thin seed.
+- Spot-check of the "conjectured formulas" seeds (A005158/A005160 family):
+  these are deep algebraic-combinatorics conjectures (ASM/Stanley baker's
+  dozen), NOT induction-on-computable-terms — poor fit for our oracle-first
+  method anyway.
+- The Erdős DB pipeline (652 attackable, 43 finite-computation tags) is a
+  strictly richer corpus. OEIS batch hunt deferred unless the user-side
+  Deep Research fetch (prompt above) delivers the exact 492-list.

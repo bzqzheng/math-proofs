@@ -84,6 +84,7 @@ static uint8_t *sbuf[MAXK];
 static FILE *deferf;
 static int HMODE = 0;   /* 1 = t=2 level, 2 = t=3 level (double integral) */            /* 1 = heuristic accumulation only, no solving */
 static double Hsum = 0.0, Hsmall = 0.0, Hmax = 0.0;
+static double Wdepth[MAXK];
 static double lamP(int j) { double r = 1.0; for (int i = 0; i < j; i++) r *= 1.0/(1.0 - 1.0/(double)P[i]); return r; }
 /* Simpson integral over the t=1 children of a t=2 state (see ppn_heuristic.py) */
 static double hinner(mpz_t N, mpz_t A, uint64_t m, double lamN) {
@@ -286,6 +287,10 @@ static void step(int j, mpz_t N, mpz_t A, int t, uint64_t q) {
 
 static void dfs(int j, mpz_t N, mpz_t A, int t) {
     nodes[j]++;
+    if (HMODE == 3 && j > 0) {
+        double R = mpz_get_d(N)/mpz_get_d(A);
+        if (R > 2.5) Wdepth[j] += lamP(j)/mpz_get_d(A)/log(R);
+    }
     if (t == 1) {
         mpz_t q; mpz_init(q); mpz_add_ui(q, N, 1);
         if (mpz_divisible_p(q, A)) {
@@ -296,7 +301,7 @@ static void dfs(int j, mpz_t N, mpz_t A, int t) {
         }
         mpz_clear(q); return;
     }
-    if (t == 3 && HMODE == 2) { hcontrib3(j, N, A); return; }
+    if (t == 3 && HMODE == 2 && 0) { hcontrib3(j, N, A); return; }
     if (t == 2) {
         t2nodes++;
         if ((t2nodes & 0xFFFFFF) == 0) {
@@ -378,6 +383,13 @@ int main(int argc, char **argv) {
     for (int i = 0; i <= K; i++) printf("%llu%s", nodes[i], i == K ? "" : ",");
     printf(" t2nodes=%llu t2_disc=%llu t2_iter=%llu work_disc=%llu work_iter=%llu sols=%llu deferred=%llu\n",
            t2nodes, t2_disc, t2_iter, work_t, work_q, nsol, ndefer);
+    if (HMODE == 3) {
+        printf("W by depth:");
+        for (int i = 1; i < K; i++) printf(" %.5g", Wdepth[i]);
+        printf("\nratios:");
+        for (int i = 2; i < K; i++) printf(" %.4f", Wdepth[i-1] > 0 ? Wdepth[i]/Wdepth[i-1] : 0);
+        printf("\n");
+    }
     if (HMODE) printf("HEURISTIC Sigma = %.6f  small-A(<=100) = %.6f  max-node = %.6f\n", Hsum, Hsmall, Hmax);
     return 0;
 }

@@ -15,7 +15,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 
 | Dir | Problem | Status | Key result |
 |---|---|---|---|
-| `erdos-699/` | `gcd(C(n,i),C(n,j))` prime factor ≥ i | **SCANNING** | 0 counterexamples below n ≈ 6.5·10⁸ (scan → 10⁹); composite-i closed via Sylvester–Schur; proof angle closed (Price/GPT-5.6 partial resolution on file) |
+| `erdos-699/` | `gcd(C(n,i),C(n,j))` prime factor ≥ i | **SCANNING** | 0 counterexamples below n = 6.748·10⁸ (6.79B pairs; resumed → 10⁹); composite-i closed via Sylvester–Schur; proof angle closed (Price/GPT-5.6 partial resolution on file) |
 | `erdos-470/` | Odd weird numbers | **SCANNING** | Constructive sweep → 10²⁴, sharded by SPF; SPF=5..53 complete, 0 finds; SPF=3 running (~1.7·10¹¹ nodes) |
 | `erdos-458/` | lcm inequality | **BOUND-EXTENDED** | 0 counterexamples for k ≤ 10⁷; min margin 0.15415 at k=4 |
 | `erdos-779/` | Fortune's conjecture | **BOUND-EXTENDED** | No composite Fortunate number for n ≤ 780 |

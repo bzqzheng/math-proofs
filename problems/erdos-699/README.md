@@ -1,6 +1,6 @@
 # Attempts: #699 (binomial gcd) and #458 (lcm inequality)
 
-## Status: #699 10^9 scan running; #458 clean to 10^7; 2026-07-24
+## Status: #699 clean to n = 674.8M (6h segment 1), resumed to 10^9 as segment 2; #458 clean to 10^7; 2026-07-24
 
 ## #699 — corrected reduction (composite i closed; prime i survival residual)
 Conjecture: for 1 ≤ i < j ≤ n/2, gcd(C(n,i), C(n,j)) has a prime factor ≥ i.

@@ -6,8 +6,10 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-53si6yjm` | Erdős #699 binomial gcd | `problems/erdos-699/scan_699.py` to `10^9` | `n ≈ 576M`, `5.7B` cases checked, **0 counterexamples** | 6 h (~45 min left) |
-| `bash-51p87u8h` | Erdős #470 odd weird | `problems/erdos-470/search_odd_weird` SPF=3 shard to `10^24` | `141B` nodes, `262,801` candidates, **0 weird** | 7 h (~2.8 h left) |
+| `bash-hjmgscyk` | Erdős #699 binomial gcd (part 2) | `problems/erdos-699/scan_699.py`, `N_START=674800001` → `10^9` | resumed; ETA ~10.5 h | 12 h |
+| `bash-51p87u8h` | Erdős #470 odd weird | `problems/erdos-470/search_odd_weird` SPF=3 shard to `10^24` | `177B` nodes, `262,926` candidates, **0 weird** | 7 h (~2 h left) |
+
+**#699 part 1** (`bash-53si6yjm`) hit its 6 h timeout at `n = 674,800,000` — `6,787,335,884` pairs checked, **0 counterexamples** (`logs/699_run_1e9.log`). Added `N_START` resume support to `scan_699.py` and relaunched the remaining segment (`logs/699_run_1e9_part2.log`).
 
 ## Completed attempts
 

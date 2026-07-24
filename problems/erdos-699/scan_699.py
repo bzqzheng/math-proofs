@@ -28,6 +28,7 @@ import time
 from sympy import integer_nthroot, prevprime, primerange
 
 N_MAX = int(float(os.environ.get("N_MAX", 10**6)))
+N_START = int(float(os.environ.get("N_START", 4)))  # resume offset; `checked` counts this segment only
 t0 = time.time()
 
 primes = list(primerange(2, N_MAX + 1))
@@ -61,7 +62,7 @@ def is_composite(x):
 
 bad = 0
 checked = 0
-for n in range(4, N_MAX + 1):
+for n in range(N_START, N_MAX + 1):
     imax = (n - 1) // 2
     pmax = prevprime(n)
     g = n - pmax  # only i <= g can be uncovered by large primes

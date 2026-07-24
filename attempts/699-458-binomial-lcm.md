@@ -54,3 +54,9 @@ prime of the system — Jacobsthal bounds give g(m) ≪ log²m for m = primorial
 which is far from excluding i ~ log n windows... the honest statement is
 that a proof is within sight of modern sieve methods but nontrivial.
 No proof attempted yet; scan data first.
+
+## Production-scale integrity check (2026-07-24): PASSED
+covered() vs an independent Kummer digit-sum implementation of
+"∃ prime p ≥ i with v_p(C(n,i)) > 0": 3000 random (n, i) pairs at
+10^5..10^8, zero mismatches. (The earlier n≤119 check verified the full
+reduction including j; this verifies the production predicate itself.)

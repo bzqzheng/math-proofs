@@ -276,14 +276,31 @@ static u128 next_prime(u128 p) {
 
 /* ------------------------- subset-sum oracle ---------------------------- */
 
-/* Exact port of divisors_upto + delta_expressible: divisors of
- * n = prod fac[0..depth) that are <= delta, then bitset subset-sum capped at
- * delta+1 bits (bits above delta can never influence bit delta — shifts only
- * move bits upward — so capping is exact). Requires 0 < delta < DELTA_MAX. */
+/* Same divisor set and same yes/no answer as the Python divisors_upto +
+ * delta_expressible (divisors of n = prod fac[0..depth) that are <= delta,
+ * then subset-sum). Three exact shortcuts on top of the naive bitset:
+ *  1. if the kept divisors sum to < delta, delta is unreachable (early 0);
+ *  2. contiguous-prefix phase: with divisors processed ascending, while
+ *     d <= r+1 every sum in [0, r+d] stays reachable — if r reaches delta,
+ *     early 1 without touching the bitset; when a d breaks the chain the
+ *     gap at r+1 is permanent (all remaining divisors exceed it), so the
+ *     reachable set of the processed divisors is exactly [0, r] and the
+ *     bitset is seeded with that;
+ *  3. the bitset is capped at delta+1 bits and OR passes stop at the
+ *     high-water mark of possibly-nonzero words (bits above can never
+ *     influence bit delta — shifts only move bits upward), and bit delta
+ *     is checked after every divisor for early 1.
+ * All are exact, so the oracle's answers are identical to Python's.
+ * Requires 0 < delta < DELTA_MAX. */
+static int cmp_u64(const void *A, const void *B) {
+    uint64_t a = *(const uint64_t *)A, b = *(const uint64_t *)B;
+    return a < b ? -1 : a > b;
+}
+
 static int delta_expressible(int depth, u128 delta) {
     uint64_t lim = (uint64_t)delta;
     size_t nds = 1;
-    u128 dsum = 1; /* sum of divisors kept (clamped at lim): max reachable sum */
+    u128 dsum = 1; /* sum of divisors kept, clamped at delta */
     ds[0] = 1;
     for (int i = 0; i < depth; i++) {
         u128 p = fac[i].p, pp = 1;
@@ -291,16 +308,16 @@ static int delta_expressible(int depth, u128 delta) {
         for (int e = 0; e < fac[i].a; e++) {
             pp *= p;
             for (size_t j = 0; j < nds; j++) { /* snapshot of ds, as Python */
-                u128 v = ds[j] * pp;
+                u128 v = (u128)ds[j] * pp;
                 if (v <= delta) {
                     if (next == ext_cap) {
                         ext_cap *= 2;
                         ext = realloc(ext, ext_cap * sizeof *ext);
                         if (!ext) { fprintf(stderr, "oom\n"); exit(1); }
                     }
-                    ext[next++] = v;
+                    ext[next++] = (uint64_t)v;
                     dsum += v;
-                    if (dsum > delta) dsum = delta; /* clamp; only bits <= delta matter */
+                    if (dsum > delta) dsum = delta;
                 }
             }
         }
@@ -312,31 +329,45 @@ static int delta_expressible(int depth, u128 delta) {
         memcpy(ds + nds, ext, next * sizeof *ext);
         nds += next;
     }
-    /* Bits above min(lim, dsum) are always zero, so the bitset work is
-     * bounded by them; hw tracks the highest word that can be nonzero.
-     * Both leave the pattern below lim bit-identical to the naive pass. */
-    size_t words = (size_t)((lim < dsum ? lim : (uint64_t)dsum) / 64 + 1);
-    if ((size_t)(lim >> 6) >= words) return 0; /* sum of divisors < delta: unreachable */
-    size_t hw = 0;
+    if (dsum < delta) return 0; /* total of kept divisors < delta: unreachable */
+
+    qsort(ds, nds, sizeof *ds, cmp_u64);
+
+    /* contiguous-prefix phase (shortcut 2) */
+    uint64_t r = 0;
+    size_t i = 0;
+    while (i < nds && ds[i] <= r + 1) {
+        r += ds[i];
+        if (r >= lim) return 1;
+        i++;
+    }
+    if (i == nds) return 0; /* reachable set is [0, r] with r < lim */
+
+    /* bitset phase, seeded with [0, r] */
+    size_t words = (size_t)(lim / 64 + 1); /* dsum >= delta, so lim is the tight cap */
+    size_t fw = (size_t)(r >> 6);
     memset(bits, 0, words * sizeof *bits);
-    bits[0] = 1;
-    for (size_t ii = 0; ii < nds; ii++) {
-        uint64_t v = (uint64_t)ds[ii];
+    if (fw) memset(bits, 0xFF, fw * sizeof *bits);
+    bits[fw] = (r & 63) == 63 ? ~0ULL : ((1ULL << ((r & 63) + 1)) - 1);
+    size_t hw = fw;
+    for (; i < nds; i++) {
+        uint64_t v = ds[i];
         size_t w = (size_t)(v >> 6);
-        unsigned r = (unsigned)(v & 63);
+        unsigned sh = (unsigned)(v & 63);
         size_t top = hw + w + 1;
         if (top > words - 1) top = words - 1;
-        if (r == 0) {
-            for (size_t i = top + 1; i-- > w; ) bits[i] |= bits[i - w];
+        if (sh == 0) {
+            for (size_t k = top + 1; k-- > w; ) bits[k] |= bits[k - w];
         } else {
-            for (size_t i = top + 1; i-- > 0; ) {
+            for (size_t k = top + 1; k-- > 0; ) {
                 uint64_t x = 0;
-                if (i >= w) x = bits[i - w] << r;
-                if (i > w)  x |= bits[i - w - 1] >> (64 - r);
-                bits[i] |= x;
+                if (k >= w) x = bits[k - w] << sh;
+                if (k > w)  x |= bits[k - w - 1] >> (64 - sh);
+                bits[k] |= x;
             }
         }
         hw = top;
+        if ((bits[lim >> 6] >> (lim & 63)) & 1) return 1;
     }
     return (int)((bits[lim >> 6] >> (lim & 63)) & 1);
 }

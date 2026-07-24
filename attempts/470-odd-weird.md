@@ -63,3 +63,15 @@ must always be stated with the δ-window attached.
 - Production decision: C engine (delegated port) with N_CAP = 10^24,
   DELTA_MAX = 10^7, multi-hour budget. 10^21–10^24 is genuinely fresh
   territory (Fang stops at 10^21).
+
+## C engine (2026-07-24): VALIDATED, optimization in progress
+- Subagent-delivered C port passes the full gate: ALLOW_EVEN=1 N_CAP=1e6 →
+  nodes=239,115, tested=234,355, weird=1765, identical to Python, including
+  all 7 known weird < 10^4. (An early buggy binary showed 29 — stale-file
+  race during the agent's own fix cycle; final binary is exact.)
+- Validation methodology note: diffed found-lists at 1e5/2e5/5e5/1e6 — all
+  identical. Trust but diff.
+- Throughput at 1e21: ~81k nodes/s (only 2x Python) — bottleneck is
+  next_prime inside k_max/p-loops. Requested: static prime table fast path
+  + SPF sharding (smallest-prime-factor partition for parallel production
+  runs). Agent still iterating.

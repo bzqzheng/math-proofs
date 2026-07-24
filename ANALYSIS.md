@@ -202,7 +202,15 @@ systematic, witness-first batch hunt is real (P6).
     enumeration explodes well below the 30-vertex cubic lower bound, so a
     counterexample hunt here requires a structural construction, not raw
     enumeration.
-  * Erdős #993 (tree independence-polynomial unimodality): new target.
-    Reproduced the n=26 non-log-concave seeds from Kadrawi–Levit families;
-    simulated-annealing search running, fitness climbed to 0.987 on T1 seed
-    before size cap added.  A counterexample would be a single tree.
+  * Erdős #993 (tree independence-polynomial unimodality): extensively
+    searched and deprioritized.  Reproduced the n=26 non-log-concave seeds;
+    SA on general trees reached 0.962; deterministic scans of Kadrawi–Levit
+    families, pure spiders, and pure star-arms found no counterexample;
+    caterpillar SA reached a record near-miss ratio 0.995652 at n=463.
+    Literature calibration (Reynolds Zenodo v3, March 2026) shows the
+    conjecture is open, verified to n=29, and the known non-log-concave
+    "bush" families have been pushed to 60 vertices without producing a
+    non-unimodal tree.  Marginal return on further local search is low.
+  * Erdős #287 (Egyptian-fraction gap problem): started.  Searched for a
+    representation 1 = sum_{i=1}^k 1/n_i with 1<n_1<...<n_k and all gaps
+    n_{i+1}-n_i ≤ 2; no counterexample for k ≤ 21 (search timed out at k=22).

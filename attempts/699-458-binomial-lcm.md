@@ -66,3 +66,15 @@ reduction including j; this verifies the production predicate itself.)
 to the binomial-gcd conjecture. 34 min wall. Extension to 10^9 launched
 (~5.5h estimated). Note: we have not yet cross-checked the external
 frontier for this conjecture — do that before claiming any novelty.
+
+## Literature cross-check (2026-07-24, erdosproblems.com/699)
+- Main conjecture (p ≥ i): OPEN, tagged FALSIFIABLE, and the page cites NO
+  computational verification frontier. Our exhaustive 10^8 (10^9 running)
+  is plausibly new ground — flagged for a proper literature search before
+  any public claim.
+- Sharpening (p > i, Erdős–Szekeres): FALSE in known cases — i=2 (some
+  powers of 2), i=3 (some), and exactly one with i ≥ 4: n=28, i=5,
+  gcd(C(28,5), C(28,14)) = 2³·3³·5. Note 5 = i exactly: the famous example
+  is an EQUALITY case of the main conjecture, i.e. evidence that p ≥ i is
+  the precisely-right statement. Our predicate handles it correctly
+  (28 mod 5 = 3 < 5 ✓).

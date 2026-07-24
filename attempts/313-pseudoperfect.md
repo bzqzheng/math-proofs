@@ -1,5 +1,12 @@
 # Erdős Problem #313 — Comprehensive Multi-Tiered Research Portfolio
 
+> **⇒ Current, authoritative write-up: [`313-results-2026-07.md`](313-results-2026-07.md)** (July 2026).
+> It supersedes the notes below: it verifies the true frontier (Wang arXiv:2605.21518 → $N_9,N_{10}$;
+> A054377 now has 10 terms), ships a validated C/GMP exhaustive engine (reproduces $k\le8$; recovers
+> $N_9$), proves two new completeness theorems, reduces the whole $r=9$ barrier to one explicit
+> 3-prime-successor question, and gives a parameter-free heuristic whose ratio is *critical* ($\approx0.97$)
+> — so it does not decide #313 but reduces it to a clean prime-density reproduction number.
+
 ## Executive Summary
 We performed an extensive, non-stop multi-tiered theoretical and computational attack on Erdős #313 ($\sum_{p \in P} \frac{1}{p} + \frac{1}{m} = 1$). We derived core extension theorems, established modulo invariants, factored 62-digit integers, and evaluated 251,175+ prime subset state transitions.
 

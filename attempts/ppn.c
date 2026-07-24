@@ -323,6 +323,36 @@ static void dfs(int j, mpz_t N, mpz_t A, int t) {
     mpz_clears(lo, hi, NULL);
 }
 
+/* re-run states listed in a defer file, with the (large) budget given on the command line */
+static void run_deferfile(const char *path) {
+    FILE *f = fopen(path, "r");
+    if (!f) { fprintf(stderr, "cannot open %s\n", path); exit(1); }
+    char line[8192];
+    mpz_t N, A; mpz_inits(N, A, NULL);
+    unsigned long long done = 0;
+    while (fgets(line, sizeof line, f)) {
+        char *tp = strstr(line, "t="), *pp = strstr(line, "P="),
+             *np = strstr(line, "N="), *ap = strstr(line, "A=");
+        if (!tp || !pp || !np || !ap) continue;
+        int t = atoi(tp + 2);
+        int j = 0;
+        for (char *c = pp + 2; *c && *c != ' '; ) {
+            P[j++] = strtoull(c, &c, 10);
+            if (*c == ',') c++;
+        }
+        if (j && P[j-1] == 0) j--;                 /* trailing comma */
+        char *e;
+        for (e = np + 2; *e && *e != ' '; e++) ;
+        char save = *e; *e = 0; mpz_set_str(N, np + 2, 10); *e = save;
+        for (e = ap + 2; *e && *e != ' ' && *e != '\n'; e++) ;
+        save = *e; *e = 0; mpz_set_str(A, ap + 2, 10); *e = save;
+        dfs(j, N, A, t);
+        if ((++done % 2000) == 0) { fprintf(stderr, "  [resolved %llu, deferred %llu]\n", done, ndefer); fflush(stderr); }
+    }
+    mpz_clears(N, A, NULL); fclose(f);
+    fprintf(stderr, "processed %llu states\n", done);
+}
+
 int main(int argc, char **argv) {
     if (argc < 2) { fprintf(stderr, "usage: %s k [prefix,comma,sep] [deferfile] [limit]\n", argv[0]); return 1; }
     K = atoi(argv[1]);
@@ -333,7 +363,7 @@ int main(int argc, char **argv) {
     if (getenv("HMODE")) HMODE = atoi(getenv("HMODE"));
     mpz_t N, A; mpz_init_set_ui(N, 1); mpz_init_set_ui(A, 1);
     int j = 0;
-    if (argc > 2 && argv[2][0]) {
+    if (argc > 2 && argv[2][0] && argv[2][0] != '@') {
         char *s = strdup(argv[2]), *tok = strtok(s, ",");
         while (tok) {
             uint64_t q = strtoull(tok, NULL, 10);
@@ -342,7 +372,8 @@ int main(int argc, char **argv) {
             P[j++] = q; tok = strtok(NULL, ",");
         }
     }
-    dfs(j, N, A, K - j);
+    if (argc > 2 && argv[2][0] == '@') run_deferfile(argv[2] + 1);
+    else dfs(j, N, A, K - j);
     printf("k=%d done nodes=", K);
     for (int i = 0; i <= K; i++) printf("%llu%s", nodes[i], i == K ? "" : ",");
     printf(" t2nodes=%llu t2_disc=%llu t2_iter=%llu work_disc=%llu work_iter=%llu sols=%llu deferred=%llu\n",

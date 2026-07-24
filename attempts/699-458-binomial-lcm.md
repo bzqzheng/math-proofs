@@ -60,3 +60,9 @@ covered() vs an independent Kummer digit-sum implementation of
 "∃ prime p ≥ i with v_p(C(n,i)) > 0": 3000 random (n, i) pairs at
 10^5..10^8, zero mismatches. (The earlier n≤119 check verified the full
 reduction including j; this verifies the production predicate itself.)
+
+## #699 result (2026-07-24): clean to 10^8
+870,779,549 composite-i pairs checked (all n ≤ 10^8), ZERO counterexamples
+to the binomial-gcd conjecture. 34 min wall. Extension to 10^9 launched
+(~5.5h estimated). Note: we have not yet cross-checked the external
+frontier for this conjecture — do that before claiming any novelty.

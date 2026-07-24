@@ -302,6 +302,30 @@ static void dfs(int j, mpz_t N, mpz_t A, int t) {
         mpz_clear(q); return;
     }
     if (t == 3 && HMODE == 2 && 0) { hcontrib3(j, N, A); return; }
+    if (t == 2 && HMODE == 4) {
+        t2nodes++;
+        /* exact Sigma: enumerate every t=1 child and weight it */
+        mpz_t lo2, hi2, A1, N1, tt; mpz_inits(lo2, hi2, A1, N1, tt, NULL);
+        uint64_t m = (j > 0) ? P[j-1] : 1;
+        mpz_fdiv_q(lo2, N, A);
+        if (mpz_cmp_ui(lo2, m) < 0) mpz_set_ui(lo2, m);
+        mpz_mul_ui(hi2, N, 2); mpz_fdiv_q(hi2, hi2, A);
+        if (mpz_cmp(hi2, lo2) > 0 && mpz_fits_ulong_p(hi2)) {
+            uint64_t l = mpz_get_ui(lo2), h = mpz_get_ui(hi2);
+            double lamN = lamP(j);
+            psieve g; ps_init(&g, sbuf[j], l + 1, h);
+            uint64_t q;
+            while (ps_next(&g, &q)) {
+                mpz_mul_ui(A1, A, q); mpz_sub(A1, A1, N);
+                if (mpz_sgn(A1) <= 0) continue;
+                mpz_mul_ui(N1, N, q); mpz_add_ui(tt, N1, 1);
+                double qq = mpz_get_d(tt)/mpz_get_d(A1);
+                if (qq > 2.5) Hsum += lamN/(1.0 - 1.0/(double)q)/mpz_get_d(A1)/log(qq);
+            }
+        } else if (mpz_cmp(hi2, lo2) > 0) defer(j, N, A, 1, "SIGMA1");
+        mpz_clears(lo2, hi2, A1, N1, tt, NULL);
+        return;
+    }
     if (t == 2) {
         t2nodes++;
         if ((t2nodes & 0xFFFFFF) == 0) {

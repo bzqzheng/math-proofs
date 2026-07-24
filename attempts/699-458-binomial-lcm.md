@@ -38,3 +38,19 @@ log p_k − Σ log q over prime powers in the gap. Danger zone is small k.
 - #7 odd-modulus covering system: existence doubted; search unstructured.
   Possible SAT/CP formulation later.
 - #242 Erdős–Straus: verified ~10^17 externally. Skip.
+
+## #699 theory angle (2026-07-24): sieve framing of the failure set
+After the reduction, a counterexample (n, i) requires: for EVERY prime
+p ∈ [i, n], n mod p ∉ [0, i). I.e. n survives sifting by the residue
+"window" [0, i) across all medium/large primes. This is an upper-bound
+sieve problem (Brun/Selberg territory): the sifted set's expected density
+is ∏_{p ∈ [i, n]} (1 − i/p), which decays extremely fast for i in the
+composite range — heuristically explaining why no counterexamples appear
+and suggesting a route: split i into regimes (i near n/2 handled by the
+gap-below-n argument; medium i by Rosser-Iwaniec-type bounds; tiny i
+directly). Also related to Jacobsthal's function g(m): n mod p ≥ i for
+all p | m-ish means a run of i consecutive integers each divisible by some
+prime of the system — Jacobsthal bounds give g(m) ≪ log²m for m = primorial,
+which is far from excluding i ~ log n windows... the honest statement is
+that a proof is within sight of modern sieve methods but nontrivial.
+No proof attempted yet; scan data first.

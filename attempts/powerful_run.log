@@ -1,1 +1,10 @@
 #366 scan: 3-full numbers <= 1.0e+18
+3-full count: 4,480,252 | witnesses: 0 | 1427s
+
+#364 scan: powerful numbers <= 1.0e+12
+powerful count: 2,158,391 | 1430s
+consecutive pairs found: 18
+known-pair validation: PASS
+TRIPLES (counterexamples to #364): 0
+
+all done in 1430s

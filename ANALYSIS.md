@@ -188,14 +188,17 @@ systematic, witness-first batch hunt is real (P6).
 - 2026-07-24 (continued): First-iteration candidate campaign launched.
   * Erdős #699 (binomial gcd): reduction corrected — composite `i` is closed
     by Sylvester–Schur; prime `i` reduces to a prime-factor survival problem.
-    Direct survival check finds no counterexample for `n ≤ 10,000` (running).
+    Direct Lucas survival check verified `n ≤ 3,000` with zero counterexamples.
     Production scan to `n = 10^9` ongoing.
   * Erdős #470 (odd weird numbers): compiled C search sharded by smallest
-    prime factor, running to `10^24`; SPF=3 shard is the dense one, ~67B
-    nodes/8ks elapsed, zero weird finds (consistent with known frontier).
-  * Erdős #779 (Fortunate numbers): gmpy2 `next_prime` optimization gives
-    ~60× speedup; scan to `n = 5000` ongoing, no composite Fortunate numbers.
-  * Erdős #458 (lcm inequality): scan to `k = 10^7` ongoing, margins grow
-    after `k=4` (min 0.154); no counterexample expected.
-  * Erdős #64 (graph cycles): small-cubic-graph search stub written; needs
-    `genreg`/nauty for efficient enumeration beyond naive backtracking.
+    prime factor, running to `10^24`; SPF=3 shard is the dense one, ~77B
+    nodes/9.4ks elapsed, zero weird finds (consistent with known frontier).
+  * Erdős #779 (Fortunate numbers): gmpy2 `next_prime` optimization; scan to
+    `n = 5000` ongoing, reached `n = 700` at 2,200 s with no composite
+    Fortunate numbers.
+  * Erdős #458 (lcm inequality): scan to `k = 10^7` completed in 125 s; zero
+    counterexamples, min margin 0.15415 at `k = 4`.
+  * Erdős #64 (graph cycles): nauty installed; brute-force cubic/min-degree-3
+    enumeration explodes well below the 30-vertex cubic lower bound, so a
+    counterexample hunt here requires a structural construction, not raw
+    enumeration.

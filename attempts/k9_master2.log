@@ -1,0 +1,3 @@
+_: line 1: 42096 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1: 40493 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1: 41135 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"

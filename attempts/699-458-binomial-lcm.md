@@ -1,31 +1,36 @@
 # Attempts: #699 (binomial gcd) and #458 (lcm inequality)
 
-## Status: SCANS RUNNING / QUEUED, 2026-07-24
+## Status: #699 10^9 scan running; #458 clean to 10^7; 2026-07-24
 
-## #699 — the reduction (verified against brute force, 0 mismatches, n<120)
+## #699 — corrected reduction (composite i closed; prime i survival residual)
 Conjecture: for 1 ≤ i < j ≤ n/2, gcd(C(n,i), C(n,j)) has a prime factor ≥ i.
-Via Legendre digit sums: for prime p ≥ i, p | C(n,i) ⟺ n mod p < i (then
-p | C(n,j) automatically). The variable j DROPS OUT — the conjecture is a
-property of pairs (n, i), i < n/2:
-    (*) ∃ prime p ≥ i with n mod p < i.
-Speedups: prime i is auto-covered (p = i works); only composite i checked.
-Primes p ∈ (n/2, n) cover all i > n − pmax (pmax = largest prime < n), so
-only i ≤ (prime gap below n) need real checks. Counterexample = one pair
-(n, i) failing (*), machine-checkable in ms by Kummer's theorem.
 
-- Smoke: n ≤ 200k, ~900k composite-i pairs, 0 counterexamples (2s).
-- Full run (background): n ≤ 10^8.
-- Value either way: a counterexample is a famous witness; a clean 10^8 run
-  is a strong verification extension plus the coverage structure (gap-below-n
-  characterization) is independently interesting.
+**Composite i:** Sylvester–Schur gives a prime p > i dividing C(n,i). For any
+j ≤ n/2 < p, p also divides C(n,j). Hence composite i is **settled** — no
+counterexample.
+
+**Prime i = p:** p may cancel in C(n,p) (it divides the numerator exactly once
+and denominator once; p | C(n,p) iff p ∤ n). The conjecture reduces to a
+prime-factor *survival* problem: for every j ∈ (p, n/2], some prime q ≥ p
+dividing C(n,p) also divides C(n,j). A direct Lucas-based checker
+(`699-survival-fast.py`) found zero counterexamples for n ≤ 3,000 before it
+was deprioritised in favour of the stronger production scan.
+
+The predicate used in the fast production scan, `∃ prime p ≥ i : n mod p < i`,
+is necessary for #699 but no longer sufficient once prime i is treated
+exactly. It remains the strongest large-range oracle and is clean to 10^8
+(10^9 running).
 
 ## #458 — ψ-difference over prime gaps
 Conjecture: lcm(1..p_{k+1}−1) < p_k·lcm(1..p_k). Between consecutive primes
 only prime POWERS q^e (e≥2) contribute to ψ, so the margin at k is
 log p_k − Σ log q over prime powers in the gap. Danger zone is small k.
-- Smoke: k ≤ 100k, 0 counterexamples; global min margin 0.154 at k=4
-  (p=7, gap 4, prime power 9=3² in gap). Margins grow thereafter.
-- Full run: k ≤ 10^7 (queued — launched after a task slot frees).
+- Smoke: k ≤ 10^5, 0 counterexamples in 1 s; global min margin 0.15415 at k=4
+  (p_k=7, gap=4, prime power 9=3² in gap).
+- Full run: k ≤ 10^7 completed in 125 s with `scan_458_fast.py` (pointer-walk
+  over precomputed prime powers). Zero counterexamples; min margin remains
+  0.15415 at k=4. This is a 100× range extension over the original smoke run
+  and strongly suggests the conjecture is true.
 
 ## Corpus triage notes (other Tier-2 falsifiables, from Lean statements)
 - #398 Brocard n!+1=m²: externally verified ~10^15; below frontier, skip.

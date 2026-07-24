@@ -83,7 +83,7 @@ static uint64_t P[MAXK];
 static uint8_t *sbuf[MAXK];
 static FILE *deferf;
 static int HMODE = 0;   /* 1 = t=2 level, 2 = t=3 level (double integral) */            /* 1 = heuristic accumulation only, no solving */
-static double Hsum = 0.0;
+static double Hsum = 0.0, Hsmall = 0.0, Hmax = 0.0;
 static double lamP(int j) { double r = 1.0; for (int i = 0; i < j; i++) r *= 1.0/(1.0 - 1.0/(double)P[i]); return r; }
 /* Simpson integral over the t=1 children of a t=2 state (see ppn_heuristic.py) */
 static double hinner(mpz_t N, mpz_t A, uint64_t m, double lamN) {
@@ -141,7 +141,10 @@ static void hcontrib3(int j, mpz_t N, mpz_t A) {
 }
 
 static void hcontrib(int j, mpz_t N, mpz_t A) {
-    Hsum += hinner(N, A, (j > 0) ? P[j-1] : 1, lamP(j));
+    double e = hinner(N, A, (j > 0) ? P[j-1] : 1, lamP(j));
+    Hsum += e;
+    if (mpz_cmp_ui(A, 100) <= 0) Hsmall += e;
+    if (e > Hmax) Hmax = e;
 }
 
 static void emit(int j) {
@@ -344,6 +347,6 @@ int main(int argc, char **argv) {
     for (int i = 0; i <= K; i++) printf("%llu%s", nodes[i], i == K ? "" : ",");
     printf(" t2nodes=%llu t2_disc=%llu t2_iter=%llu work_disc=%llu work_iter=%llu sols=%llu deferred=%llu\n",
            t2nodes, t2_disc, t2_iter, work_t, work_q, nsol, ndefer);
-    if (HMODE) printf("HEURISTIC Sigma = %.6f\n", Hsum);
+    if (HMODE) printf("HEURISTIC Sigma = %.6f  small-A(<=100) = %.6f  max-node = %.6f\n", Hsum, Hsmall, Hmax);
     return 0;
 }

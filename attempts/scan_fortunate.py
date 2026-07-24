@@ -16,7 +16,19 @@ falsification channel.
 import os
 import time
 
-from sympy import isprime, nextprime, prime, primorial
+try:
+    from gmpy2 import is_prime as _gmp_is_prime
+
+    def isprime(n):
+        return bool(_gmp_is_prime(n))
+
+    PRIMETEST = "gmpy2"
+except ImportError:
+    from sympy import isprime
+
+    PRIMETEST = "sympy"
+
+from sympy import nextprime, prime, primorial
 
 N_MAX = int(os.environ.get("N_MAX", 1500))
 TIME_BUDGET = int(os.environ.get("TIME_BUDGET", 900))
@@ -48,6 +60,6 @@ for n in range(1, N_MAX + 1):
         print(f"time budget hit at n={n}", flush=True)
         break
 
-print(f"\ndone. scanned n<= {n}. no composite a(n) found.")
+print(f"\ndone [{PRIMETEST}]. scanned n<= {n}. no composite a(n) found.")
 print(f"max a(n)/p_(n+1)^2 = {max_ratio:.5f} at n={max_ratio_n}")
 print("(falsification needs ratio > 1)")

@@ -95,6 +95,53 @@ Sondow–MacMillan.
 
 ---
 
+## Decision log — batch-sieve for the ω=9 residual (2026-07-24)
+
+**The residual, restated operationally.** The ω=9 sweep (`attempts/ppn.c`, k=9, sharded over
+2,910 depth-5 prefixes) enumerates every branch but **defers** over-budget nodes. At the point of
+this note: **2,482 / 2,910 shards done, 1,108,471 deferred nodes**, of which:
+- ~1.10M are **routine** (`T2ITER`/`T2SPAN`): settle by factoring one ≤34-digit `N²+A`. Not a wall.
+- **858 are `LOOP` nodes** — the wall. All are "does PPN `n` have a **3-prime successor**?", i.e.
+  scan prime `q₁ ∈ (n, 3n)` and test whether `M(q₁) = n²q₁² + q₁ − n` (a fixed quadratic) splits
+  into the two primes that complete a PPN. Hardest single node: `n = 2214502422`
+  (`P=[2,3,11,23,31,47059]`), ~1.9×10⁸ prime `q₁`, each `M(q₁)` a 38-digit number.
+
+**Why a batch-sieve, not per-`q₁` factoring.** All `M(q₁)` are values of *one* polynomial at
+consecutive `q₁`. For each small prime `p`, the `q₁` with `p | M(q₁)` are the **roots of
+`n²x²+x−n` mod p** — 0/1/2 arithmetic progressions — so trial division is **shared** across all
+`q₁` in one strided pass per prime (classic line-sieve). Turns "1.9×10⁸ independent factorizations"
+(weeks–months) into a sieve pass + real work only on survivors.
+
+**Measured on the hardest node (small-window demo, `attempts` venv):**
+- sieve to `B=2,000` → **13%** of prime-`q₁` survive as candidate 2-prime products;
+- sieve to `B=100,000` → **24%** survive.
+- ⚠️ Bigger `B` → **more** survivors, not fewer: the filter counts "reduces to prime×smooth", and
+  more sieving *reveals* more such. So the sieve **sorts** work, it does not shrink the candidate
+  pile to a sliver. Expect a ~20–25% survivor set needing targeted `divisor-in-range` checks
+  (not full factorization — we only need a divisor of `M` in the valid range with the right
+  congruence).
+
+**Two halves (unchanged assessment).** `q₁ ∈ (2n,3n)`: the follow-on 2-prime step is small →
+**feasible** (hours). `q₁ ∈ (n,2n)`: as `q₁→n⁺` the port residual `R₁=nq₁/(q₁−n)` blows up → the
+2-prime step is huge and the sieve helps less → **genuine residual, may not close.**
+
+**Proof logic for the theorem.** sweep (finish all 2,910 shards) **+** resolve all routine deferrals
+(factor) **+** batch-sieve clears all 858 LOOP nodes ⟹ every depth-8 state checked ⟹ N₉ unique.
+The sieve converts "deferred, looks unbounded" into "checked, empty" — the crux a referee probes.
+
+**Highest-implications ranking (by axis, honest):**
+- *Toward solving #313 (infinitude):* **B** — the only target that touches the conjecture (derives
+  the widening constant, rigorous core of any conditional-infinitude claim). Hardest; may not close.
+- *Citable theorem you can actually finish:* **A** (ω=9 uniqueness) — settles Sondow–MacMillan,
+  fills Wang's gap; zero implication for infinitude.
+- *Certainty of landing:* **F** (Lean certificates) — near-certain, low implication, no compute.
+
+**Status of the sweep:** **terminated 2026-07-24** to free the machine (resumable via `k9/*.done`;
+re-run `attempts/run_k9.sh`). For Target A the enumeration must eventually be *resumed and completed*
+— stopping now is a pause, not an abandonment. For B or F the sweep is irrelevant.
+
+**Open decision (awaiting Bright):** A (build the sieve) vs B (analytic, risky) vs F (safe small win).
+
 ## Do NOT do
 - Package the six-item list (ρ, f(q), mod-4, completeness) as a standalone paper —
   locally correct, globally not a result. Use the pieces *inside* target A or B instead.

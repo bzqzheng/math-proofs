@@ -19,6 +19,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <gmp.h>
+#include <math.h>
 
 #define MAXK 24
 #define BLK  (1u<<18)
@@ -81,6 +82,33 @@ static uint64_t LIMIT = 3000000ULL;   /* per-node budget before deferring */
 static uint64_t P[MAXK];
 static uint8_t *sbuf[MAXK];
 static FILE *deferf;
+static int HMODE = 0;            /* 1 = heuristic accumulation only, no solving */
+static double Hsum = 0.0;
+static double lamP(int j) { double r = 1.0; for (int i = 0; i < j; i++) r *= 1.0/(1.0 - 1.0/(double)P[i]); return r; }
+/* Simpson integral over the t=1 children of a t=2 state (see ppn_heuristic.py) */
+static void hcontrib(int j, mpz_t N, mpz_t A) {
+    mpz_t a, t1; mpz_inits(a, t1, NULL);
+    uint64_t m = (j > 0) ? P[j-1] : 1;
+    mpz_fdiv_q(a, N, A);
+    if (mpz_cmp_ui(a, m) < 0) mpz_set_ui(a, m);
+    mpz_add_ui(a, a, 1);
+    mpz_mul(t1, A, a); mpz_sub(t1, t1, N);
+    double xa = mpz_get_d(t1); if (xa < 1.0) xa = 1.0;
+    double xb = mpz_get_d(N);
+    mpz_clears(a, t1, NULL);
+    if (xb <= xa) return;
+    double fN = mpz_get_d(N), fA = mpz_get_d(A);
+    const int NQ = 24;
+    double y0 = log(xa), y1 = log(xb), h = (y1-y0)/NQ, tot = 0.0;
+    for (int i = 0; i <= NQ; i++) {
+        double x = exp(y0 + i*h);
+        double q = (x+fN)/fA;      double l1 = q > 2.5 ? log(q) : 1.0;
+        double z = fN*(x+fN)/(fA*x); double l2 = z > 2.5 ? log(z) : 1.0;
+        double w = (i == 0 || i == NQ) ? 1 : (i % 2 ? 4 : 2);
+        tot += w/(l1*l2);
+    }
+    Hsum += lamP(j)/fA * tot*h/3.0;
+}
 
 static void emit(int j) {
     mpz_t n; mpz_init_set_ui(n, 1);
@@ -238,7 +266,8 @@ static void dfs(int j, mpz_t N, mpz_t A, int t) {
             for (int i = 0; i < j; i++) fprintf(stderr, "%llu,", (unsigned long long)P[i]);
             fprintf(stderr, "\n"); fflush(stderr);
         }
-        solve2(j, N, A); return;
+        if (HMODE) hcontrib(j, N, A); else solve2(j, N, A);
+        return;
     }
     mpz_t lo, hi; mpz_inits(lo, hi, NULL);
     mpz_fdiv_q(lo, N, A);
@@ -263,6 +292,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < MAXK; i++) sbuf[i] = malloc(BLK);
     if (argc > 3 && argv[3][0]) deferf = fopen(argv[3], "w");
     if (argc > 4) LIMIT = strtoull(argv[4], NULL, 10);
+    if (getenv("HMODE")) HMODE = 1;
     mpz_t N, A; mpz_init_set_ui(N, 1); mpz_init_set_ui(A, 1);
     int j = 0;
     if (argc > 2 && argv[2][0]) {
@@ -279,5 +309,6 @@ int main(int argc, char **argv) {
     for (int i = 0; i <= K; i++) printf("%llu%s", nodes[i], i == K ? "" : ",");
     printf(" t2nodes=%llu t2_disc=%llu t2_iter=%llu work_disc=%llu work_iter=%llu sols=%llu deferred=%llu\n",
            t2nodes, t2_disc, t2_iter, work_t, work_q, nsol, ndefer);
+    if (HMODE) printf("HEURISTIC Sigma = %.6f\n", Hsum);
     return 0;
 }

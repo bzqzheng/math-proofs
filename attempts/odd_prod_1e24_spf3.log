@@ -1,2 +1,3 @@
 search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07
 SPF shard: smallest prime factor = 3
+progress: nodes=10,000,000 tested=259,240 found=0 n=2200681097592045915 elapsed=91s

@@ -41,6 +41,19 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I8. Measure candidate density per shard EARLY; shard workloads are never
+##    balanced by symmetry
+Found in: #470 production. After SPF-partitioning the search, shard SPF=3
+held ~all 259k candidates (2.6% of nodes), while SPF=5 burned 580M nodes
+with zero candidates — same code, 100x density difference. The symmetric
+partition (by smallest prime factor) was anything but symmetric in value.
+General pattern: after launching any sharded search, read the first
+progress reports before walking away: candidate density per shard tells you
+where the tree's mass is, whether some shards are pure due-diligence (keep,
+but at low priority/budget), and whether the "main" shard needs further
+splitting. **The first 100 progress lines are the cheapest profiling you
+will ever do.**
+
 ## I7. Extra quantified variables often drop out after the right
 ##    characterization — check before pricing the search
 Found in: #699 (binomial gcd). The conjecture quantifies over (n, i, j),

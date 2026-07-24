@@ -1,3 +1,9 @@
 record ratio 0.33333 at n=1 (a(n)=3, p_n=2)
 progress n=100 p_n=541 digits(P)=220 elapsed=4s
 progress n=200 p_n=1223 digits(P)=513 elapsed=166s
+progress n=300 p_n=1987 digits(P)=833 elapsed=1524s
+time budget hit at n=300
+
+done. scanned n<= 300. no composite a(n) found.
+max a(n)/p_(n+1)^2 = 0.33333 at n=1
+(falsification needs ratio > 1)

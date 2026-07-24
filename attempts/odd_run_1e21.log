@@ -35,3 +35,14 @@ progress: nodes=33,000,000 tested=260,759 found=0 n=496392044547792855 elapsed=1
 progress: nodes=34,000,000 tested=260,759 found=0 n=56843379230549835 elapsed=1048s
 progress: nodes=35,000,000 tested=261,095 found=0 n=275775506659420845 elapsed=1066s
 progress: nodes=36,000,000 tested=261,095 found=0 n=507311639764858005 elapsed=1084s
+progress: nodes=37,000,000 tested=261,095 found=0 n=84308826000418635 elapsed=1100s
+progress: nodes=38,000,000 tested=261,342 found=0 n=305866616576901765 elapsed=1118s
+progress: nodes=39,000,000 tested=261,342 found=0 n=14617453622184105 elapsed=1135s
+progress: nodes=40,000,000 tested=261,570 found=0 n=227980271933714685 elapsed=1152s
+progress: nodes=41,000,000 tested=261,570 found=0 n=22101019331521515 elapsed=1168s
+progress: nodes=42,000,000 tested=261,769 found=0 n=236870089409901255 elapsed=1185s
+progress: nodes=43,000,000 tested=261,769 found=0 n=67640205013898055 elapsed=1201s
+progress: nodes=44,000,000 tested=261,934 found=0 n=288046716360160065 elapsed=1218s
+progress: nodes=45,000,000 tested=262,086 found=0 n=148027928789448015 elapsed=1234s
+progress: nodes=46,000,000 tested=262,086 found=0 n=52265230257185715 elapsed=1250s
+progress: nodes=47,000,000 tested=262,250 found=0 n=192882215864024345505 elapsed=1267s

@@ -1,0 +1,2 @@
+record ratio 0.33333 at n=1 (a(n)=3, p_n=2)
+progress n=100 p_n=541 digits(P)=220 elapsed=4s

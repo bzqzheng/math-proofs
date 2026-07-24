@@ -1,0 +1,42 @@
+# Attempt: Erdős #470(i) — does an odd weird number exist?
+
+## Status: ACTIVE SEARCH, 2026-07-24
+
+## Known frontier (from Lean file + literature)
+- No odd weird number below 10^21 (Fang 2022).
+- Any odd weird number has ≥ 6 distinct prime divisors (Liddy–Riedl 2018).
+- Melfi: infinitely many primitive weird numbers exist, conditional on prime gaps.
+
+## Our key structural trick (derived independently; likely known to specialists)
+n weird ⟺ δ := σ(n) − 2n > 0 AND δ is NOT a sum of distinct proper divisors.
+Proof: semiperfect ⟺ some subset of proper divisors sums to n ⟺ its complement
+(within all proper divisors, total σ(n)−n) sums to σ(n)−2n = δ.
+Consequence: the weirdness oracle collapses from subset-sum at target n
+(infeasible for n ~ 10^21) to subset-sum at target δ, which we FORCE to be
+small by construction (δ < 10^7). Bitset DP, exact, microseconds per test.
+
+## Pipeline (attempts/search_odd_weird.py)
+- DFS over factorizations n = ∏ p_i^a_i with exact integer (n, σ).
+- Prune 1: δ ≥ DELTA_MAX → cut (δ is monotone once abundant: both
+  abundancy−2 and n grow when factors are appended).
+- Prune 2: deficient node → cut if even the greediest continuation
+  (next smallest primes, as many as the size cap allows) can't reach
+  abundancy 2.
+- Candidates with 0 < δ < DELTA_MAX get the exact δ-test.
+
+## Validation (PASSED)
+Even run below 10^6 reproduced ALL known weird numbers 70, 836, 4030, 5830,
+7192, 7912, 9272 (plus thousands of larger known ones) with correct
+factorizations and δ values.
+
+## Runs
+- Run A (background): odd n < 10^21 — agreement check vs Fang's bound.
+  Expectation: 0 finds. Any find here = pipeline bug OR refutation of Fang
+  (either way we'd know the filter works by checking the witness by hand).
+
+## Next
+- If Run A is clean: scale to n ∈ (10^21, 10^24+], i.e. genuinely new
+  territory, and consider C-ifying the DFS if node throughput is the
+  bottleneck. Watch tested-candidate counts: the density of
+  abundant-with-small-δ odd numbers above 10^21 is the unknown that decides
+  feasibility.

@@ -5,3 +5,9 @@ checked=200,000 hits=0 elapsed=37s
 checked=250,000 hits=0 elapsed=48s
 checked=300,000 hits=0 elapsed=58s
 checked=350,000 hits=0 elapsed=68s
+checked=400,000 hits=0 elapsed=79s
+checked=450,000 hits=0 elapsed=90s
+checked=500,000 hits=0 elapsed=101s
+
+done: 524,288 circulants checked, 0 witnesses. 106s
+=> no circulant (5,5)-graph on 43 vertices exists; bound unchanged.

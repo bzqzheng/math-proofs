@@ -6,3 +6,8 @@ progress n=400 p_n=2741 digits(P)=3886 bits elapsed=109s
 progress n=500 p_n=3571 digits(P)=5049 bits elapsed=399s
 progress n=600 p_n=4409 digits(P)=6245 bits elapsed=1052s
 progress n=700 p_n=5279 digits(P)=7469 bits elapsed=2220s
+time budget hit at n=780
+
+done [gmpy2]. scanned n<= 780. no composite a(n) found.
+max a(n)/p_(n+1)^2 = 0.33333 at n=1
+(falsification needs ratio > 1)

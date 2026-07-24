@@ -1,0 +1,2 @@
+SOLUTION k=9: 2 3 11 17 101 157 1979 10093 16879  n=5998279018951962402
+k=9 done nodes=0,0,0,0,0,1,69,6433,0,0 t2nodes=6433 t2_disc=1859 t2_iter=40 work_disc=1725014 work_iter=8427553 sols=1 deferred=2

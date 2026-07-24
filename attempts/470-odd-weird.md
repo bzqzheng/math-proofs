@@ -75,3 +75,16 @@ must always be stated with the δ-window attached.
   next_prime inside k_max/p-loops. Requested: static prime table fast path
   + SPF sharding (smallest-prime-factor partition for parallel production
   runs). Agent still iterating.
+
+## Production launch (2026-07-24): sharded above-10^21 search at N_CAP=10^24
+- C engine: validation gate passed bit-for-bit (agent report + my re-check).
+  ~137k nodes/s production shape (~8x Python).
+- SPF sharding added (patched main myself): SPF=p covers exactly
+  factorizations with smallest prime factor p; union over p = complete.
+  Gates: unsharded 1765 ✓; SPF=2 finds all 1765 below 1e6 ✓; SPF=3 finds 0 ✓.
+- Launched: shard SPF=3 (dominant, 6h budget) + SPF=5..53 (sequential
+  runner). Coverage: fresh territory 10^21–10^24 with δ < 10^7.
+  NOTE: N_CAP=1e24 parses via float to 999999999999999983222784 (same quirk
+  as Python reference — documented in the C header).
+- OEIS corpus agent failed (provider quota 403) — deferred; may retry
+  inline or when quota refreshes.

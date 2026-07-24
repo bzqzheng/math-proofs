@@ -529,8 +529,33 @@ int main(void) {
            ALLOW_EVEN ? "False" : "True", (double)N_CAP, (double)DELTA_MAX);
     fflush(stdout);
 
+    /* SPF shard: when SPF=p (prime) is set, cover exactly the factorizations
+     * whose smallest prime factor equals p (disjoint union over p = full
+     * search). Root factor p^a forced for a=1,2,... within N_CAP. */
+    u128 SPF = parse_env_u128("SPF", 0);
+
     t0 = now();
-    dfs(ALLOW_EVEN ? 2 : 3, 1, 1, 0);
+    if (SPF >= 2) {
+        if (next_prime(SPF - 1) != SPF) {
+            fprintf(stderr, "SPF=%.0f is not prime\n", (double)SPF);
+            return 1;
+        }
+        printf("SPF shard: smallest prime factor = %.0f\n", (double)SPF);
+        fflush(stdout);
+        u128 nn = 1, sumpow = 1;
+        int a = 0;
+        while (nn <= N_CAP / SPF) {
+            nn *= SPF;
+            sumpow += nn;
+            a++;
+            fac[0].p = SPF;
+            fac[0].a = a;
+            dfs(next_prime(SPF), nn, sumpow, 1);
+            if (deadline_hit) break;
+        }
+    } else {
+        dfs(ALLOW_EVEN ? 2 : 3, 1, 1, 0);
+    }
 
     {
         char c1[32], c2[32];

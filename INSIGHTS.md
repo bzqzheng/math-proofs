@@ -55,17 +55,20 @@ splitting. **The first 100 progress lines are the cheapest profiling you
 will ever do.**
 
 ## I7. Extra quantified variables often drop out after the right
-##    characterization — check before pricing the search
-Found in: #699 (binomial gcd). The conjecture quantifies over (n, i, j),
-but the Legendre-digit-sum characterization of p | C(n,m) for p ≥ m showed
-the witness condition depends only on (n, i): j is irrelevant. The search
-space went from O(n³)-ish triples to O(n · log n) effective pairs, and the
-scan became trivially fast. General pattern: before estimating a witness
-search's cost, push each atomic predicate through the strongest known
-characterization (Kummer/Legendre, CRT, valuation formulas). Variables that
-appear in the statement but not in the characterized predicate are free.
-**Never price a search on the statement's arity; price it on the
-characterized predicate's arity.**
+##    characterization — check before pricing the search (but verify the drop-out)
+Found in: #699 (binomial gcd). For composite `i`, the conjecture quantifies
+over `(n, i, j)`, but the Legendre-digit-sum characterization of `p | C(n,i)`
+for `p > i` reduces the *existence* of a large prime factor of `C(n,i)` to a
+predicate on `(n, i)` alone. Composite `i` is then settled by Sylvester–Schur.
+For prime `i`, the same predicate is necessary but not sufficient: `p = i` may
+divide the numerator of `C(n,i)` but be canceled by `i!`, and even when a
+large prime divides `C(n,i)` it may not divide a particular `C(n,j)`. The
+remaining live case is a prime-factor-survival problem over `j`. General
+pattern: before estimating a witness search's cost, push each atomic predicate
+through the strongest known characterization — but then stress-test the
+characterized predicate against the *full* statement on small cases to catch
+exactly this kind of cancellation. **Never price a search on the statement's
+arity; price it on the verified characterized predicate's arity.**
 
 ## I6. Cap the branching factor with a necessary condition from the goal
 ##    inequality — not just the state space

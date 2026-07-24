@@ -1,65 +1,53 @@
 """
-Erdős #779 / Fortune's conjecture scan.
+Erdős #779 / Fortune's conjecture scan (gmpy2-optimized).
 
 Fortunate number a(n) = least m > 1 with p_n# + m prime (p_n# = primorial).
 Fortune's conjecture: a(n) is always prime.
 
+Key speedup: P = p_n# is even, so P+2 is even > 2 and cannot be prime.
+Therefore a(n) = next_prime(P + 2) - P, where next_prime returns the
+smallest prime strictly greater than its argument. gmpy2.next_prime is
+orders of magnitude faster than testing successive odd m.
+
 Falsification channel (Ordowski, OEIS A005235): if a(n) is composite then
-a(n) > p_{n+1}^2  (every prime factor of composite a(n) must exceed p_n).
+a(n) > p_{n+1}^2 (every prime factor of composite a(n) must exceed p_n).
 So a counterexample = an n where the prime gap after p_n# exceeds p_{n+1}^2.
-This script computes a(n) sequentially, flags composites (full BPSW via
-sympy.isprime on every candidate), and reports the ratio a(n)/p_{n+1}^2
-distribution so we can see how close the landscape gets to the
-falsification channel.
 """
 
 import os
 import time
 
-try:
-    from gmpy2 import is_prime as _gmp_is_prime
+import gmpy2
+from sympy import nextprime
 
-    def isprime(n):
-        return bool(_gmp_is_prime(n))
-
-    PRIMETEST = "gmpy2"
-except ImportError:
-    from sympy import isprime
-
-    PRIMETEST = "sympy"
-
-from sympy import nextprime, prime, primorial
-
-N_MAX = int(os.environ.get("N_MAX", 1500))
-TIME_BUDGET = int(os.environ.get("TIME_BUDGET", 900))
+N_MAX = int(os.environ.get("N_MAX", 5000))
+TIME_BUDGET = int(os.environ.get("TIME_BUDGET", 3600))
 
 t0 = time.time()
 max_ratio = 0.0
 max_ratio_n = 0
-results_tail = []
 
-pn1 = 1
+P = gmpy2.mpz(1)
+pn = 1  # p_n
 for n in range(1, N_MAX + 1):
-    pn1 = nextprime(pn1)  # p_n
-    P = primorial(n)
-    m = 3
-    while not isprime(P + m):
-        m += 2
-    # m is now a(n) (smallest m>1; m=2 impossible since P+2 is even > 2)
-    if not isprime(m):
-        print(f"*** COUNTEREXAMPLE n={n}: a(n)={m} is COMPOSITE", flush=True)
-        print(f"    verify: factors of {m} and primality of P+m", flush=True)
-    ratio = m / (nextprime(pn1) ** 2)
+    pn = int(nextprime(pn))
+    P *= pn  # p_n#
+    a_n = int(gmpy2.next_prime(P + 2) - P)
+    if not gmpy2.is_prime(a_n):
+        print(f"*** COUNTEREXAMPLE n={n}: a(n)={a_n} is COMPOSITE", flush=True)
+        print(f"    verify: P={P}, P+a(n)={P + a_n}", flush=True)
+    p_next = int(nextprime(pn))
+    ratio = a_n / (p_next ** 2)
     if ratio > max_ratio:
         max_ratio = ratio
         max_ratio_n = n
-        print(f"record ratio {ratio:.5f} at n={n} (a(n)={m}, p_n={pn1})", flush=True)
+        print(f"record ratio {ratio:.5f} at n={n} (a(n)={a_n}, p_n={pn}, p_{{n+1}}={p_next})", flush=True)
     if n % 100 == 0:
-        print(f"progress n={n} p_n={pn1} digits(P)={len(str(P))} elapsed={time.time()-t0:.0f}s", flush=True)
+        print(f"progress n={n} p_n={pn} digits(P)={P.bit_length()} bits elapsed={time.time()-t0:.0f}s", flush=True)
     if time.time() - t0 > TIME_BUDGET:
         print(f"time budget hit at n={n}", flush=True)
         break
 
-print(f"\ndone [{PRIMETEST}]. scanned n<= {n}. no composite a(n) found.")
+print(f"\ndone [gmpy2]. scanned n<= {n}. no composite a(n) found.")
 print(f"max a(n)/p_(n+1)^2 = {max_ratio:.5f} at n={max_ratio_n}")
 print("(falsification needs ratio > 1)")

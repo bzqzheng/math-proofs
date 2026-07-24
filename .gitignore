@@ -8,3 +8,5 @@ attempts/h9/
 attempts/*.defer
 attempts/defer_*.txt
 attempts/ppn
+attempts/*.log
+.obsidian/

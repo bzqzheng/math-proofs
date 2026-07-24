@@ -1,12 +1,9 @@
 .venv/
 __pycache__/
 .DS_Store
+.obsidian/
 data/erdosproblems/
 data/formal-conjectures/
-attempts/k9/
-attempts/h9/
-attempts/*.defer
-attempts/defer_*.txt
-attempts/ppn
-attempts/*.log
-.obsidian/
+problems/erdos-313/k9/
+problems/erdos-313/h9/
+problems/erdos-313/defer_*.txt

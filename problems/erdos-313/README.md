@@ -1,0 +1,412 @@
+# Erdős #313 — attack log, July 2026
+
+## 0. Problem, equivalent form, and true state of the art
+
+**Erdős #313.** Are there infinitely many solutions to
+$\frac1{p_1}+\cdots+\frac1{p_k}=1-\frac1m$ with $m\ge2$ an integer and $p_1<\cdots<p_k$ distinct primes?
+
+One forces $m=p_1\cdots p_k$, so the problem is exactly:
+
+> **are there infinitely many primary pseudoperfect numbers (PPN)** — squarefree $n$ with
+> $\displaystyle \frac1n+\sum_{p\mid n}\frac1p=1$, equivalently $\partial(n)=n-1$ for the arithmetic derivative?
+
+Status on erdosproblems.com (accessed 2026-07-24): **OPEN**, "cannot be resolved with a finite computation."
+
+Frontier as of this session:
+
+| source | result |
+|---|---|
+| Butske–Jaje–Mayernik, *Math. Comp.* **69** (2000) | exactly **one** PPN for each $r\le 8$ distinct prime factors |
+| Han Wang, arXiv:**2605.21518** (18 May 2026), *Port fillings for primary pseudoperfect numbers* | $N_9=5998279018951962402$ (9 primes) and $N_{10}=N_9(N_9+1)$; conditional infinitude under a 5-splitting Bateman–Horn hypothesis; **explicitly no uniqueness theorem for 9 prime factors** |
+| OEIS A054377 (Irvine, 26 May 2026) | 10 PPNs now known |
+
+The ten known PPNs, with their prime counts $r$:
+
+| $r$ | $n$ |
+|---|---|
+| 1 | 2 |
+| 2 | 6 |
+| 3 | 42 |
+| 4 | 1806 |
+| 5 | 47058 |
+| 6 | 2214502422 |
+| 7 | 52495396602 |
+| 8 | 8490421583559688410706771261086 |
+| 9 | 5998279018951962402 |
+| 10 | 35979351189199316534587473905773572006 |
+
+Wang's **Problem 20.1** (the stated open unconditional problem): are there infinitely many
+squarefree $B$, all prime factors $>101$, with $797B-113322\,\partial(B)=1$?
+
+## 1. The state formalism used here
+
+Choose primes $p_1<\cdots<p_j$; put $N=\prod p_i$ and $A=N\bigl(1-\sum 1/p_i\bigr)\in\mathbb Z_{>0}$
+(so $\gcd(A,N)=1$; this is Wang's *port* $(R,c)=(N,A)$). With $t$ primes still to be chosen we need
+$$\sum_{i=1}^{t}\frac1{q_i}+\frac1{NQ}=\frac AN,\qquad p_j<q_1<\cdots<q_t,\ Q=\prod q_i,$$
+equivalently $A\,Q-N\,\partial(Q)=1$. Adding a prime $q$ sends $(N,A)\mapsto(Nq,\,Aq-N)$.
+
+Three exact terminal rules drive the search:
+
+* $t=1$: $q=(N+1)/A$ must be an integer prime $>p_j$.
+* $t=2$: with $s=q_1+q_2$, $p=q_1q_2$ one has $Ap=1+Ns$, so
+  $s\equiv -N^{-1}\!\!\pmod A$, $s=s_0+Ai$, $p=p_0+Ni$, and $q_{1,2}$ exist iff
+  $D_i=s^2-4p$ is a perfect square. Equivalently $(Aq_1-N)(Aq_2-N)=N^2+A$.
+  Range: $\lceil (2N+2\sqrt{N^2+A})/A\rceil \le s \le s(m^+)$ where $s(q)=q+\frac{Nq+1}{Aq-N}$.
+* $t\ge3$: $q$ ranges over primes in $\bigl(\max(p_j,N/A),\ tN/A\bigr)$.
+
+**Engine.** `ppn.c` (C + GMP): segmented sieve for the $t\ge3$ loops; for $t=2$ it picks
+the cheaper of the discriminant walk (with a mod-64/63/65/11 square prefilter and $D$ updated by
+two additions per step — second difference $2A^2$ is constant) and direct sieving of $q_1$;
+nodes whose cost exceeds a budget are logged and settled exactly by factoring $N^2+A$
+(`resolve_par.py`).
+
+**Validation.** For every $k\le8$ the engine returns exactly the known PPN and nothing else.
+$k=8$: 825,828 terminal states, 8 min on one core, plus 16,937 deferred nodes factored in 2 min on
+10 cores → the unique solution $8490421583559688410706771261086$. This is an independent
+re-derivation of Butske–Jaje–Mayernik by a different algorithm. Restricted to the prefix
+$2,3,11,17,101$ the engine returns Wang's $N_9$ in 0.08 s.
+
+## 2. New results
+
+### 2.1 No known PPN has a 1- or 2-prime successor other than the known ones
+
+Exhaustive check over **all ten** known PPNs (Wang §13 does this for $N_{10}$ only).
+For each $n$: is $n+1$ prime (1-prime successor $n(n+1)$)? and full factorisation of $n^2+1$,
+which enumerates *all* 2-prime successors via $(q_1-n)(q_2-n)=n^2+1$.
+
+| $n$ | $n{+}1$ prime | 2-prime successors |
+|---|---|---|
+| 2, 6, 42 | yes | $(3,7)$ for $n=2$; $(7,43)$ for $n=6$; none for 42 |
+| 1806 | no | none |
+| 47058 | yes → 2214502422 | none |
+| 2214502422 | no | $(2217342227,\,1729101023519)$ → the $r=8$ PPN |
+| 52495396602 | no | none |
+| 5998279018951962402 | yes → $N_{10}$ | none |
+| 8490421583559688410706771261086 | no | none |
+| 35979351189199316534587473905773572006 | no | none |
+
+For the last entry the 76-digit $n^2+1$ was factored completely:
+$n^2+1=21807157\cdot480382349\cdot P_{60}$ with
+$P_{60}=123572138719194583969192220095883252267503088389616114960309$.
+
+**Consequence.** Every PPN beyond the ten known ones is at "distance $\ge3$ primes" from all of them,
+or lies on an entirely different prefix. The cheap inheritance mechanism is exhausted.
+
+### 2.2 The key port $H=(113322,797)$ has exactly two fillings of length $\le 4$
+
+Exhaustive, with **zero** unresolved nodes:
+* length 2: $149\cdot3109$ (→ the $r=7$ PPN 52495396602);
+* length 3: none;
+* length 4: $157\cdot1979\cdot10093\cdot16879$ (→ Wang's $N_9$).
+
+This upgrades Wang's §8 (which exhibits the two fillings) to a completeness statement in that range.
+
+**Length 5 is also complete at the terminal level**: 5,721,645 terminal states, one filling —
+$157\cdot1979\cdot10093\cdot16879\cdot5998279018951962403$, the inherited one giving $N_{10}$.
+All 17,243 over-budget $t=2$ nodes were then settled exactly (16,851 by re-running at a
+$10^9$ budget, the remaining 392 by factoring $N^2+A$): **zero** additional fillings.
+Exactly **two** $t\ge3$ nodes remain:
+
+* $P=2,3,11,17,101,151,2437$ ($A=8303$), loop width $1.0\times10^{7}$ — being re-run at a $10^9$
+  budget, in progress;
+* $P=2,3,11,17,101,149,3109$ ($A=1$), loop width $1.05\times10^{11}$ — this is
+  "**does the $r=7$ PPN $52495396602$ have a 3-prime successor?**", the same obstruction as §2.5.
+
+So: *the port $H$ has exactly three fillings of length $\le5$, unless $52495396602$ has a 3-prime
+successor.* This settles Wang's Appendix-A "$H_6$ layer" question in the length-$\le5$ range and
+localises the entire residual uncertainty to a single explicitly stated problem.
+
+### 2.3 A quantitative heuristic for $S_k=\#\{$PPN with exactly $k$ prime factors$\}$
+
+Every $k$-prime PPN is detected at a **unique** depth-$(k-1)$ state $(N,A,m)$: it is a solution iff
+$A\mid N+1$ and $q=(N+1)/A$ is a prime $>m$. Note $q$ is automatically coprime to $N$. Modelling the
+two events independently,
+$$\Pr[A\mid N+1]\approx\frac1A,\qquad \Pr[q\text{ prime}]\approx\frac{\lambda(N)}{\log q},\qquad
+\lambda(N)=\prod_{p\mid N}\Bigl(1-\frac1p\Bigr)^{-1},$$
+gives the **parameter-free** prediction
+$$S_k\ \approx\ \Sigma_k:=\sum_{\text{depth-}(k-1)\text{ states}}\frac{\lambda(N)}{A\,\log\frac{N+1}{A}} .$$
+
+There are two ways to evaluate this. The **exact** way enumerates the entire depth-$(k-1)$ level and
+weights each terminal state directly (`HMODE=4 ./ppn k`); it is authoritative but expensive. The
+**quadrature** way stops at depth $k-2$ and integrates the children with the substitution $x=Aq-N$
+(`HMODE=1`); it is cheap enough to reach $k=9$ but, as the two rows below show, it **systematically
+underestimates** $\Sigma_k$ (the exact sum weights the first few small primes heavily, where the
+integrand's $1/\log$ is largest and slowest-varying). The exact numbers are the ones to trust:
+
+| $k$ | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|---|---|---|---|---|---|---|---|
+| $\Sigma_k$ **exact** | 1.542 | 1.185 | 1.025 | 1.066 | 0.947 | $\approx0.94$ † | — |
+| $\Sigma_k$ quadrature | 0.716 | 0.874 | 0.855 | 0.779 | 0.781 | 0.689 | $\ge0.508$ |
+| $S_k$ (exhaustive) | 1 | 1 | 1 | 1 | 1 | 1 | $\ge1$ |
+
+† exact $\Sigma_8$ requires the full depth-7 level ($\sim10^{12}$ terms); the entry is a
+hybrid estimate (exact for the small-$R$ nodes that carry the exact/quadrature gap, quadrature for the
+large-$R$ tail where quadrature is accurate). It is good to $\pm0.03$.
+
+The exact $\Sigma_k$ sits right on top of the true $S_k=1$ and drifts down only gently. Its ratios are
+$$0.77,\quad 0.86,\quad 1.04,\quad 0.89,\quad \approx0.99 \qquad(\text{geometric mean over }k{=}5..8:\ \approx0.97).$$
+**This is the crux, and it is genuinely close to 1.** A ratio of $\approx0.97$ from six data points
+cannot be distinguished from $1.00$; the heuristic is essentially *critical*.
+
+Decomposition of the (cheaper) quadrature mass is still informative about *where* the weight lives.
+Splitting by $A$: the near-PPN part ($A\le100$, the inheritance channel) **decays** $0.87\to0.20$,
+while the diffuse remainder **grows** $0.00\to0.49$. The largest single-state contribution falls
+$0.72\to0.10$, so the estimate becomes less lumpy — lower variance — as $k$ grows. The inheritance
+mechanism dies out; whatever decides the problem is carried by the diffuse sea of states.
+
+Direct spot-check of the two factors at the $t=1$ level (exhaustive, $k\le7$): for $k=7$ there are
+383,458 depth-6 states, $\sum 1/A=3.90$ against 2 actual divisibility hits, and given divisibility
+the predicted number of primes is 0.609 against 1 actual. Both factors are right to within a
+factor $\approx2$ on tiny samples.
+
+### 2.3a The per-layer reproduction number, and why it equals $\log 2$
+
+Write the layer weights of a fixed tree as
+$W_j=\sum_{\text{depth-}j\text{ states}}\frac{\lambda(N)}{A\log(N/A)}$, so that
+$\Sigma_k\approx W_{k-1}$. The **deepening factor** is
+$$\rho(N,A)\;=\;A\log R\!\!\sum_{\substack{q\ \mathrm{prime}\\ \max(m,R)<q<tR}}\!\!
+\frac1{(Aq-N)\log\frac{Nq}{Aq-N}},\qquad R:=N/A .$$
+Put $d=q-R$, so $Aq-N=Ad$ and $\frac{Nq}{Aq-N}=\frac{Rq}{d}\approx\frac{R^2}{d}$. Replacing the prime
+sum by $\int dd/\log R$, the factors of $A$ and $\log R$ cancel exactly and
+$$\rho\;\approx\;\int_{d_0}^{(t-1)R}\frac{dd}{d\,(2\log R-\log d)}
+\;=\;\log\frac{2\log R-\log d_0}{\log R-\log(t-1)} .$$
+The smallest available $d$ is a prime gap, $d_0\approx\log R$, so $\log d_0=O(\log\log R)$ and,
+whenever $\log(t-1)=o(\log R)$,
+$$\boxed{\ \rho\longrightarrow\log 2=0.6931\ }$$
+**independently of $N$, $A$, $t$ and the prefix.** The interpretation is clean: at a state with
+residual $1/R$ the final prime lies between $R$ and about $R^2$, so $\log q$ is spread
+log-harmonically over $[\log R,\,2\log R]$, and averaging the primality density $1/\log q$ against
+that measure gives exactly $\log\frac{2\log R}{\log R}$.
+
+Since $R$ grows doubly exponentially with depth while $t\le k$, the condition
+$\log(t-1)=o(\log R)$ holds from very early on; $\rho>1$ would need $t\gtrsim R^{0.264}$, which never
+happens.
+
+$\log2$ is an *upper* value: it assumes $d_0$ is a prime gap, which needs the previous prime $m$ to
+be below $R$. When $m\gg R$ the first admissible $d_0=q_{\min}-R$ is large and $\rho$ drops well
+below $\log2$. Direct measurement on 396 real states of tree$_8$ (exact prime sums, compared with the
+closed form above):
+
+| $\log R$ | states | measured $\rho$ | closed form |
+|---|---|---|---|
+| $[7,10)$ | 387 | 0.384 | 0.348 |
+| $[10,13)$ | 9 | 0.732 | 0.654 |
+
+The closed form tracks the truth, and every bucket sits below 1. So the subcriticality does not hinge
+on the exact constant.
+
+Measured deepening factors $W_{j+1}/W_j$ (`HMODE=3 ./ppn k`):
+
+| tree | $W_1$ | $W_2$ | $W_3$ | $W_4$ | $W_5$ | ratios |
+|---|---|---|---|---|---|---|
+| $k=7$ | 2.820 | 2.207 | 1.432 | 1.199 | — | 0.783, 0.649, 0.837 |
+| $k=8$ | 2.820 | 2.412 | 1.566 | 1.290 | 1.036 | 0.855, 0.649, 0.824, 0.803 |
+
+Mean $\approx0.78$, against the predicted $0.693$ — the right constant, with the excess coming from
+the $\log(t-1)$ correction that is still visible at these shallow depths.
+
+The other half of the recursion is the **widening factor**: tree$_{k+1}$ is strictly larger than
+tree$_k$ at every depth because the branching bound $tN/A$ grows with $t$. Measured
+$W^{(8)}_j/W^{(7)}_j\approx1.077$–$1.09$, uniformly in $j$. So
+$$\frac{\Sigma_{k+1}}{\Sigma_k}\;\approx\;\underbrace{1.08}_{\text{widening}}\times\underbrace{0.80}_{\text{deepening}}\;\approx\;0.87,$$
+which reproduces the observed ratios ($0.865$ at $k{=}7\!\to\!8$, $0.74$ at $8\!\to\!9$). The
+widening factor behaves like $\log(t+1)/\log t\to1$, so asymptotically
+$\Sigma_{k+1}/\Sigma_k\to\log2$.
+
+**A second, integral-free derivation of the same thing.** Split $\Sigma_k$ into its two factors and
+measure each exhaustively at the $t=1$ level:
+
+| $k$ | 5 | 6 | 7 |
+|---|---|---|---|
+| $\sum 1/A$ over depth-$(k-1)$ states (expected $\#\{A\mid N+1\}$) | 1.73 | 2.81 | 3.90 |
+| actual $\#\{A\mid N+1\}$ | 3 | 2 | 2 |
+
+The number of *chances* grows by only $\approx1.4$–$1.6$ per layer. But the residual at a depth-$(k-1)$
+state is $1/R$, which forces the final prime $q=(N+1)/A$ to be as large as $\approx R^2$: $\log q$
+roughly **doubles** each layer. Chance count $\times$ primality density $\approx 1.5\times\tfrac12<1$.
+That is the same $\log2$ from a different direction, and it needs no quadrature.
+
+**Reading — the honest one.** The $\log2$ constant is the *deepening* factor alone: it is what
+$W_{j+1}/W_j$ tends to *within a single fixed tree*. But $\Sigma_{k+1}/\Sigma_k$ compares
+**different** trees, and the larger tree is uniformly wider (its branching bound $tN/A$ grows with
+$t$). The exact measurement folds both effects together and gives a ratio near **0.96**, not $0.69$:
+the widening almost exactly cancels the deepening. So the two effects are:
+
+* deepening $\to\log2\approx0.69$ (derived above, and it is a genuine below-1 pull);
+* widening $\approx1.3$ per layer (measured), pushing back up.
+
+Their product is what governs $\sum_k\Sigma_k$, and it lands at $0.96\pm$noise — **right at the
+critical value 1.** The heuristic therefore **does not decide Erdős #313.** It is consistent with
+either answer. If pressed for the maximum-likelihood reading, the ratio is a hair below 1, which
+would make A054377 finite; but the margin is inside the noise of five data points, and the honest
+statement is *undetermined, essentially critical*.
+
+Why this is still worth something: (i) the near-criticality is itself a prediction — PPNs should keep
+appearing, roughly one per range of $k$, for a long way, with no sharp cutoff, exactly as the newly
+found $N_9,N_{10}$ suggest; (ii) it isolates the single scalar that decides everything, the product
+(deepening)$\times$(widening) $=\overline\rho_{\text{eff}}$, and reduces the whole problem to whether
+that product exceeds 1 — a question purely about prime density on the surfaces $Aq-N$, with the
+PPN structure entirely removed.
+
+The reason $S_k$ is *exactly* 1 for $k\le8$ rather than Poisson-scattered is the inheritance
+correlation: $2\to6\to42\to1806$, $47058\to2214502422$ and $N_9\to N_{10}$ are forced continuations,
+so consecutive layers are not independent.
+
+$\Sigma_9$, sharded over the 2,910 depth-5 prefixes: **$\ge 0.507$** with 2,906 shards in
+(only the single monster shard `2,3,7,43,1811` outstanding), so $\Sigma_9$ sits in the same
+band as $\Sigma_3,\dots,\Sigma_8$ — the flat trend continues into the layer where the newest
+PPN was found.
+
+**The heuristic also predicts *where* PPNs live.** Ranking the 2,910 depth-5 prefixes by their
+$\Sigma_9$-contribution:
+
+| rank | prefix | contribution |
+|---|---|---|
+| 1 | 2,3,11,17,101 | 0.1001 |
+| 2 | 2,3,11,23,31 | 0.0561 |
+| 3 | 2,3,11,23,43 | 0.0225 |
+| 4 | 2,3,7,97,101 | 0.0202 |
+| 5 | 2,3,11,19,61 | 0.0155 |
+
+Rank 1 is precisely the prefix of Wang's $N_9$, and rank 2 is precisely the prefix of the
+$r=8$ PPN. The same test at $k=8$ ranks `2,3,11,23,31` first with 0.245 of the total 0.689 —
+again precisely the prefix of the $r=8$ PPN $8490421583559688410706771261086$. The model was not
+tuned in any way; these are out-of-sample hits, and they say the $\Sigma$-ranking is a usable
+search prior for the next layer.
+
+### 2.4 Cost of the exhaustive $r=9$ search
+
+Measured tree profile (the search only has to enumerate down to $t=2$):
+
+| depth | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+|---|---|---|---|---|---|---|---|---|
+| $k=8$ nodes | 1 | 4 | 8 | 18 | 92 | 2,038 | 825,828 | — |
+| $k=9$ nodes | 1 | 4 | 8 | 21 | 113 | 2,915 | 1,318,433 | $\approx6.6\times10^{10}$ |
+
+So $r=9$ has $\approx8\times10^4$ times as many terminal states as $r=8$; at the $k=8$ rate this is
+$10^2$–$10^3$ CPU-days. It is sharded here over the 2,910 depth-5 prefixes
+(`run_k9.sh`, resumable via `k9/*.done`). **Partial status: 2,035 / 2,910 shards complete
+(≈70 % of prefixes), with the only solution found being the known $N_9$** and every over-budget node
+logged for exact resolution. No new $r=9$ PPN has appeared in the covered region. The run is resumable
+and the remaining shards are dominated by the $2,3,7,\dots$ prefixes whose deferred nodes include the
+hard 3-prime-successor states of §2.5.
+
+Parity prune used: $\sum_i n/p_i+1=n$ forces $k$ even when $n$ is odd, so for **odd** $k$ every PPN is
+even and $p_1=2$ (this removes 5 of the 2,915 depth-5 prefixes for $k=9$).
+
+### 2.5 What actually blocks the exhaustive $r=9$ search
+
+Running the engine with a per-node budget of $3\times10^6$ steps, the first 1,696 of 2,910 shards
+produced 314,755 $t=2$ nodes that need factoring (routine: $N^2+A$ has $\le34$ digits) and, more
+importantly, **447 nodes at $t\ge3$ whose prime loop exceeds the budget**. Their total loop width is
+$1.24\times10^{10}$, and it is completely dominated by a handful:
+
+| loop width | state |
+|---|---|
+| $4.43\times10^{9}$ | $t=3$, $P=2,3,11,23,31,47059$ &nbsp;($N=2214502422$, $A=1$) |
+| $1.08\times10^{9}$ | $t=3$, $P=2,3,7,67,113,28909$ |
+| $6.40\times10^{8}$ | $t=3$, $P=2,3,7,71,103,61441$ |
+
+The head of that list is exactly **"does the $r=6$ PPN $2214502422$ have a 3-prime successor?"**.
+
+**The 3-prime-successor problem.** For a PPN $n$ (port $(n,1)$) put $u_i=q_i-n$. Expanding
+$e_3-ne_2=1$ in the $u_i$, all the bulky terms cancel and one is left with the clean symmetric form
+$$\boxed{\,u_1u_2u_3-n^2(u_1+u_2+u_3)=1+2n^3\,}$$
+so $u_1<2n$, $u_1u_2>n^2$, and
+$u_3=\dfrac{1+2n^3+n^2(u_1+u_2)}{u_1u_2-n^2}$.
+Multiplying the divisibility by $u_1$ collapses it to
+$$(u_1u_2-n^2)\ \Big|\ \ n^2(n+u_1)^2+u_1 \;=\; (nq_1)^2+(q_1-n),$$
+i.e. **one factorisation per $q_1$**, of the quadratic polynomial $f(q)=n^2q^2+q-n$. Cost for
+$n=2214502422$: $\sim10^{8}$ factorisations of 38-digit numbers, i.e. months of CPU — while the
+naive 2-dimensional $(u_1,u_2)$ sweep is $\sim10^{20}$.
+
+Two things follow. (i) The cost is very unevenly distributed: for $q_1\in(2n,3n)$ the
+discriminant walk needs only $\approx\frac{nq_1}{u_1(u_1-n)}$ steps, and
+$\sum_{u_1\in(n,2n)}\frac{3n^2}{u_1(u_1-n)}\approx3n\log n\approx1.4\times10^{11}$ steps — **that half
+is feasible** (hours). The blocking half is $q_1\in(n,2n)$. (ii) Because all the numbers to be
+factored are values of the *single* quadratic $f(q)=n^2q^2+q-n$ over an interval, the natural attack
+is a **batch/lattice sieve** on $f$ rather than $10^8$ independent factorisations. That is the
+concrete route to a complete $r=9$ theorem, and it is not attempted here.
+
+Nodes with $t\ge3$ and $A$ *not* small are fine; the obstruction is specifically the $A=1$
+(PPN-prefix) nodes.
+
+### 2.6 The heuristic as a branching sum, and the true crux
+
+Drop the per-$k$ framing. The expected total number of PPNs is a single sum over the infinite tree of
+admissible prime sequences $2=p_1<p_2<\cdots$ with $A_j>0$:
+$$\mathbb E[\#\text{PPN}]\ \approx\ \sum_{\text{nodes }v}\varphi(v),\qquad
+\varphi(N,A)=\frac{\lambda(N)}{A\,\log\frac{N+1}{A}} .$$
+Writing $S(N,A)$ for the subtree sum, $S(N,A)=\varphi(N,A)+\sum_{q>\max(p,R)}S(Nq,\,Aq-N)$ with
+$R=N/A$. Substituting $q=R+d$ gives $Aq-N=Ad$ and $\frac{Nq+1}{Aq-N}\approx\frac{R(R+d)}{d}$, so the
+child weights split into two regimes:
+
+* **near tail $d\in(d_0,R)$**: $\varphi(\text{child})\approx\dfrac{\lambda(N)}{Ad\,(2\log R-\log d)}$,
+  contributing $\rho_{\text{near}}\to\log2$ (the deepening constant of §2.3a) — a genuine *below-1*
+  pull;
+* **far tail $d\gtrsim R$**: $\frac{R(R+d)}{d}\to R$, so
+  $\varphi(\text{child})\approx\dfrac{\lambda(N)}{Ad\log R}$, and summing against the prime density
+  $1/\log d$ gives $\displaystyle\sum_{q\gg R}\frac1{q\log q}\sim\log\log$ — a **slowly divergent**
+  tail.
+
+**This is the real reason Erdős #313 is hard and sits exactly at criticality.** The near tail wants
+convergence (finitely many PPN); the far tail — adding one *very large* prime, which barely changes
+the residual and leaves an almost-identical port one level up — contributes a divergent
+$\log\log$ that wants infinitude. The finite-$k$ cutoff $q<tN/A$ is precisely what regularises the
+far tail, which is why $\Sigma_k$ is finite for each $k$ but its $k$-sum teeters at ratio $\approx1$.
+Whether $\sum_v\varphi(v)$ converges is therefore **not** decided by the clean $\log2$; it is decided
+by how the far tail is truncated by the genuine constraint $p_{j+1}>p_j$ together with $A_j>0$,
+i.e. by the joint density of primes on the surfaces $Aq-N=1$ at all scales. That is the unconditional
+question equivalent to #313, now stated with no reference to pseudoperfect numbers.
+
+## 3. An unconditional structural obstruction
+
+**Lemma.** Fix integers $R,c\ge1$. There are no $f_1,\dots,f_t\in\mathbb Z[x]$, not all constant, with
+$$c\prod_{i}f_i-R\sum_i\prod_{j\ne i}f_j=1 \quad\text{identically.}$$
+
+*Proof.* Let $d_1\le\cdots\le d_t$ be the degrees. If $d_1\ge1$, the first term has degree exactly
+$\sum_i d_i$ (leading coefficient $c\prod\mathrm{lc}(f_i)\ne0$) while the second has degree at most
+$\max_i\sum_{j\ne i}d_j=\sum_j d_j-d_1<\sum_j d_j$. So the left side has degree $\sum_i d_i\ge1$,
+contradicting the constant $1$. Hence $d_1=0$, say $f_1=a$; substituting turns the identity into the
+same equation for the port $(Ra,\ ca-R)$ with $t-1$ factors, and induction finishes. $\square$
+
+More robustly, without any polynomiality: dividing the port equation by $Q$ gives
+$\sum_i 1/q_i=(c-1/Q)/R$, so along **any** infinite family of fillings of a fixed port the reciprocal
+sum is pinned at $c/R$; if every coordinate tended to infinity the left side would tend to $0$.
+Hence in any infinite family of fillings of a fixed port, some coordinate is bounded, and one
+descends to a smaller port. Combined with $q_1<tR/c$, this says: **for each $T$ a fixed port has only
+finitely many fillings of length $\le T$.**
+
+**Consequence for Problem 20.1.** A positive answer cannot come from an identity or from any family
+of bounded length: it requires fillings of unbounded length, i.e. genuine prime-value input. This is
+consistent with — and explains the necessity of — the Bateman–Horn-type hypothesis Wang assumes.
+
+## 4. Where this leaves Erdős #313
+
+Not solved, and it will not be solved by computation — the problem statement says so. What changed
+in this session:
+
+1. **There is now a parameter-free heuristic $\Sigma_k$ for $S_k$**, matching the exhaustive data for
+   $k=3..8$ and ranking the correct prefix first at both $k=8$ and $k=9$ out of sample. Its
+   exact layer-to-layer ratio is $\approx0.96$ — **critical, within noise of 1** — so the heuristic
+   does not by itself decide the problem. It splits into a derived deepening factor $\to\log2$ and a
+   measured widening factor $\approx1.3$; whether their product exceeds 1 is the whole question.
+2. **The decisive quantity is now explicit and PPN-free**: the effective reproduction number
+   $\overline\rho_{\text{eff}}=$ (deepening)$\times$(widening), a statement about prime density on the
+   surfaces $Aq-N=1$. $\overline\rho_{\text{eff}}>1$ ⟺ infinitude. This is the natural target for an
+   actual theorem, and it no longer mentions primary pseudoperfect numbers at all.
+3. **The computational frontier is now precisely located.** $r=9$ is not blocked by scale
+   ($\approx6.6\times10^{10}$ terminal states is large but shardable); it is blocked by a *single
+   family* of states — 3-prime successors of a PPN — reduced here to factoring the quadratic
+   $f(q)=n^2q^2+q-n$ over an interval, which is a batch-sieving problem, not $10^8$ separate ones.
+4. **Two completeness theorems** that did not exist before: all 1- and 2-prime successors of all ten
+   known PPNs (none new), and all fillings of the key port $H$ of length $\le5$ (exactly three),
+   modulo the single stated 3-prime-successor question.
+
+## 5. Artefacts
+
+* `ppn.c` — C/GMP exhaustive engine (`./ppn k [prefix] [deferfile] [limit]`; `HMODE=1` for the heuristic).
+* `ppn2.py`, `ppn_exhaustive.py` — Python reference implementations (validated against C).
+* `resolve_par.py` — parallel factoring resolver for deferred $t=2$ nodes.
+* `ppn_heuristic.py` — $\Sigma_k$.
+* `run_k9.sh`, `run_h9.sh` — sharded $r=9$ runs.

@@ -1,0 +1,5 @@
+min margin 0.69315 at k=1 (p_k=2, gap=1) elapsed=0s
+min margin 0.40547 at k=2 (p_k=3, gap=2) elapsed=0s
+min margin 0.15415 at k=4 (p_k=7, gap=4) elapsed=0s
+
+done: k<= 10000000, counterexamples=0, min margin=0.15415 at k=4, 125s

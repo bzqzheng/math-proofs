@@ -88,3 +88,23 @@ must always be stated with the δ-window attached.
   as Python reference — documented in the C header).
 - OEIS corpus agent failed (provider quota 403) — deferred; may retry
   inline or when quota refreshes.
+
+## Candidate density decays with n (production data)
+SPF=3 shard: tested=261,934 by 2.35B nodes (n ≲ 10^21) but only 262,086 by
+7.57B nodes (n ~ 7·10^23). Tuning abundancy into the δ < 10^7 window gets
+harder as n grows — consistent with the fine-tuning analysis (δ/n must fall
+below 10^7/n). Implication: the marginal value of pushing N_CAP far beyond
+10^24 drops fast; 10^24 is a sensible iteration-1 ceiling.
+
+## Magic square of squares (Tier-1 #6): CALIBRATED, DEPRIORITIZED
+A 3x3 magic square has parametric form center c, entries c±a, c±b,
+c±a∓b, c±b∓a — requiring all 8 offsets to be perfect squares is a system
+of simultaneous quadratic conditions. Three squares in AP with middle c
+is already a congruent-number/elliptic-curve condition; requiring it in
+rows+columns+diagonals simultaneously is a stack of elliptic rational-point
+conditions. Decades of elliptic-informed search (Bremner, Robertson) have
+found 6-of-9 and 7-of-9 solutions but no 9-of-9. There is no cheap
+oracle-shaped search lane distinct from the published one — the witnesses
+live on curves, not in enumerable space. Skip unless we bring elliptic
+machinery (rank/height searches) to bear; that is a different toolchain
+than this repo's.

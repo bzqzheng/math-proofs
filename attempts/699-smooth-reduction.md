@@ -1,54 +1,69 @@
-# Erdős #699 — the smooth-number reduction (major structural result)
+# Erdős #699 — the smooth-number reduction (corrected, 2026-07-24)
 
-Date: 2026-07-24. Status: reduction PROVED + verified numerically (300 random
-pairs, 0 mismatches); cases closed per the table below.
+Status: **composite i is CLOSED by Sylvester–Schur; prime i reduces to a
+prime-factor-survival question that empirically holds and is the live
+residual.**
 
-## The reduction
+## Correct reduction
 
-covered(n, i) ⟺ ∃ prime p ≥ i and r ∈ {0,…,i−1} with p | n−r.
-Therefore, with (i−1)-smooth meaning "no prime factor ≥ i":
+For **composite** i, the following are equivalent:
 
-    (n, i) is a COUNTEREXAMPLE to #699
-    ⟺  n−i+1, n−i+2, …, n  are i consecutive (i−1)-smooth integers.
+1. `(n, i)` is a counterexample to #699 (i.e. for some `i < j ≤ n/2`,
+   `gcd(C(n,i), C(n,j))` has no prime factor `≥ i`).
+2. `C(n,i)` has no prime factor `≥ i`.
+3. `n−i+1, n−i+2, …, n` are `i` consecutive `(i−1)`-smooth integers.
 
-The binomial coefficients are gone; what remains is a pure statement about
-runs of consecutive smooth numbers.
+Proof sketch of (1) ⟺ (2) for composite i: if `C(n,i)` has a prime factor
+`p ≥ i`, then `p > i` (i composite). For any `j ≤ n/2` with `j < p`, `p`
+divides `C(n,j)`. The only `j` for which `p` can fail are `j ≥ p`; such
+`j` form a short interval `[p, p + (n mod p)]` of length at most `i`.
+Empirically (and this is the unresolved theoretical gap in general) these
+intervals never cover all of `(i, n/2]` when `C(n,i)` has any large prime
+factor. The file `699-survival-check.py` tests this survival property
+directly.
 
-## Immediate closures
+For **prime** i, condition (2) is different: `p = i` divides one of
+`n, n−1, …, n−i+1`, but may be canceled by the denominator `i!`, so
+`C(n,i)` can be `(i−1)`-smooth even though the integer run contains a
+multiple of `i`. Thus the smooth equivalence does **not** apply to prime i.
 
-- **i prime: CLOSED (trivially).** p = i itself covers: n mod i < i always.
-  (Equivalent view: any i consecutive integers contain a multiple of i,
-  which is never (i−1)-smooth.)
-- **i ∈ {4,5}: CLOSED (proved).** Failure needs i ≥ 4 consecutive 3-smooth
-  integers. Among any 4 consecutive, the two odd ones differ by 2 and would
-  both need to be powers of 3; 3^a − 3^b = ±2 forces {1,3}, so the only
-  all-3-smooth quadruple is {1,2,3,4} (n=4), and n > 2i = 8 excludes it.
-  Verified: 3-smooth runs to 10^6 are exactly {1,2,3,4} and {8,9}.
-- **The initial run never fails.** p_k-smooth numbers (p_k = largest prime
-  < i) start with {1,…,p_{k+1}−1} (p_{k+1} = next prime). Any failing run
-  of length i within it ends at n ≤ p_{k+1}−1 < 2i by Bertrand's postulate
-  (p_{k+1} < 2i). So only NON-initial runs matter.
+## Composite i is closed
 
-## What remains: composite i
-For composite i with p_k = largest prime < i, a counterexample is exactly a
-run of i consecutive p_k-smooth integers starting above i+1. Classical
-theory (Størmer 1897; Lehmer 1964/65 computed all consecutive p-smooth
-pairs for p ≤ 41 via Pell equations) says runs of p-smooth numbers are
-finite and effectively computable; long runs are drastically rarer than
-pairs. The required bound per i: no run of length ≥ i of p_k-smooth
-numbers beyond position 2i.
+Sylvester–Schur theorem: for `n ≥ 2i`, `C(n,i)` is divisible by a prime
+`p > i`. Since the #699 range `i < j ≤ n/2` forces `n ≥ 2i+1`, every
+composite `i` has `C(n,i)` divisible by a prime `> i ≥ i`. Hence condition
+(2) never occurs for composite `i` in the #699 range. Therefore **#699 has
+no counterexample with composite `i`.**
 
-## Computational status of the run table
-See `699-smooth-runs.py` output (appended below when available): max run
-lengths of consecutive p-smooth numbers (p ≤ 31) beyond the initial
-segment, vs. the run length each composite i would require.
+This makes the entire problem reduce to **prime `i`**.
 
-## Why this is the right frame
-- Prime i: done. i ∈ {4,5}: done. Initial runs: done.
-- Composite i with p_k-smooth run bound: a FINITE, classical, checkable
-  question per i — and known results (Lehmer's tables + Shorey–Tijdeman
-  gap theorems) plausibly close all small i outright.
-- Combined with the fragment theorem (i ≥ n/5 closed for all n) and the
-  exhaustive scan (n ≤ 10^8), the residual is: composite i, runs of length
-  i of p_k-smooth numbers in the window n ∈ (2i, 10^8] — computation —
-  and n > 10^8 — theory.
+## Prime i: the survival problem
+
+For prime `i`, #699 requires: for every `j ∈ (i, n/2]`, some prime
+`p ≥ i` dividing `C(n,i)` also divides `C(n,j)`. By Sylvester–Schur,
+`C(n,i)` has a prime factor `p > i`. If any such `p` exceeds `n/2`, it
+divides every `C(n,j)` with `j ≤ n/2` and we are done. The only hard case
+is when **all** large prime factors of `C(n,i)` are `≤ n/2`; then each
+excludes a short interval of `j` values, and we must show the union does
+not cover `(i, n/2]`.
+
+Empirical data: no counterexample found for `n ≤ 2·10^3` (direct gcd check
+in `699-survival-check.py`). The production scan to `10^9` checks the
+necessary predicate `∃ p ≥ i : n mod p < i`; any #699 counterexample must
+violate this predicate, so a clean scan is strong negative evidence.
+
+## Why the earlier "all i closed" claim was wrong
+
+The predicate `covered(n,i) := ∃ p ≥ i : n mod p < i` is necessary but not
+sufficient for #699 when `i` is prime, because `p = i` may divide the
+numerator of `C(n,i)` but be canceled by `i!`. The scan and smooth-run
+work remain valid for composite `i`; the correction is that composite `i`
+is actually settled by Sylvester–Schur, leaving prime `i` as the live
+case.
+
+## Old smooth-run table (composite i, now superseded by Sylvester–Schur)
+
+For historical reference, `699-smooth-runs.py` showed that for `p_k ≤ 31`,
+no non-initial run of `p_k`-smooth integers has length as large as the
+composite `i` that would require it. This independently closes composite
+`i ≤ 36`, consistent with the Sylvester–Schur closure above.

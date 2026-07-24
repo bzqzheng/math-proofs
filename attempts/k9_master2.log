@@ -1,3 +1,18 @@
 _: line 1: 42096 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
 _: line 1: 40493 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
 _: line 1: 41135 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1: 87618 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1: 86035 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1: 44307 Terminated: 15          /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+mv: k9/2_3_7_43_5023.out: No such file or directory
+mv: k9/2_3_7_43_5011.out: No such file or directory
+mv: k9/2_3_7_43_5021.out: No such file or directory
+mv: k9/2_3_7_43_4999.out: No such file or directory
+mv: k9/2_3_7_43_4993.out: No such file or directory
+mv: k9/2_3_7_43_4987.out: No such file or directory
+_: line 1:  9317 Killed: 9               /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1:  9293 Killed: 9               /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+_: line 1:  9230 Killed: 9               /usr/bin/time -p ./ppn 9 "$pfx" "k9/$tag.defer" > "k9/$tag.out" 2> "k9/$tag.time"
+mv: k9/2_3_7_43_4951.out: No such file or directory
+mv: k9/2_3_7_43_4969.out: No such file or directory
+mv: k9/2_3_7_43_4957.out: No such file or directory

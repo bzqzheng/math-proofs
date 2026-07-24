@@ -1,0 +1,538 @@
+% Erdős Problem #699 (Erdős-Szekeres binomial-gcd conjecture) -- partial resolution.
+% Author (per document): "GPT 5.6 Sol Pro", prompted by Liam Price.
+% Source: linked from https://www.erdosproblems.com/699 (page edited 2026-07-19);
+%   Overleaf: https://www.overleaf.com/read/fptssppkmgpr
+% Retrieved and filed 2026-07-24. EXTERNAL work (not ours), kept for reference.
+% Proves the conjecture for j <= 3i/2 and for the central case n = 2j.
+% NB: subsumes our own "i >= n/5" fragment -- its Lemma 2.7 uses the identical
+%     prime-in-(n-i,n] mechanism (q > n/2, n-q < i => v_q(C(n,r))=1 on [i,n/2]).
+% Verbatim copy; do not edit the mathematics.
+
+\documentclass[a4paper,11pt]{amsart}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\Exc}{\mathcal E}
+\newcommand{\lcmop}{\operatorname{lcm}}
+
+\title{Common Prime Divisors of Binomial Coefficients}
+\author{GPT 5.6 Sol Pro}
+\date{}
+\subjclass[2020]{Primary 11B65; Secondary 11A41}
+\keywords{binomial coefficient, common prime divisor, Kummer's theorem}
+
+\begin{document}
+
+\begin{abstract}
+Erd\H{o}s and Szekeres conjectured that, whenever
+$1\le i<j\le n/2$, the binomial coefficients $\binom{n}{i}$ and
+$\binom{n}{j}$ have a common prime divisor at least $i$.
+We prove the conjecture when $j\le 3i/2$ and in the central case
+$n=2j$.
+The proof localizes the prime-power divisors of $\binom{n}{i}$ supported
+on primes at least $i$ and combines the resulting divisibility with a
+theorem of Ecklund, Eggleton, Erd\H{o}s, and Selfridge.
+For odd prime indices in the central case, the argument uses an analytic
+estimate for the infinite range and an exact finite computation whose
+complete code is included.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Erd\H{o}s and Szekeres \cite{ErSz} conjectured that, for integers
+$1\le i<j\le n/2$, there is a prime $q\ge i$ such that
+$q\mid\gcd\bigl(\binom{n}{i},\binom{n}{j}\bigr)$. We establish the
+following two ranges.
+
+\begin{theorem}\label{thm:main}
+Let $1\le i<j\le n/2$. If either $j\le 3i/2$ or $n=2j$, then some
+prime $q\ge i$ divides both $\binom{n}{i}$ and $\binom{n}{j}$.
+\end{theorem}
+
+All logarithms are natural. For a prime $q$, let $v_q$ denote the
+$q$-adic valuation, and let $\pi(x)$ denote the number of primes not
+exceeding $x$. Define the part of $\binom{n}{i}$ supported on primes at
+least $i$ by
+\[
+ V_i(n)=\prod_{\substack{q\ge i\\q\text{ prime}}}
+ q^{v_q(\binom{n}{i})},
+ \qquad U_i(n)=\binom{n}{i}/V_i(n).
+\]
+Thus every prime divisor of $U_i(n)$ is less than $i$, whereas every
+prime divisor of $V_i(n)$ is at least $i$. The only substantial
+external result used below is the following theorem, stated here in the
+form needed.
+
+\begin{theorem}[Ecklund--Eggleton--Erd\H{o}s--Selfridge]
+\label{thm:eees}
+Let $N\ge 2r$ be positive integers, and write $\binom{N}{r}=uv$, where
+all prime divisors of $u$ are less than $r$ and all prime divisors of
+$v$ are at least $r$. Then $u<v$, except when
+\begin{align*}
+\Exc=\{&(8,3),(9,4),(10,5),(12,5),(21,7),(21,8),\\
+       &(30,7),(33,13),(33,14),(36,13),(36,17),(56,13)\},
+\end{align*}
+where each ordered pair is $(N,r)$.
+\end{theorem}
+
+This is the main theorem of \cite{EEES}. Its exceptional pairs will not
+cause exceptions to Theorem~\ref{thm:main}.
+
+\begin{lemma}\label{lem:exceptions}
+If $(n,i)\in\Exc$ and $i<j\le n/2$, then some prime $q\ge i$ divides
+both $\binom{n}{i}$ and $\binom{n}{j}$.
+\end{lemma}
+
+\begin{proof}
+The pairs $(9,4)$ and $(10,5)$ admit no such $j$. For every remaining
+pair, a suitable prime is given in the table.
+\begin{center}
+\begin{tabular}{cc@{\qquad}cc}
+\toprule
+$(n,i)$ & $q$ & $(n,i)$ & $q$\\
+\midrule
+$(8,3)$   & $7$  & $(12,5)$  & $11$\\
+$(21,7)$  & $19$ & $(21,8)$  & $19$\\
+$(30,7)$  & $29$ & $(33,13)$ & $31$\\
+$(33,14)$ & $31$ & $(36,13)$ & $31$\\
+$(36,17)$ & $31$ & $(56,13)$ & $53$\\
+\bottomrule
+\end{tabular}
+\end{center}
+In each case, $q>n/2$ and $n-q<i$. Hence $n-q<r<q$ for every
+$i\le r\le n/2$. Since $q^2>n$, it follows that
+$v_q\bigl(\binom{n}{r}\bigr)=1$; apply this with $r=i$ and $r=j$.
+\end{proof}
+
+\section{Prime-power localization}
+
+The next lemma is the basic divisibility mechanism.
+
+\begin{lemma}[Transfer and localization]\label{lem:localization}
+Let $1\le i<j\le n/2$, put $c=n-j$, and suppose that
+$a=v_q\bigl(\binom{n}{i}\bigr)>0$ while
+$q\nmid\binom{n}{j}$.
+
+\smallskip
+\noindent
+\emph{(a)} One has $q^a\mid\binom{j}{i}$ and
+$q^a\mid\binom{c}{i}$.
+
+\smallskip
+\noindent
+\emph{(b)} If $q\ge i$, then there are nonnegative integers $r,s$ with
+$r+s<i$ such that $q^a\mid j-r$ and $q^a\mid c-s$.
+\end{lemma}
+
+\begin{proof}
+The two identities
+\[
+ \binom{n}{i}\binom{n-i}{j-i}
+   =\binom{n}{j}\binom{j}{i},
+ \qquad
+ \binom{n}{i}\binom{n-i}{c-i}
+   =\binom{n}{c}\binom{c}{i}
+\]
+and $\binom{n}{c}=\binom{n}{j}$ prove part~(a).
+
+Assume $q\ge i$. Among the $i$ integers
+$n-i+1,\ldots,n$ there is at most one multiple of $q$. Moreover,
+$v_q(i!)=0$ if $q>i$, and $v_q(i!)=1$ if $q=i$. Consequently there is
+a unique $t\in\{0,\ldots,i-1\}$ such that $q^a\mid n-t$.
+
+Let $r$ and $s$ be the least nonnegative residues of $j$ and $c$ modulo
+$q^a$. If $s_q(N)$ is the sum of the base-$q$ digits of $N$, then
+Legendre's formula gives
+\[
+ v_q\binom{n}{j}
+ =\frac{s_q(j)+s_q(c)-s_q(n)}{q-1}.
+\]
+The right-hand side counts the carries in the base-$q$ addition
+$j+c=n$, which is Kummer's theorem in this case. The valuation is zero,
+so the first $a$ digits add without a carry out and $r+s<q^a$. Since
+$r+s\equiv n\equiv t\pmod{q^a}$ and $0\le t<i\le q\le q^a$, one has
+$r+s=t<i$. The definitions of $r$ and $s$ give the required
+divisibilities.
+\end{proof}
+
+\begin{corollary}\label{cor:triangle}
+If no prime $q\ge i$ divides both $\binom{n}{i}$ and $\binom{n}{j}$,
+then
+\[
+ V_i(n)\mid
+ \lcmop_{\substack{r,s\ge0\\r+s<i}}
+ \gcd(j-r,n-j-s).
+\]
+In particular, $V_i(n)\mid\binom{j}{i}$ and
+$V_i(n)\mid\binom{n-j}{i}$.
+\end{corollary}
+
+\begin{proof}
+Apply Lemma~\ref{lem:localization} to the full $q$-part of $V_i(n)$ for
+each prime $q\ge i$. Part~(b) places that full $q$-part in one of the
+greatest common divisors occurring in the least common multiple, and
+part~(a) gives the final two divisibilities.
+\end{proof}
+
+\section{Proof of Theorem~\ref{thm:main}}
+
+\subsection{The range $j\le3i/2$}
+
+\begin{proposition}\label{prop:near}
+The conclusion of Theorem~\ref{thm:main} holds when $j\le3i/2$.
+\end{proposition}
+
+\begin{proof}
+Suppose otherwise and put $d=j-i$. Corollary~\ref{cor:triangle} gives
+$V_i(n)\mid\binom{j}{i}=\binom{j}{d}$. By
+Lemma~\ref{lem:exceptions}, $(n,i)\notin\Exc$, so
+Theorem~\ref{thm:eees} applies. The inequality $j\le3i/2$ is equivalent
+to $3d\le j$, and hence $2d\le i<j$. Vandermonde's convolution and
+monotonicity along the first half of row $2j$ now give the contradictory
+chain
+\[
+ \binom{n}{i}<V_i(n)^2\le\binom{j}{d}^{\!2}
+ <\binom{2j}{2d}\le\binom{2j}{i}\le\binom{n}{i}.
+\]
+The strict middle inequality holds because the Vandermonde sum for
+$\binom{2j}{2d}$ contains the positive term $\binom{j}{d}^2$ and at
+least one other positive term.
+\end{proof}
+
+\subsection{The central case}
+
+At the center of the row, the two residues furnished by
+Lemma~\ref{lem:localization} must coincide.
+
+\begin{lemma}[Central compression]\label{lem:central}
+Let $1\le i<m$, and suppose that no prime $q\ge i$ divides both
+$\binom{2m}{i}$ and $\binom{2m}{m}$. If $h=\lceil i/2\rceil$, then
+$V_i(2m)\mid\binom{m}{h}$.
+\end{lemma}
+
+\begin{proof}
+Let $q^a$ be the full $q$-part of $V_i(2m)$. Applying
+Lemma~\ref{lem:localization} with $j=c=m$ gives nonnegative $r,s$ such
+that $r+s<i$ and $q^a\mid m-r,m-s$. Thus $q\mid r-s$. Since
+$|r-s|<i\le q$, one has $r=s$, so $2r<i$ and $0\le r<h$. Hence every
+full prime-power part of $V_i(2m)$ divides one of
+$m,m-1,\ldots,m-h+1$. Every prime divisor of $V_i(2m)$ is greater than
+$h$; therefore none is removed on division by $h!$, and
+$V_i(2m)\mid\binom{m}{h}$.
+\end{proof}
+
+\begin{proposition}\label{prop:central}
+For every $m\ge2$ and $1\le i<m$, some prime $q\ge i$ divides both
+$\binom{2m}{i}$ and $\binom{2m}{m}$.
+\end{proposition}
+
+\begin{proof}
+For $i=1$, the prime $2$ works because
+$\binom{2m}{m}=2\binom{2m-1}{m-1}$. Suppose first that $i=2h$ is
+even. No pair in $\Exc$ has both coordinates even. Under the contrary
+assumption, Theorem~\ref{thm:eees}, Lemma~\ref{lem:central}, and
+Vandermonde's convolution give
+\[
+ \binom{2m}{2h}<V_{2h}(2m)^2\le\binom{m}{h}^{\!2}
+ <\binom{2m}{2h},
+\]
+a contradiction.
+
+Now let $i$ be odd and composite. The even case applied to $i-1$
+produces a prime $q\ge i-1$ dividing both $\binom{2m}{i-1}$ and
+$\binom{2m}{m}$. Since $i-1>2$ and $i$ are composite, $q>i$. The
+identity
+$\binom{2m}{i}=\binom{2m}{i-1}(2m-i+1)/i$ then shows that $q$ also
+divides $\binom{2m}{i}$.
+
+It remains to take $i=p=2k+1$ prime. The exceptional instances of
+Theorem~\ref{thm:eees} are covered by Lemma~\ref{lem:exceptions}, so
+assume $(2m,p)\notin\Exc$. If the proposition were false, then
+Lemma~\ref{lem:central} and Theorem~\ref{thm:eees} would imply
+\begin{equation}\label{eq:Rless}
+ R_k(m):=\frac{\binom{2m}{2k+1}}{\binom{m}{k+1}^{\!2}}<1.
+\end{equation}
+We derive the opposite inequality.
+
+For $0\le r<k$, set $x_r=2m-(2r+1)$ and
+$X=\prod_{r=0}^{k-1}x_r$. No prime $q>p$ divides $X$. Indeed, if
+$q\mid x_r$, then $q\mid\binom{2m}{p}$ because $q>p$. Let $\rho$ be
+the least nonnegative residue of $m$ modulo $q$. Since
+$2\rho\equiv2r+1\pmod q$ and $0<2r+1<q$, either
+$2\rho=2r+1$ or $2\rho=q+2r+1$; the first equality is impossible by
+parity. Thus adding $m+m$ in base $q$ produces a carry in the units
+place, and Kummer's theorem gives $q\mid\binom{2m}{m}$, a contradiction.
+The same carry argument applies to $q=p$. If $v_p(X)\ge2$, then the
+numerator of $\binom{2m}{p}$ contains at least two factors of $p$, while
+$p!$ contains exactly one; hence $p$ would divide both binomial
+coefficients. Therefore
+\begin{equation}\label{eq:support}
+ q\nmid X\quad(q>p),\qquad v_p(X)\le1.
+\end{equation}
+
+Put $a=2m-2k+1$ and $e=k-\pi(p)+2$. For each odd prime $q<p$, choose
+an index $r_q$ at which $v_q(x_r)$ is maximal, and delete every chosen
+index. At most $\pi(p)-2$ distinct indices are deleted, so at least
+$e$ remain. If $r$ remains, then
+$q^{v_q(x_r)}\mid x_r-x_{r_q}=2(r_q-r)$ and, as $q$ is odd,
+$q^{v_q(x_r)}\mid r-r_q$. Thus, for the set $S$ of remaining indices,
+\[
+ q^{\sum_{r\in S}v_q(x_r)}
+ \mid\prod_{r\in S}|r-r_q|
+ \mid r_q!(k-1-r_q)!\mid(k-1)!.
+\]
+Together with \eqref{eq:support}, this shows that
+$\prod_{r\in S}x_r\mid p(k-1)!$. Since $x_r\ge a$ and $|S|\ge e$,
+we obtain
+\begin{equation}\label{eq:smooth}
+ a^e\le p(k-1)!.
+\end{equation}
+
+A direct calculation gives
+\begin{equation}\label{eq:Rmonotone}
+ \frac{R_k(m+1)}{R_k(m)}
+ =\frac{(2m+1)(m-k)}{(2m-2k+1)(m+1)}<1,
+\end{equation}
+where the denominator exceeds the numerator by $2m-k+1$. Thus
+$R_k(m)$ decreases with $m$.
+
+We first treat $k\ge2500$. Put $K=2500$, $P=5001$, and
+\[
+ C=\left(2+\frac1K\right)
+   \left(1+\frac{3}{2\log P}\right).
+\]
+The explicit estimate
+\[
+ \pi(x)<\left(1+\frac{3}{2\log x}\right)\frac{x}{\log x}
+ \qquad(x>1),
+\]
+recorded in \cite[(2)]{EEES}, gives $\pi(p)/k<C/\log p$. Using
+$(k-1)!\le k^{k-1}$ in \eqref{eq:smooth}, the fact that
+$x\mapsto\log(2x+1)/x$ decreases, and $\log k<\log p$, we obtain
+\[
+ \log\frac ak
+ \le\frac{\log p+(\pi(p)-3)\log k}{k-\pi(p)+2}
+ <\frac{C+\log P/K}{1-C/\log P}.
+\]
+The remaining numerical comparison can be made with rational bounds.
+The exponential series gives $8/3<\exp(1)<49/18<11/4$, and
+$(11/4)^8<5001<(8/3)^9$; hence $8<\log P<9$. Consequently
+\[
+ \frac{C+\log P/K}{1-C/\log P}
+ <\frac{95163/40000}{224981/320000}
+ =\frac{761304}{224981}<\frac{17}{5}<\log32.
+\]
+For the last inequality, the power series
+$\log2=2\sum_{\nu\ge0}((2\nu+1)3^{2\nu+1})^{-1}$ gives
+$\log32=5\log2>280/81>17/5$. It follows that $a<32k$, and hence
+$m<17k$.
+
+Vandermonde's convolution gives
+\[
+ R_k(m)=2\sum_{s=0}^{k}
+ \frac{\binom{m}{k-s}\binom{m}{k+1+s}}
+      {\binom{m}{k+1}^{\!2}},
+\]
+and the summand without the leading factor $2$ equals
+\[
+ \frac{k+1}{m-k}
+ \prod_{u=1}^{s}
+ \frac{(k+1-u)(m-k-u)}{(k+1+u)(m-k+u)}.
+\]
+Let $L=\lfloor\sqrt{k}/4\rfloor$. For $0\le s\le L$, the first factor
+is greater than $1/16$, while every factor in the product is at least
+$(1-2L/k)^2$. Bernoulli's inequality and $L^2\le k/16$ give
+\[
+ \frac{\binom{m}{k-s}\binom{m}{k+1+s}}
+      {\binom{m}{k+1}^{\!2}}
+ >\frac1{16}\left(1-\frac{2L}{k}\right)^{2L}
+ \ge\frac1{16}\left(1-\frac{4L^2}{k}\right)
+ \ge\frac3{64}.
+\]
+Since $L\ge12$, this yields
+$R_k(m)>2(L+1)(3/64)\ge39/32>1$.
+
+It remains to consider $k<2500$. Let $A_k$ be the largest odd integer
+such that $A_k^e\le p(k-1)!$, and put
+$M_k=(A_k+2k-1)/2$. Inequality \eqref{eq:smooth} gives $m\le M_k$,
+while \eqref{eq:Rmonotone} reduces the required inequality to
+$R_k(M_k)>1$ whenever $M_k\ge p+1$. Appendix~\ref{app:code} verifies
+all these inequalities by exact integer arithmetic. Thus
+$R_k(m)>1$ in every case, contradicting \eqref{eq:Rless} and completing
+the proof.
+\end{proof}
+
+Propositions~\ref{prop:near} and \ref{prop:central} prove
+Theorem~\ref{thm:main}.
+
+\section{A Euclidean-division bound}
+
+The localization argument also gives a necessary condition for any
+counterexample outside the two ranges of Theorem~\ref{thm:main}. For
+$T\ge1$, define
+\[
+ \Lambda_i(T)=\prod_{\substack{q\ge i\\q\text{ prime}}}
+ q^{\lfloor\log_qT\rfloor},
+ \qquad \Lambda_i(0)=1.
+\]
+Thus $\Lambda_i(T)$ is the part of $\lcmop(1,\ldots,T)$ supported on
+primes at least $i$.
+
+\begin{proposition}\label{prop:euclidean}
+Suppose $1\le i<j\le n/2$ and no prime $q\ge i$ divides both
+$\binom{n}{i}$ and $\binom{n}{j}$. Write $n=Qj+R$, where
+$Q=\lfloor n/j\rfloor\ge2$ and $0\le R<j$, and put
+\[
+ T=R+(Q-1)(i-1),
+ \qquad
+ h=\max\left\{0,\left\lceil\frac{i-R}{Q}\right\rceil\right\}.
+\]
+Then $V_i(n)\mid\Lambda_i(T)\binom{j}{h}$, and consequently
+\[
+ \binom{n}{i}<\left(\Lambda_i(T)\binom{j}{h}\right)^2.
+\]
+\end{proposition}
+
+\begin{proof}
+Put $c=n-j=(Q-1)j+R$. For each full $q$-part $q^a$ of $V_i(n)$,
+Lemma~\ref{lem:localization} supplies $r,s\ge0$ such that $r+s<i$ and
+$q^a\mid j-r,c-s$. Hence
+$q^a\mid E:=R+(Q-1)r-s$. If $E\ne0$, then
+\[
+ |E|\le\max\{R+(Q-1)(i-1),i-1-R\}\le T,
+\]
+so $q^a\mid\Lambda_i(T)$. If $E=0$, then
+$s=R+(Q-1)r$ and $R+Qr<i$, whence $0\le r<h$ and $q^a\mid j-r$.
+The product of all full prime-power parts arising in this second way
+divides $j(j-1)\cdots(j-h+1)$. Every prime involved is greater than
+$h$---for $i\ge2$, one has $h\le\lceil i/2\rceil<i$, while for $i=1$
+one has $h\le1<q$---so this product divides $\binom{j}{h}$. Multiplying
+the two classes of prime-power parts proves the first assertion.
+
+A counterexample cannot have $(n,i)\in\Exc$ by
+Lemma~\ref{lem:exceptions}. Theorem~\ref{thm:eees} therefore gives
+$\binom{n}{i}<V_i(n)^2$, and the stated inequality follows.
+\end{proof}
+
+\appendix
+\section{Exact finite verification}\label{app:code}
+
+The following Python 3 program uses only exact integer arithmetic. It
+enumerates every $k<2500$ for which $p=2k+1$ is prime, computes the
+endpoint $M_k$ used in the proof of Proposition~\ref{prop:central}, and
+asserts $R_k(M_k)>1$ whenever $p<m\le M_k$ is nonempty. There are
+$666$ such endpoint checks. The smallest verified endpoint ratio is
+attained at $(k,p,e,A_k,M_k)=(9,19,3,91,54)$ and is
+\[
+ \frac{659645433004618405800}{572679032824811448900}>1.
+\]
+The program verifies these data as a reproducibility certificate.
+
+\begin{verbatim}
+from math import comb, isqrt
+
+K0 = 2500
+limit = 2 * K0 + 1
+
+prime = [True] * (limit + 1)
+prime[0] = prime[1] = False
+for q in range(2, isqrt(limit) + 1):
+    if prime[q]:
+        for z in range(q * q, limit + 1, q):
+            prime[z] = False
+
+pi = [0] * (limit + 1)
+count = 0
+for x in range(limit + 1):
+    if prime[x]:
+        count += 1
+    pi[x] = count
+
+def largest_odd_root(N, e):
+    """Largest odd A such that A**e <= N."""
+    lo, hi = 0, 1
+    while hi**e <= N:
+        hi *= 2
+    while lo + 1 < hi:
+        mid = (lo + hi) // 2
+        if mid**e <= N:
+            lo = mid
+        else:
+            hi = mid
+    return lo if lo % 2 else lo - 1
+
+checked = 0
+factorial = 1                 # (k - 1)! when k = 1
+best = None
+
+for k in range(1, K0):
+    if k > 1:
+        factorial *= k - 1
+
+    p = 2 * k + 1
+    if not prime[p]:
+        continue
+
+    e = k - pi[p] + 2
+    A = largest_odd_root(p * factorial, e)
+    M = (A + 2 * k - 1) // 2
+
+    if M < p + 1:
+        continue
+
+    lhs = comb(2 * M, p)
+    rhs = comb(M, k + 1)**2
+    assert lhs > rhs
+
+    datum = (lhs, rhs, k, p, e, A, M)
+    if best is None or lhs * best[1] < best[0] * rhs:
+        best = datum
+    checked += 1
+
+certificate = (
+    659645433004618405800,
+    572679032824811448900,
+    9, 19, 3, 91, 54
+)
+
+assert checked == 666
+assert best == certificate
+print(checked)
+print(best)
+\end{verbatim}
+
+The output is
+\begin{verbatim}
+666
+(659645433004618405800, 572679032824811448900,
+ 9, 19, 3, 91, 54)
+\end{verbatim}
+
+\begin{thebibliography}{9}
+
+\bibitem{EEES}
+E.~F. Ecklund, Jr., R.~B. Eggleton, P.~Erd\H{o}s, and J.~L. Selfridge,
+\emph{On the prime factorization of binomial coefficients},
+J. Austral. Math. Soc. Ser. A \textbf{26} (1978), 257--269.
+
+\bibitem{ErSz}
+P. Erd\H{o}s and G. Szekeres,
+\emph{Some number theoretic problems on binomial coefficients},
+Austral. Math. Soc. Gaz. \textbf{5} (1978), 97--99.
+
+\end{thebibliography}
+
+\end{document}

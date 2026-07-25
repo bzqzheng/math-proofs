@@ -9,7 +9,11 @@ Last updated: 2026-07-24
 | `bash-nrop5gj5` | Erdős #470, SPF=3 · P2=5 · **P3=7** | fleet A, 12 h budget | the monster sub-sub-shard | 13 h |
 | `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | 5 sub-sub-shards, sequential | 24 h cap |
 | `bash-x5g6fc40` | Erdős #470, SPF=3 · P2=7 · P3=11,13 | fleet D, 6 h per shard | 2 sub-sub-shards, sequential | 24 h cap |
-| `bash-0ns7ru10` | Erdős #470, SPF=3 · P2=7 · P3=17..73 | fleet E, 2 h per shard | 15 sub-sub-shards, sequential | 24 h cap |
+| `bash-0n3o3dhk` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C, **2 parallel workers**, 2 h caps | 26 sub-sub-shards | 24 h cap |
+
+**#470 fleet E done (P2=7 · P3=17..73), 0 weird:** complete: P3=31 (23.7B nodes, 30 min), 37 (2.1B), 41..73 (< 250M, seconds). **Timed out at 2 h, not exhausted:** P3=17 (104.5B nodes), 19 (98.8B), 23 (95.5B), 29 (95.3B) — every P3 ≤ ~29 is a ~100B-node tree at 10²⁴ (I9 confirmed again).
+
+**Scale assessment (honest):** completed-forever so far: all SPF ≥ 5 shards, all SPF=3 · P2=17..43, all P2=7 · P3 ≥ 31. Outstanding: P2=5 fleet (P3=7/11..23/29..139), P2=7 · P3=17..29 retries, P2=11 · P3=13..59, P2=13 · P3=17..53 — est. **3–5 trillion nodes ≈ 60–100 core-hours** ≈ 1–1.5 days wall at 8-way parallelism. Value order: P2=5 (263k tested, all discovery mass) > P2=7 > barren P2=11/13 (completeness only). Throughput doubled to 2 workers per task slot; tasks execute in discovery-value order so any stop leaves the least-valuable work incomplete.
 
 **#470 P2=11/13 pruned retries timed out again (6 h):** P2=11: 325,883,379,712 nodes, tested=23; P2=13: 288,513,482,752 nodes, tested=3; both weird=0. The prune bought ~45%/30% more coverage but these trees are bigger — they go to P3-splitting too (viable sets computed: P2=11 → 12 shards P3=13..59; P2=13 → 10 shards P3=17..53). Queued as fleets F (P2=11) and G (P2=13), behind fleet C (P2=5 · P3=29..139), launching as worker slots free.
 

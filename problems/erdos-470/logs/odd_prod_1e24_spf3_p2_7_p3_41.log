@@ -1,0 +1,29 @@
+search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07, MIN_DEPTH=6
+SPF shard: smallest prime factor = 3
+P2 sub-shard: second prime factor = 7
+P3 sub-sub-shard: third prime factor = 41
+progress: nodes=10,000,000 tested=0 found=0 n=7752190048189069201299 elapsed=1s
+progress: nodes=20,000,000 tested=0 found=0 n=103378451075246780079507 elapsed=2s
+progress: nodes=30,000,000 tested=0 found=0 n=708290017733232948964293 elapsed=2s
+progress: nodes=40,000,000 tested=0 found=0 n=716131553061798268685703 elapsed=3s
+progress: nodes=50,000,000 tested=0 found=0 n=343122310664468267473107 elapsed=4s
+progress: nodes=60,000,000 tested=0 found=0 n=345548532861152734039353 elapsed=5s
+progress: nodes=70,000,000 tested=0 found=0 n=71740611524573304434793 elapsed=5s
+progress: nodes=80,000,000 tested=0 found=0 n=10871529025429762606791 elapsed=6s
+progress: nodes=90,000,000 tested=0 found=0 n=868156213221339919323741 elapsed=7s
+progress: nodes=100,000,000 tested=0 found=0 n=251109391494763704862827 elapsed=8s
+progress: nodes=110,000,000 tested=0 found=0 n=473704438143361607358939 elapsed=8s
+progress: nodes=120,000,000 tested=0 found=0 n=497203539198335357007753 elapsed=9s
+progress: nodes=130,000,000 tested=0 found=0 n=356666874429297072819591 elapsed=10s
+progress: nodes=140,000,000 tested=0 found=0 n=845649185476843447508907 elapsed=11s
+progress: nodes=150,000,000 tested=0 found=0 n=341401503354573432579543 elapsed=11s
+progress: nodes=160,000,000 tested=0 found=0 n=44732742347291834813733 elapsed=12s
+progress: nodes=170,000,000 tested=0 found=0 n=972913710330271752115311 elapsed=13s
+progress: nodes=180,000,000 tested=0 found=0 n=560583893816088340133313 elapsed=14s
+progress: nodes=190,000,000 tested=0 found=0 n=395221869969606923578461 elapsed=14s
+progress: nodes=200,000,000 tested=0 found=0 n=16119067656197659419 elapsed=15s
+progress: nodes=210,000,000 tested=0 found=0 n=36787760685204031321119 elapsed=16s
+progress: nodes=220,000,000 tested=0 found=0 n=109202144249189871643239 elapsed=17s
+progress: nodes=230,000,000 tested=0 found=0 n=749315648972527534485441 elapsed=18s
+
+done in 17.9s | nodes=233,912,375 | tested=0 | weird=0

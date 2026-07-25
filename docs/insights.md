@@ -41,6 +41,20 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I10. Calibration theorems about the witness are prune conditions —
+##     push them into the search
+Found in: #470 (MIN_DEPTH patch). Liddy–Riedl ("odd weird ⇒ ≥ 6 distinct
+prime factors") sat in the problem README as a calibration fact while the
+DFS burned 450B nodes on branches that could never host a witness. One
+env-gated condition (`depth + k_max(n, p_start) < 6 → cut`) made two
+unbounded shards bounded. General pattern: after calibrating (I2), list
+every known necessary condition on the WITNESS — depth, size, residues,
+parity, forbidden substructures — and check each against the search code:
+is it (a) already implied by construction, (b) testable per-node as a
+prune, or (c) silently violated by parts of the tree? (b) is almost always
+cheap to add and env-gate; re-run both oracle gates after adding it.
+**A theorem you cite but don't search with is a prune you haven't shipped.**
+
 ## I9. Shard weights measured at a small size cap do not extrapolate to a
 ##    large cap — profile mass by depth, not just by shard
 Found in: #470 (P2 sub-shards). At N_CAP=10⁹ the P2∈{11,13} sub-shards

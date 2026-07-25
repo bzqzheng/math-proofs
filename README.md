@@ -14,7 +14,7 @@ Everything here runs on one rule:
 - **Exhaustive confirmation of Erdős #164's finite content.** All 163,368 primitive subsets of `{2..26}` checked; the maximum of `Σ 1/(a·log a)` is attained *exactly* at the primes. → `problems/erdos-164/`
 - **A triaged attack corpus.** 1,217 problems from the Erdős Problems database scored against a derived "LLM-solvability signature": 652 attackable → 43 reducible to finite computation → a ranked hit list. → `docs/candidates.md`
 - **Live attacks with new computational bounds** on Erdős #699, #470, #779, #458, #993, #287, #313 — every attempt documented with approach, code, logs, and verdict, including the failures. → `problems/`
-- **Compounding insights.** Nine problem-generic lessons so far about oracle design, search structure, and when *not* to compute. Shortest valuable read in the repo. → `docs/insights.md`
+- **Compounding insights.** Ten problem-generic lessons so far about oracle design, search structure, and when *not* to compute. Shortest valuable read in the repo. → `docs/insights.md`
 
 ## The LLM-solvability signature
 

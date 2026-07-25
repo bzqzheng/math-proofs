@@ -74,6 +74,8 @@ static u128 N_CAP;      /* default: exact 10**24, as in Python */
 static u128 DELTA_MAX;  /* default: exact 10**7, as in Python */
 static int ALLOW_EVEN;
 static long TIME_BUDGET;
+static long MIN_DEPTH;  /* 0 = off; weird-eligibility requires depth >= MIN_DEPTH
+                         * (Liddy–Riedl: odd weird => >= 6 distinct primes) */
 
 /* ------------------------------ state ----------------------------------- */
 
@@ -412,13 +414,20 @@ static void dfs(u128 p_start, u128 n, u128 sig, int depth) {
         fflush(stdout);
     }
 
+    if (MIN_DEPTH > 0 && depth < MIN_DEPTH) {
+        /* prune: no descendant can reach MIN_DEPTH distinct prime factors
+         * (k_max bounds how many more distinct primes fit within N_CAP) */
+        if (depth + k_max(n, p_start) < MIN_DEPTH) return;
+    }
+
     int abundant = 0, km = 0;
     u128 delta = 0;
     if (sig > 2 * n) {
         delta = sig - 2 * n;
         if (delta >= DELTA_MAX) return;
-        tested++;
-        if (!delta_expressible(depth, delta)) {
+        if (depth >= MIN_DEPTH) { /* below MIN_DEPTH not weird-eligible (Liddy–Riedl) */
+            tested++;
+            if (!delta_expressible(depth, delta)) {
             char nb[64], db[64];
             if (nfound == found_cap) {
                 found_cap = found_cap ? found_cap * 2 : 1024;
@@ -436,6 +445,7 @@ static void dfs(u128 p_start, u128 n, u128 sig, int depth) {
             fprint_fac(stdout, fac, depth);
             putchar('\n');
             fflush(stdout);
+            }
         }
         abundant = 1;
         /* extension by prime p (a=1) gives delta' = delta*p + sig; increasing
@@ -507,6 +517,7 @@ int main(void) {
     DELTA_MAX = parse_env_u128("DELTA_MAX", 10000000);
     ALLOW_EVEN = getenv("ALLOW_EVEN") && strcmp(getenv("ALLOW_EVEN"), "1") == 0;
     TIME_BUDGET = getenv("TIME_BUDGET") ? atol(getenv("TIME_BUDGET")) : 600;
+    MIN_DEPTH = getenv("MIN_DEPTH") ? atol(getenv("MIN_DEPTH")) : 0;
 
     if (N_CAP < 1 || N_CAP > N_CAP_CLAMP) {
         fprintf(stderr, "N_CAP out of supported range (1..1e36)\n");
@@ -525,8 +536,8 @@ int main(void) {
 
     sieve_init();
 
-    printf("search v2: odd=%s, N_CAP=%.2e, DELTA_MAX=%.1e\n",
-           ALLOW_EVEN ? "False" : "True", (double)N_CAP, (double)DELTA_MAX);
+    printf("search v2: odd=%s, N_CAP=%.2e, DELTA_MAX=%.1e, MIN_DEPTH=%ld\n",
+           ALLOW_EVEN ? "False" : "True", (double)N_CAP, (double)DELTA_MAX, MIN_DEPTH);
     fflush(stdout);
 
     /* SPF shard: when SPF=p (prime) is set, cover exactly the factorizations

@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-s73rzeyk` | Erdős #470 odd weird, SPF=3 · P2=5 | `search_odd_weird` sub-shard to `10^24` | dominant sub-shard; 12 h budget | 13 h |
-| `bash-t3134vis` | Erdős #470 odd weird, SPF=3 · P2=7 | `search_odd_weird` sub-shard to `10^24` | medium sub-shard; 12 h budget | 13 h |
-| `bash-gyaaum4b` | Erdős #470 odd weird, SPF=3 · P2=11 | retry with 6 h budget | 37.4B nodes didn't fit in 1 h | 7 h |
-| `bash-vmshk4v2` | Erdős #470 odd weird, SPF=3 · P2=13 | retry with 6 h budget | 36.8B nodes didn't fit in 1 h | 7 h |
+| `bash-s73rzeyk` | Erdős #470 odd weird, SPF=3 · P2=5 | `search_odd_weird` sub-shard to `10^24` | 378B nodes, 0 finds; 12 h budget | 13 h |
+| `bash-t3134vis` | Erdős #470 odd weird, SPF=3 · P2=7 | `search_odd_weird` sub-shard to `10^24` | 370B nodes, 0 finds; 12 h budget | 13 h |
+| `bash-c3saeqx8` | Erdős #470 odd weird, SPF=3 · P2=11 | retry #2, **MIN_DEPTH=6** prune | ~1.7× faster; 6 h budget | 7 h |
+| `bash-g7qhujre` | Erdős #470 odd weird, SPF=3 · P2=13 | retry #2, **MIN_DEPTH=6** prune | ~1.7× faster; 6 h budget | 7 h |
+
+**#470 MIN_DEPTH prune (2026-07-24):** Liddy–Riedl (odd weird ⇒ ≥6 distinct prime factors) pushed into the DFS as `MIN_DEPTH` (env-gated, default off): cut any node with `depth + k_max(n, p_start) < MIN_DEPTH`, skip weirdness tests below depth 6. Gate (a): 7/7 even weirds with flag off. Gate (b): union ≡ full shard at 10⁹, tested=142,733 both ways, exact. Unpruned P2=11/13 retries timed out at 224.6B/222.0B nodes (tested=17/3, weird=0); relaunched with the prune. Insight → I10.
 
 **#470 P2=11..43 first pass done 2026-07-24:** P2=17 (4.35B nodes, 431 s), P2=19 (16.0M, 1.6 s), P2=23/29/31/37/41/43 (< 80k nodes each, < 1 s) all complete, **0 weird**. P2=11 and P2=13 blew the 1 h cap (37.4B / 36.8B nodes, tested=1 and 0 — near-zero candidate density, pure due-diligence per I8) and were relaunched with 6 h budgets. Density measured at 10⁹ did NOT extrapolate to 10²⁴ → new insight I9.
 

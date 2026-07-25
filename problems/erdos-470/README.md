@@ -3,6 +3,8 @@
 ## Status: ACTIVE SEARCH — SPF=3 shard sub-sharded by second prime (P2 ∈ {5..43}, 12 values),
 ## sub-shards launched 2026-07-24 after gate (b) proved sub-shard union ≡ full shard exactly
 ## (tested=535,628 both ways at 1e9). SPF=5..53 shards complete, 0 finds.
+## MIN_DEPTH=6 prune (Liddy–Riedl: odd weird ⇒ ≥6 distinct primes) added 2026-07-24,
+## env-gated, union-equivalence re-validated (tested=142,733 both ways at 1e9).
 
 ## Known frontier (from Lean file + literature)
 - No odd weird number below 10^21 (Fang 2022).

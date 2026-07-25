@@ -533,6 +533,7 @@ int main(void) {
      * whose smallest prime factor equals p (disjoint union over p = full
      * search). Root factor p^a forced for a=1,2,... within N_CAP. */
     u128 SPF = parse_env_u128("SPF", 0);
+    u128 P2 = parse_env_u128("P2", 0);
 
     t0 = now();
     if (SPF >= 2) {
@@ -541,6 +542,19 @@ int main(void) {
             return 1;
         }
         printf("SPF shard: smallest prime factor = %.0f\n", (double)SPF);
+        if (P2 >= 2) {
+            /* P2 sub-shard: within the SPF shard, force the second prime to
+             * be exactly P2 (all exponents of SPF and of P2 enumerated).
+             * Disjoint union over viable P2 = full SPF shard (no candidate
+             * lost: skipped (a,P2) pairs are exactly those whose subtree
+             * provably cannot reach abundancy 2 — same viability formula as
+             * dfs()'s deficient branch, with km recomputed at P2). */
+            if (P2 <= SPF || next_prime(P2 - 1) != P2) {
+                fprintf(stderr, "P2=%.0f must be prime > SPF\n", (double)P2);
+                return 1;
+            }
+            printf("P2 sub-shard: second prime factor = %.0f\n", (double)P2);
+        }
         fflush(stdout);
         u128 nn = 1, sumpow = 1;
         int a = 0;
@@ -550,7 +564,26 @@ int main(void) {
             a++;
             fac[0].p = SPF;
             fac[0].a = a;
-            dfs(next_prime(SPF), nn, sumpow, 1);
+            if (P2 >= 2) {
+                double abund = ratio(sumpow, nn);
+                int km = k_max(nn, P2);
+                if (km == 0) continue;
+                if (abund * pow((double)P2 / (double)(P2 - 1), (double)(km + 1)) <= 2.0)
+                    continue;
+                u128 ppow = 1, sump = 1; /* sump = sigma(P2^b) */
+                int b = 0;
+                while (ppow <= N_CAP / nn / P2) {
+                    ppow *= P2;
+                    sump += ppow;
+                    b++;
+                    fac[1].p = P2;
+                    fac[1].a = b;
+                    dfs(next_prime(P2), nn * ppow, sumpow * sump, 2);
+                    if (deadline_hit) break;
+                }
+            } else {
+                dfs(next_prime(SPF), nn, sumpow, 1);
+            }
             if (deadline_hit) break;
         }
     } else {

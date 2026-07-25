@@ -6,8 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-hjmgscyk` | Erdős #699 binomial gcd (part 2) | `problems/erdos-699/scan_699.py`, `N_START=674800001` → `10^9` | resumed; ETA ~10.5 h | 12 h |
-| `bash-51p87u8h` | Erdős #470 odd weird | `problems/erdos-470/search_odd_weird` SPF=3 shard to `10^24` | `177B` nodes, `262,926` candidates, **0 weird** | 7 h (~2 h left) |
+| `bash-hjmgscyk` | Erdős #699 binomial gcd (part 2) | `problems/erdos-699/scan_699.py`, `N_START=674800001` → `10^9` | resumed; ETA ~6 h | 12 h |
+| `bash-s73rzeyk` | Erdős #470 odd weird, SPF=3 · P2=5 | `search_odd_weird` sub-shard to `10^24` | dominant sub-shard; 12 h budget | 13 h |
+| `bash-t3134vis` | Erdős #470 odd weird, SPF=3 · P2=7 | `search_odd_weird` sub-shard to `10^24` | medium sub-shard; 12 h budget | 13 h |
+| `bash-1a0fl2s6` | Erdős #470 odd weird, SPF=3 · P2=11..43 | 10 sequential sub-shards to `10^24` | tiny sub-shards; 1 h cap each | 12 h |
+
+**#470 SPF=3 shard** (`bash-51p87u8h`) hit its 6 h budget on 2026-07-24: `224,745,041,920` nodes, `263,057` candidates tested, **0 weird** (`logs/odd_prod_1e24_spf3.log`). The SPF=3 subtree was not exhausted, so the shard is being sub-sharded by second prime `P2 ∈ {5..43}` (12 values, analytically bounded) — `P2` support added to `search_odd_weird.c`, validated by gates (a) known-witnesses and (b) sub-shard union ≡ full shard.
 
 **#699 part 1** (`bash-53si6yjm`) hit its 6 h timeout at `n = 674,800,000` — `6,787,335,884` pairs checked, **0 counterexamples** (`logs/699_run_1e9.log`). Added `N_START` resume support to `scan_699.py` and relaunched the remaining segment (`logs/699_run_1e9_part2.log`).
 

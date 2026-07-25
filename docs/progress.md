@@ -6,10 +6,14 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-s73rzeyk` | Erdős #470 odd weird, SPF=3 · P2=5 | `search_odd_weird` sub-shard to `10^24` | 378B nodes, 0 finds; 12 h budget | 13 h |
-| `bash-t3134vis` | Erdős #470 odd weird, SPF=3 · P2=7 | `search_odd_weird` sub-shard to `10^24` | 370B nodes, 0 finds; 12 h budget | 13 h |
-| `bash-c3saeqx8` | Erdős #470 odd weird, SPF=3 · P2=11 | retry #2, **MIN_DEPTH=6** prune | ~1.7× faster; 6 h budget | 7 h |
-| `bash-g7qhujre` | Erdős #470 odd weird, SPF=3 · P2=13 | retry #2, **MIN_DEPTH=6** prune | ~1.7× faster; 6 h budget | 7 h |
+| `bash-c3saeqx8` | Erdős #470 odd weird, SPF=3 · P2=11 | retry #2, **MIN_DEPTH=6** prune | ~13.5M n/s; 6 h budget | 7 h |
+| `bash-g7qhujre` | Erdős #470 odd weird, SPF=3 · P2=13 | retry #2, **MIN_DEPTH=6** prune | ~13.5M n/s; 6 h budget | 7 h |
+| `bash-nrop5gj5` | Erdős #470, SPF=3 · P2=5 · **P3=7** | fleet A, 12 h budget | the monster sub-sub-shard | 13 h |
+| `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | 5 sub-sub-shards, sequential | 24 h cap |
+
+**#470 P3 gates PASSED (2026-07-25):** P2=5 union 134,601 = full 134,601; P2=7 union 8,082 = full 8,082 (10⁹, MIN_DEPTH=6, exact both ways). Production P3 fleet (48 sub-sub-shards: 31 for P2=5, 17 for P2=7) launching in waves behind the background-task slot limit: fleets A (P3=7, the monster) and B (P3=11..23) running; fleets C (P2=5 · P3=29..139, 2 h caps), D (P2=7 · P3=11,13, 6 h), E (P2=7 · P3=17..73, 2 h) queued for when P2=11/13 finish. Runner: `run_p3_fleet.sh`.
+
+**#470 P2=5/7 timed out at 12 h (2026-07-25 ~08:20):** P2=5: 558,523,752,448 nodes, tested=263,463, weird=0. P2=7: 544,000,770,048 nodes, tested=162, weird=0 (near-zero density — discovery mass is almost all in P2=5). Response: `P3` sub-sub-sharding added to `search_odd_weird.c` (same completeness argument, one level deeper), gate (a) passed. Viable P3 sets at 10²⁴: P2=5 → 31 values (7..139), P2=7 → 17 values (11..73). Production P3 sub-shards launch after gate (b3).
 
 **#470 MIN_DEPTH prune (2026-07-24):** Liddy–Riedl (odd weird ⇒ ≥6 distinct prime factors) pushed into the DFS as `MIN_DEPTH` (env-gated, default off): cut any node with `depth + k_max(n, p_start) < MIN_DEPTH`, skip weirdness tests below depth 6. Gate (a): 7/7 even weirds with flag off. Gate (b): union ≡ full shard at 10⁹, tested=142,733 both ways, exact. Unpruned P2=11/13 retries timed out at 224.6B/222.0B nodes (tested=17/3, weird=0); relaunched with the prune. Insight → I10.
 

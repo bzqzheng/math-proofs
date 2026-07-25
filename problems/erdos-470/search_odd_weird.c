@@ -545,6 +545,7 @@ int main(void) {
      * search). Root factor p^a forced for a=1,2,... within N_CAP. */
     u128 SPF = parse_env_u128("SPF", 0);
     u128 P2 = parse_env_u128("P2", 0);
+    u128 P3 = parse_env_u128("P3", 0);
 
     t0 = now();
     if (SPF >= 2) {
@@ -565,6 +566,17 @@ int main(void) {
                 return 1;
             }
             printf("P2 sub-shard: second prime factor = %.0f\n", (double)P2);
+            if (P3 >= 2) {
+                /* P3 sub-sub-shard: within the P2 sub-shard, force the third
+                 * prime to be exactly P3. Same completeness argument, one
+                 * level deeper: skipped (a,b,P3) subtrees provably contain no
+                 * abundant node (viability formula, km recomputed at P3). */
+                if (P3 <= P2 || next_prime(P3 - 1) != P3) {
+                    fprintf(stderr, "P3=%.0f must be prime > P2\n", (double)P3);
+                    return 1;
+                }
+                printf("P3 sub-sub-shard: third prime factor = %.0f\n", (double)P3);
+            }
         }
         fflush(stdout);
         u128 nn = 1, sumpow = 1;
@@ -589,7 +601,27 @@ int main(void) {
                     b++;
                     fac[1].p = P2;
                     fac[1].a = b;
-                    dfs(next_prime(P2), nn * ppow, sumpow * sump, 2);
+                    if (P3 >= 2) {
+                        u128 n2 = nn * ppow, s2 = sumpow * sump;
+                        double abund2 = ratio(s2, n2);
+                        int km2 = k_max(n2, P3);
+                        if (km2 == 0) continue;
+                        if (abund2 * pow((double)P3 / (double)(P3 - 1), (double)(km2 + 1)) <= 2.0)
+                            continue;
+                        u128 ppp = 1, sp3 = 1; /* sp3 = sigma(P3^c) */
+                        int c = 0;
+                        while (ppp <= N_CAP / n2 / P3) {
+                            ppp *= P3;
+                            sp3 += ppp;
+                            c++;
+                            fac[2].p = P3;
+                            fac[2].a = c;
+                            dfs(next_prime(P3), n2 * ppp, s2 * sp3, 3);
+                            if (deadline_hit) break;
+                        }
+                    } else {
+                        dfs(next_prime(P2), nn * ppow, sumpow * sump, 2);
+                    }
                     if (deadline_hit) break;
                 }
             } else {

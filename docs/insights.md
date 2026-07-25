@@ -41,6 +41,20 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I9. Shard weights measured at a small size cap do not extrapolate to a
+##    large cap — profile mass by depth, not just by shard
+Found in: #470 (P2 sub-shards). At N_CAP=10⁹ the P2∈{11,13} sub-shards
+finished in <1 s (≤1.5k nodes, looked like rounding errors next to P2=5);
+the same sub-shards at N_CAP=10²⁴ held 37B nodes EACH and blew a 1 h budget.
+The tree's mass sits at depths that don't exist under the small cap:
+exponent ranges and branching budgets both grow with log(N_CAP), so a shard
+that is empty at depth d says nothing about depth d+10. General pattern:
+when profiling sharded searches whose depth budget scales with the instance
+cap, either profile at a cap within ~2 orders of magnitude of production,
+or instrument mass-by-depth at the small cap and check whether mass is still
+increasing at the deepest level reached. **Never size production budgets
+from small-cap shard weights alone.**
+
 ## I8. Measure candidate density per shard EARLY; shard workloads are never
 ##    balanced by symmetry
 Found in: #470 production. After SPF-partitioning the search, shard SPF=3

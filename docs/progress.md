@@ -8,7 +8,10 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-s73rzeyk` | Erdős #470 odd weird, SPF=3 · P2=5 | `search_odd_weird` sub-shard to `10^24` | dominant sub-shard; 12 h budget | 13 h |
 | `bash-t3134vis` | Erdős #470 odd weird, SPF=3 · P2=7 | `search_odd_weird` sub-shard to `10^24` | medium sub-shard; 12 h budget | 13 h |
-| `bash-1a0fl2s6` | Erdős #470 odd weird, SPF=3 · P2=11..43 | 10 sequential sub-shards to `10^24` | tiny sub-shards; 1 h cap each | 12 h |
+| `bash-gyaaum4b` | Erdős #470 odd weird, SPF=3 · P2=11 | retry with 6 h budget | 37.4B nodes didn't fit in 1 h | 7 h |
+| `bash-vmshk4v2` | Erdős #470 odd weird, SPF=3 · P2=13 | retry with 6 h budget | 36.8B nodes didn't fit in 1 h | 7 h |
+
+**#470 P2=11..43 first pass done 2026-07-24:** P2=17 (4.35B nodes, 431 s), P2=19 (16.0M, 1.6 s), P2=23/29/31/37/41/43 (< 80k nodes each, < 1 s) all complete, **0 weird**. P2=11 and P2=13 blew the 1 h cap (37.4B / 36.8B nodes, tested=1 and 0 — near-zero candidate density, pure due-diligence per I8) and were relaunched with 6 h budgets. Density measured at 10⁹ did NOT extrapolate to 10²⁴ → new insight I9.
 
 **#699 COMPLETE 2026-07-24: 0 counterexamples for all n ≤ 10⁹** — segment 1 (`logs/699_run_1e9.log`): 6,787,335,884 pairs to n=674.8M; segment 2 (`logs/699_run_1e9_part2.log`): 3,549,443,097 pairs, done in 10,375 s. Total **10,336,778,981 (n,i) pairs, bad=0**.
 

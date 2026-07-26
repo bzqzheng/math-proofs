@@ -41,6 +41,20 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I11. When the natural split axis degenerates, split on a bounded
+##     dimension instead
+Found in: #470 (monster P2=5·P3=7, ~1T nodes). Splitting it by the fourth
+prime produced a viable set of 82,697 values at 10⁹ — the deficient-branch
+viability condition degenerates once the prefix itself can be abundant
+(abundancy already > 2, so every large prime "could" still lead somewhere).
+The root prime's EXPONENT, by contrast, is always finite and small
+(a ≤ log_SPF(N_CAP): 50 values at 10²⁴), and the union is trivially
+complete — no viability argument needed. General pattern: before building
+sharding machinery, check the split axis is (a) finite and (b) small at the
+PRODUCTION cap (I9 applies here too); an axis that explodes with the cap
+means you're on the wrong dimension. **Split on what is bounded, not on
+what is natural.**
+
 ## I10. Calibration theorems about the witness are prune conditions —
 ##     push them into the search
 Found in: #470 (MIN_DEPTH patch). Liddy–Riedl ("odd weird ⇒ ≥ 6 distinct

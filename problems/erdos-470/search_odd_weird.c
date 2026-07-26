@@ -546,6 +546,8 @@ int main(void) {
     u128 SPF = parse_env_u128("SPF", 0);
     u128 P2 = parse_env_u128("P2", 0);
     u128 P3 = parse_env_u128("P3", 0);
+    u128 EXPA = parse_env_u128("EXPA", 0); /* >0: fix exponent of SPF to EXPA
+        (disjoint partition over a=1..amax; trivially complete union) */
 
     t0 = now();
     if (SPF >= 2) {
@@ -585,6 +587,7 @@ int main(void) {
             nn *= SPF;
             sumpow += nn;
             a++;
+            if (EXPA >= 1 && (u128)a != EXPA) continue;
             fac[0].p = SPF;
             fac[0].a = a;
             if (P2 >= 2) {

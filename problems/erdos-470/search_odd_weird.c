@@ -389,6 +389,22 @@ static int k_max(u128 n, u128 p) {
     return k;
 }
 
+/* min(k_max(n,p), cap) — identical pruning power for "< cap" tests, but
+ * bounded at cap iterations (<= cap-1 next_prime calls). The MIN_DEPTH prune
+ * only needs "can we fit (MIN_DEPTH-depth) more distinct primes", so the
+ * full k_max (15-20 iterations on small n) is wasted there: a=2 of the
+ * monster ran at 195k nodes/s instead of ~20M because of this. */
+static int k_max_cap(u128 n, u128 p, int cap) {
+    int k = 0;
+    u128 m = n;
+    while (k < cap && m <= N_CAP / p) {
+        m *= p;
+        p = next_prime(p);
+        k++;
+    }
+    return k;
+}
+
 /* delta*p + sig >= DELTA_MAX, evaluated without forming the product. */
 static int delta_overshoots(u128 delta, u128 p, u128 sig) {
     u128 T, q;
@@ -416,8 +432,10 @@ static void dfs(u128 p_start, u128 n, u128 sig, int depth) {
 
     if (MIN_DEPTH > 0 && depth < MIN_DEPTH) {
         /* prune: no descendant can reach MIN_DEPTH distinct prime factors
-         * (k_max bounds how many more distinct primes fit within N_CAP) */
-        if (depth + k_max(n, p_start) < MIN_DEPTH) return;
+         * (k_max_cap bounds how many more distinct primes fit within N_CAP,
+         * capped at the needed count — exact same decision as full k_max) */
+        int need = (int)(MIN_DEPTH - depth);
+        if (k_max_cap(n, p_start, need) < need) return;
     }
 
     int abundant = 0, km = 0;

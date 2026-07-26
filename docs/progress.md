@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-yg0fzzpf` | Erdős #470, monster a=1..50 (EXPA fleet, fixed) | 4 parallel runners, 1 h caps | a ≥ 14 tiny; mass in a = 1..~10 | 24 h cap |
+| `bash-61as8q1z` | Erdős #470, monster **a=1** retry | k_max_cap binary, 12 h budget | the last big monster shard (a=2 queued next) | 13 h |
 | `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | P3=11, 13 done; P3=17 running | 24 h cap |
 | `bash-vaeejskt` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C (fixed), 2 parallel runners, 2 h caps | 26 sub-sub-shards | 24 h cap |
 | `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
+
+**#470 monster a-fleet done (2026-07-25):** a=3..50 complete, 0 weird. **a=1 timed out at 1 h** (77.29B nodes, tested=262,371) and **a=2 timed out at 1 h** (703M nodes, tested=7,874 — only 195k nodes/s: the MIN_DEPTH prune was paying a full k_max, 15–20 `next_prime` calls, at every depth < 6 node). Fix: `k_max_cap` (capped at `need` iterations, mathematically identical prune decision), 3× speedup on the a=2 pathology. Gates re-passed: 7/7 weirds; EXPA union at 10⁹ exact (102,065; full-run node count bit-identical at 377,361). a=1 relaunched with 12 h budget (`bash-61as8q1z`); a=2 launches when a slot frees.
 
 **#470 fleet D done, both timed out (0 weird):** P2=7 · P3=11: 464,144,953,344 nodes, tested=162; P2=7 · P3=13: 323,825,598,464 nodes, tested=13. P2=7's tree is ~1T+ nodes and barren. P3=11 relaunched as fleet H (EXPA a-shards, `run_a_fleet.sh` — generalized runner); P3=13 queued for the same treatment, then P2=7 · P3=17..29 retries, then P2=11/13 splits (fleets F/G).
 

@@ -7,9 +7,13 @@ Last updated: 2026-07-24
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
 | `bash-elp5oyig` | Erdős #470, monster **a=2** retry | k_max_cap binary, 12 h budget | 195k→597k n/s after k_max_cap | 13 h |
-| `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
 | `bash-fn3uo9nd` | Erdős #470, P2=5 · P3=11 a=1..50 (fleet I) | 4 parallel runners, 1 h caps | EXPA split of fleet B's 368B-node timeout | 24 h cap |
 | `bash-wbgfojqi` | Erdős #470, monster a=1 → b=1..33 (b-fleet) | 4 runners; b=1 at 12 h, rest 1 h | EXPB split of the 952B-node a=1 | 24 h cap |
+| `bash-vfqahtb3` | Erdős #470, P2=5 · P3=13 a=1..50 (fleet J) | 4 parallel runners, 1 h caps | tested=289 region | 24 h cap |
+
+**#470 fleet H done (2026-07-26), 0 weird:** a=14..50 complete (a=14: 21.7B nodes, 26 min, descending). **a=1..13 ALL timed out at 1 h, ~50–78B nodes each** (a=1: 78.0B/tested=123; a=2: 75.8B/3,527; a=3: 75.1B/1,290; a=4..13: ≤76B/≤725) — unlike the monster, P2=7·P3=11's mass does NOT collapse with a (deficient prefix 7·11 leaves headroom at every a). Its 13 stragglers (~1T nodes, near-barren) go to b-splits at LOW priority.
+
+**Sweep scale checkpoint (2026-07-26):** complete-forever: all SPF ≥ 5, all SPF=3 · P2=17..43, monster a=3..50, P2=5 · P3=61..139, P2=7 · P3=31..73, P2=7 · P3=11 a=14..50. Outstanding ≈ **6–8 trillion nodes ≈ 90–120 core-hours** (monster b=1 + a=2; P2=5 · P3=11..59 splits; P2=7 · P3=11 a=1..13 + P3=13..29; barren P2=11/13). Discovery value remaining: thin outside the P2=5 spine (263k of ~271k tests already covered). Recommendation: grind the P2=5 spine to completion, then let the user decide whether the barren remainder (P2=7 stragglers + P2=11/13) is worth ~2 more machine-days for completeness-only coverage.
 
 **#470 monster a=1 timed out at 12 h (2026-07-26):** 952,345,616,384 nodes, tested=263,623, weird=0 — the a=1 subtree alone exceeds 950B nodes. Split one exponent deeper: `EXPB` added (fix the exponent of 5; trivially complete partition). Gate: union over b=1..12 at 10⁹ exact (tested 95,851 = 95,851; node counts bit-identical: 172,581 = 172,581). b-mass concentrates at b=1 (121,536) > b=2 (40,011) > b=3 (9,067), same pattern as a. b-fleet launched: b=1 with 12 h budget, b=2..33 with 1 h caps (`run_b_fleet.sh`).
 

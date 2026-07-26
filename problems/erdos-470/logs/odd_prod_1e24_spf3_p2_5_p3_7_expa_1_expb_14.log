@@ -25,3 +25,5 @@ progress: nodes=200,000,000 tested=0 found=0 n=430505713056536865234375 elapsed=
 progress: nodes=210,000,000 tested=0 found=0 n=279446212583697509765625 elapsed=15s
 progress: nodes=220,000,000 tested=0 found=0 n=318408258974505615234375 elapsed=16s
 progress: nodes=230,000,000 tested=0 found=0 n=27647286826702880859375 elapsed=17s
+
+done in 17.7s | nodes=239,121,429 | tested=0 | weird=0

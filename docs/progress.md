@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-8wrfxcj2` | Erdős #470, monster a=1..50 (EXPA fleet) | 4 parallel runners, 1 h caps | gate passed (union=102,065 exact at 10⁹) | 24 h cap |
-| `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | 5 sub-sub-shards, sequential | 24 h cap |
-| `bash-x5g6fc40` | Erdős #470, SPF=3 · P2=7 · P3=11,13 | fleet D, 6 h per shard | 2 sub-sub-shards, sequential | 24 h cap |
-| `bash-0n3o3dhk` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C, **2 parallel workers**, 2 h caps | 26 sub-sub-shards | 24 h cap |
+| `bash-yg0fzzpf` | Erdős #470, monster a=1..50 (EXPA fleet, fixed) | 4 parallel runners, 1 h caps | a ≥ 14 turns out tiny (≤ 232 nodes); mass is in a = 1..~10 | 24 h cap |
+| `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | P3=11, 13 done; P3=17 running | 24 h cap |
+| `bash-x5g6fc40` | Erdős #470, SPF=3 · P2=7 · P3=11,13 | fleet D, 6 h per shard | sequential | 24 h cap |
+| `bash-vaeejskt` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C (fixed), 2 parallel runners, 2 h caps | 26 sub-sub-shards | 24 h cap |
+
+**Launch-bug fix (2026-07-25):** `cd DIR && runner1 & runner2 &` backgrounds only `cd DIR && runner1` — runners 2+ executed in the wrong CWD and died instantly. Caught by checking runner processes vs. expectation (the harness equivalent of gate (b): verify the parallelism you think you launched). Killed and relaunched fleets with absolute script paths (`bash-yg0fzzpf`, `bash-vaeejskt`). Lost work: ~7 min on a=1, ~2 shards of fleet C runner 1.
 
 **#470 monster split-axis decision (2026-07-25):** the monster (P2=5 · P3=7) timed out at 12 h — **982,544,601,088 nodes, tested=263,711, weird=0** (~99.9% of all candidate tests in the sweep live here). P4 (fourth-prime) split axis **degenerated** — viable set 82,697 values at 10⁹, because (3,5,7) prefixes can themselves be abundant (insight I11). Reverted P4 patch; added `EXPA` (fix the exponent of 3: 50 bounded shards at 10²⁴, trivially complete partition). Gate (b-expa) passed exactly (union=102,065 at 10⁹); production a-fleet running (`run_expa_fleet.sh`).
 

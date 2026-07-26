@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-61as8q1z` | Erdős #470, monster **a=1** retry | k_max_cap binary, 12 h budget | the last big monster shard (a=2 queued next) | 13 h |
+| `bash-61as8q1z` | Erdős #470, monster **a=1** retry | k_max_cap binary, 12 h budget | the last big monster shard | 13 h |
+| `bash-elp5oyig` | Erdős #470, monster **a=2** retry | k_max_cap binary, 12 h budget | 195k→597k n/s after k_max_cap | 13 h |
 | `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | P3=11, 13 done; P3=17 running | 24 h cap |
-| `bash-vaeejskt` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C (fixed), 2 parallel runners, 2 h caps | 26 sub-sub-shards | 24 h cap |
 | `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
+
+**#470 fleet C done (2026-07-26), 0 weird:** complete: P3=61 (53.0B nodes, 68 min), 67 (17.3B), 71, 73, 79..139 (all < 1B, seconds–minutes). **Timed out at 2 h, not exhausted:** P3=29 (103.5B), 31 (102.1B), 37 (97.4B), 41 (95.0B), 43 (100.0B), 47 (84.2B), 53 (94.6B), 59 (93.5B) — sharp cliff: P3 ≤ 59 is a ~100B-node tree, P3 ≥ 61 completes. The 8 stragglers go to EXPA a-splits, queued behind a=1/a=2 retries and fleet H.
 
 **#470 monster a-fleet done (2026-07-25):** a=3..50 complete, 0 weird. **a=1 timed out at 1 h** (77.29B nodes, tested=262,371) and **a=2 timed out at 1 h** (703M nodes, tested=7,874 — only 195k nodes/s: the MIN_DEPTH prune was paying a full k_max, 15–20 `next_prime` calls, at every depth < 6 node). Fix: `k_max_cap` (capped at `need` iterations, mathematically identical prune decision), 3× speedup on the a=2 pathology. Gates re-passed: 7/7 weirds; EXPA union at 10⁹ exact (102,065; full-run node count bit-identical at 377,361). a=1 relaunched with 12 h budget (`bash-61as8q1z`); a=2 launches when a slot frees.
 

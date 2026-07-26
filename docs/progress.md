@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-yg0fzzpf` | Erdős #470, monster a=1..50 (EXPA fleet, fixed) | 4 parallel runners, 1 h caps | a ≥ 14 turns out tiny (≤ 232 nodes); mass is in a = 1..~10 | 24 h cap |
+| `bash-yg0fzzpf` | Erdős #470, monster a=1..50 (EXPA fleet, fixed) | 4 parallel runners, 1 h caps | a ≥ 14 tiny; mass in a = 1..~10 | 24 h cap |
 | `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | P3=11, 13 done; P3=17 running | 24 h cap |
-| `bash-x5g6fc40` | Erdős #470, SPF=3 · P2=7 · P3=11,13 | fleet D, 6 h per shard | sequential | 24 h cap |
 | `bash-vaeejskt` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C (fixed), 2 parallel runners, 2 h caps | 26 sub-sub-shards | 24 h cap |
+| `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
+
+**#470 fleet D done, both timed out (0 weird):** P2=7 · P3=11: 464,144,953,344 nodes, tested=162; P2=7 · P3=13: 323,825,598,464 nodes, tested=13. P2=7's tree is ~1T+ nodes and barren. P3=11 relaunched as fleet H (EXPA a-shards, `run_a_fleet.sh` — generalized runner); P3=13 queued for the same treatment, then P2=7 · P3=17..29 retries, then P2=11/13 splits (fleets F/G).
 
 **Launch-bug fix (2026-07-25):** `cd DIR && runner1 & runner2 &` backgrounds only `cd DIR && runner1` — runners 2+ executed in the wrong CWD and died instantly. Caught by checking runner processes vs. expectation (the harness equivalent of gate (b): verify the parallelism you think you launched). Killed and relaunched fleets with absolute script paths (`bash-yg0fzzpf`, `bash-vaeejskt`). Lost work: ~7 min on a=1, ~2 shards of fleet C runner 1.
 

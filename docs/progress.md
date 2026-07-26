@@ -6,13 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-nrop5gj5` done | Erdős #470, SPF=3 · P2=5 · **P3=7** ("the monster") | 12 h budget | **timed out: 982,544,601,088 nodes, tested=263,711, weird=0** — ~99.9% of all candidate tests live here | — |
+| `bash-8wrfxcj2` | Erdős #470, monster a=1..50 (EXPA fleet) | 4 parallel runners, 1 h caps | gate passed (union=102,065 exact at 10⁹) | 24 h cap |
 | `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | 5 sub-sub-shards, sequential | 24 h cap |
 | `bash-x5g6fc40` | Erdős #470, SPF=3 · P2=7 · P3=11,13 | fleet D, 6 h per shard | 2 sub-sub-shards, sequential | 24 h cap |
 | `bash-0n3o3dhk` | Erdős #470, SPF=3 · P2=5 · P3=29..139 | fleet C, **2 parallel workers**, 2 h caps | 26 sub-sub-shards | 24 h cap |
-| `bash-p1qr31nk` | Erdős #470 EXPA gate | union of 18 a-shards ≡ full monster at 10⁹ | validating EXPA patch | — |
 
-**#470 monster split-axis decision (2026-07-25):** P4 (fourth-prime) split axis **degenerated** — viable set 82,697 values at 10⁹, because (3,5,7) prefixes can themselves be abundant (insight I11). Reverted P4 patch; added `EXPA` (fix the exponent of 3: 50 bounded shards at 10²⁴, trivially complete partition). Gate (b-expa) running; production a-fleet (8-way parallel, 2 h caps) launches on pass.
+**#470 monster split-axis decision (2026-07-25):** the monster (P2=5 · P3=7) timed out at 12 h — **982,544,601,088 nodes, tested=263,711, weird=0** (~99.9% of all candidate tests in the sweep live here). P4 (fourth-prime) split axis **degenerated** — viable set 82,697 values at 10⁹, because (3,5,7) prefixes can themselves be abundant (insight I11). Reverted P4 patch; added `EXPA` (fix the exponent of 3: 50 bounded shards at 10²⁴, trivially complete partition). Gate (b-expa) passed exactly (union=102,065 at 10⁹); production a-fleet running (`run_expa_fleet.sh`).
 
 **#470 fleet E done (P2=7 · P3=17..73), 0 weird:** complete: P3=31 (23.7B nodes, 30 min), 37 (2.1B), 41..73 (< 250M, seconds). **Timed out at 2 h, not exhausted:** P3=17 (104.5B nodes), 19 (98.8B), 23 (95.5B), 29 (95.3B) — every P3 ≤ ~29 is a ~100B-node tree at 10²⁴ (I9 confirmed again).
 

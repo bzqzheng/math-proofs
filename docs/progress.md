@@ -8,8 +8,10 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-61as8q1z` | Erdős #470, monster **a=1** retry | k_max_cap binary, 12 h budget | the last big monster shard | 13 h |
 | `bash-elp5oyig` | Erdős #470, monster **a=2** retry | k_max_cap binary, 12 h budget | 195k→597k n/s after k_max_cap | 13 h |
-| `bash-sq8pcmjx` | Erdős #470, SPF=3 · P2=5 · P3=11..23 | fleet B, 6 h per shard | P3=11, 13 done; P3=17 running | 24 h cap |
 | `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
+| `bash-fn3uo9nd` | Erdős #470, P2=5 · P3=11 a=1..50 (fleet I) | 4 parallel runners, 1 h caps | EXPA split of fleet B's 368B-node timeout | 24 h cap |
+
+**#470 fleet B hit its 24 h task cap (2026-07-26), 0 weird:** P3=11 (368.3B nodes, tested=970), P3=13 (387.2B, 289), P3=17 (315.9B, 7) all timed out at 6 h unexhausted; P3=19 partial (lost, no checkpoint), P3=23 never started. All 11 timed-out P2=5 subtrees (P3=11..59) go to EXPA a-splits in tested-count order: P3=11 first (fleet I, running), then 13, 17, 19, 23, 29..59. Fleet P3=19 restarts from scratch — acceptable (~6 h lost; checkpoints would cost more than they save at this shard size).
 
 **#470 fleet C done (2026-07-26), 0 weird:** complete: P3=61 (53.0B nodes, 68 min), 67 (17.3B), 71, 73, 79..139 (all < 1B, seconds–minutes). **Timed out at 2 h, not exhausted:** P3=29 (103.5B), 31 (102.1B), 37 (97.4B), 41 (95.0B), 43 (100.0B), 47 (84.2B), 53 (94.6B), 59 (93.5B) — sharp cliff: P3 ≤ 59 is a ~100B-node tree, P3 ≥ 61 completes. The 8 stragglers go to EXPA a-splits, queued behind a=1/a=2 retries and fleet H.
 

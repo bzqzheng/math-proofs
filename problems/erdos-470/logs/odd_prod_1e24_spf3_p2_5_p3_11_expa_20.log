@@ -1,0 +1,30 @@
+search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07, MIN_DEPTH=6
+SPF shard: smallest prime factor = 3
+P2 sub-shard: second prime factor = 5
+P3 sub-sub-shard: third prime factor = 11
+progress: nodes=10,000,000 tested=0 found=0 n=267834966194424551418045 elapsed=1s
+progress: nodes=20,000,000 tested=0 found=0 n=381708426040684056179415 elapsed=2s
+progress: nodes=30,000,000 tested=0 found=0 n=199811369377359649887615 elapsed=3s
+progress: nodes=40,000,000 tested=0 found=0 n=173342690142202571151645 elapsed=4s
+progress: nodes=50,000,000 tested=0 found=0 n=507825704012446764577215 elapsed=5s
+progress: nodes=60,000,000 tested=0 found=0 n=88049590647527860531785 elapsed=6s
+progress: nodes=70,000,000 tested=0 found=0 n=67240286570499602055705 elapsed=6s
+progress: nodes=80,000,000 tested=0 found=0 n=26919399271405700125935 elapsed=7s
+progress: nodes=90,000,000 tested=0 found=0 n=45569428848480107351385 elapsed=8s
+progress: nodes=100,000,000 tested=0 found=0 n=339655906028912307385815 elapsed=8s
+progress: nodes=110,000,000 tested=0 found=0 n=179581774132578604108905 elapsed=9s
+progress: nodes=120,000,000 tested=0 found=0 n=10564565173029532307115 elapsed=9s
+progress: nodes=130,000,000 tested=0 found=0 n=83560997663276625400095 elapsed=10s
+progress: nodes=140,000,000 tested=0 found=0 n=502788545630677370938005 elapsed=11s
+progress: nodes=150,000,000 tested=0 found=0 n=598420174474485411909795 elapsed=11s
+progress: nodes=160,000,000 tested=0 found=0 n=847868725471221841906035 elapsed=12s
+progress: nodes=170,000,000 tested=0 found=0 n=838210006440898943945445 elapsed=13s
+progress: nodes=180,000,000 tested=0 found=0 n=404875796458810496305365 elapsed=13s
+progress: nodes=190,000,000 tested=0 found=0 n=927040862874509636030415 elapsed=14s
+progress: nodes=200,000,000 tested=0 found=0 n=55613033534152449887895 elapsed=15s
+progress: nodes=210,000,000 tested=0 found=0 n=230327293710922587105795 elapsed=16s
+progress: nodes=220,000,000 tested=0 found=0 n=152983139962332700345545 elapsed=17s
+progress: nodes=230,000,000 tested=0 found=0 n=161126696635020674977815 elapsed=17s
+progress: nodes=240,000,000 tested=0 found=0 n=461467406390138476361055 elapsed=18s
+
+done in 18.4s | nodes=242,878,639 | tested=0 | weird=0

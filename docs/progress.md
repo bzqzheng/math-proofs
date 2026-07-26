@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-61as8q1z` | Erdős #470, monster **a=1** retry | k_max_cap binary, 12 h budget | the last big monster shard | 13 h |
 | `bash-elp5oyig` | Erdős #470, monster **a=2** retry | k_max_cap binary, 12 h budget | 195k→597k n/s after k_max_cap | 13 h |
 | `bash-0c6a3g92` | Erdős #470, P2=7 · P3=11 a=1..50 (fleet H) | 4 parallel runners, 1 h caps | EXPA split of fleet D's 464B-node timeout | 24 h cap |
 | `bash-fn3uo9nd` | Erdős #470, P2=5 · P3=11 a=1..50 (fleet I) | 4 parallel runners, 1 h caps | EXPA split of fleet B's 368B-node timeout | 24 h cap |
+| `bash-wbgfojqi` | Erdős #470, monster a=1 → b=1..33 (b-fleet) | 4 runners; b=1 at 12 h, rest 1 h | EXPB split of the 952B-node a=1 | 24 h cap |
+
+**#470 monster a=1 timed out at 12 h (2026-07-26):** 952,345,616,384 nodes, tested=263,623, weird=0 — the a=1 subtree alone exceeds 950B nodes. Split one exponent deeper: `EXPB` added (fix the exponent of 5; trivially complete partition). Gate: union over b=1..12 at 10⁹ exact (tested 95,851 = 95,851; node counts bit-identical: 172,581 = 172,581). b-mass concentrates at b=1 (121,536) > b=2 (40,011) > b=3 (9,067), same pattern as a. b-fleet launched: b=1 with 12 h budget, b=2..33 with 1 h caps (`run_b_fleet.sh`).
 
 **#470 fleet B hit its 24 h task cap (2026-07-26), 0 weird:** P3=11 (368.3B nodes, tested=970), P3=13 (387.2B, 289), P3=17 (315.9B, 7) all timed out at 6 h unexhausted; P3=19 partial (lost, no checkpoint), P3=23 never started. All 11 timed-out P2=5 subtrees (P3=11..59) go to EXPA a-splits in tested-count order: P3=11 first (fleet I, running), then 13, 17, 19, 23, 29..59. Fleet P3=19 restarts from scratch — acceptable (~6 h lost; checkpoints would cost more than they save at this shard size).
 

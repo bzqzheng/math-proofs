@@ -1,0 +1,6 @@
+search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07, MIN_DEPTH=6
+SPF shard: smallest prime factor = 3
+P2 sub-shard: second prime factor = 5
+P3 sub-sub-shard: third prime factor = 7
+progress: nodes=10,000,000 tested=20,505 found=0 n=16015949447479423575 elapsed=30s
+progress: nodes=20,000,000 tested=21,290 found=0 n=34073966803418022075 elapsed=71s

@@ -7,9 +7,11 @@ Last updated: 2026-07-24
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
-| `bash-a5h1m2bz` | Erdős #470, monster a=2 → b=1..33 (b2-fleet) | 4 runners; b=1 at 12 h | b=2..33 done instantly (all mass in b=1) | 24 h cap |
+| `bash-x9fa27c2` | Erdős #470, monster a=1·b=2 → c=1..25 (c2-fleet) | 4 runners; c=1 at 12 h | tested=25,167 region; c=1 dense (20.5k tests in first 30 s) | 24 h cap |
 | `bash-q33vidli` | Erdős #470, P2=5 · P3=11 · a=2 → b-shards (i2-fleet) | 4 runners; b=1 at 12 h | tested=19,332 — richest open region | 24 h cap |
 | `bash-1ocbdki3` | Erdős #470, P2=5 · P3=13 · a=2 → b-shards (j2-fleet) | 4 runners; b=1 at 12 h | tested=7,793 | 24 h cap |
+
+**#470 monster a=2 b-fleet done (2026-07-27), 0 weird:** b=2..33 all complete in seconds (b=2: 21,819 nodes/tested=153; rest negligible). **a=2·b=1 timed out at 12 h** — 8,428,879,872 nodes, tested=8,048 (~195k n/s slow-dense rate), queued for a c-split behind the richer a=1·b=2.
 
 **#470 fleet J done (2026-07-26), 0 weird:** a=14..50 complete (a=14: 21.4B nodes, descending). **a=1..13 ALL timed out at 1 h** (~590B nodes covered): a=1 (75.5B/tested=262), a=2 (906M/**tested=7,793** — slow-dense pocket), a=3 (632M/1,153), a=4 (656M/490), a=5 (3.3B/247), a=6..13 (34–75B/≤82). Stragglers queued for b-splits in tested order (a=2 running as `bash-1ocbdki3`; then a=3, a=4, a=5, a=1, a=6..13). P2=5·P3=17..59 still unstarted; the dense-pocket map so far: monster b=1 (263,623) ≫ a=1·b=2 (25,167) > P3=11·a=2 (19,332) > P3=13·a=2 (7,793) > everything else (≤ ~8k).
 

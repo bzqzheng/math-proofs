@@ -10,6 +10,11 @@ Last updated: 2026-07-24
 | `bash-x9fa27c2` | Erdős #470, monster a=1·b=2 → c=1..25 (c2-fleet) | 4 runners; c=1 at 12 h | tested=25,167 region; c=1 dense (20.5k tests in first 30 s) | 24 h cap |
 | `bash-pd38jjem` | Erdős #470, P3=11 · a=2·b=1 → c=1..21 (i3-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 892B-node b=1 (tested=19,637) | 24 h cap |
 | `bash-1ocbdki3` | Erdős #470, P2=5 · P3=13 · a=2 → b-shards (j2-fleet) | 4 runners; b=1 at 12 h | tested=7,793 | 24 h cap |
+| `bash-m485lu1s` | Erdős #470, a=1·b=1 · c=2 (12 h) + c=3 (6 h) retries | dense small-node pockets | 13.8 tests/M nodes in c=2 | 18 h |
+
+**#470 c-fleet (a=1·b=1) done (2026-07-27), 0 weird:** c=8..27 complete (c=8: 33.9B nodes, 43 min, descending). **c=1..7 timed out**: c=1 (**943.8B nodes, tested=263,623** — the whale; gets a 24 h run at the next free slot), c=2 (985M/tested=13,552 — 50× denser per node than c=1; retry running), c=3 (77.0B/438; retry running), c=4 (18.8B/31), c=5 (42.1B/15), c=6 (44.5B/1), c=7 (49.2B/0) — c=4..7 queued.
+
+**Candidate-arrival analysis (c=1 log):** 98.3% of all candidates (259,080/263,623) appear in the first **72 seconds** of the DFS; the tail then trickles at ~2/min and decaying (262,236 at 36 min → 263,623 at 12 h). Interpretation: the candidate SET of the spine is essentially known; the unexplored remainder is not candidate-free but is very thin. This caps the expected yield of further grinding while keeping it nonzero — the honest basis for the user's continue/wind-down call.
 
 **#470 i2-fleet (P3=11 · a=2) done (2026-07-27), 0 weird:** b=9..33 complete (b=9: 45.4B nodes, 52 min, descending). **b=1..8 timed out at 1 h**: b=1 (**892.7B nodes, tested=19,637** — third ~900B subtree; relaunched as i3 c-fleet `bash-pd38jjem`), b=2 (898M/2,140), b=3 (78.4B/2,984), b=4 (1.17B/43), b=5 (13.0B/15), b=6 (29.7B/8), b=7 (48.1B/6), b=8 (45.3B/0) — b=2..8 c-splits queued (b=3, b=2 first by tested).
 

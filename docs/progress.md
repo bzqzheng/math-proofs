@@ -7,10 +7,14 @@ Last updated: 2026-07-24
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
-| `bash-x9fa27c2` | Erdős #470, monster a=1·b=2 → c=1..25 (c2-fleet) | 4 runners; c=1 at 12 h | tested=25,167 region; c=1 dense (20.5k tests in first 30 s) | 24 h cap |
-| `bash-pd38jjem` | Erdős #470, P3=11 · a=2·b=1 → c=1..21 (i3-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 892B-node b=1 (tested=19,637) | 24 h cap |
-| `bash-1ocbdki3` | Erdős #470, P2=5 · P3=13 · a=2 → b-shards (j2-fleet) | 4 runners; b=1 at 12 h | tested=7,793 | 24 h cap |
+| `bash-7z1aw8h1` | Erdős #470, **a=1·b=1·c=1 (the whale)** | 23 h budget, k_max_cap binary | 263,623-test region; likely final spine run | 24 h cap |
+| `bash-x9fa27c2` | Erdős #470, monster a=1·b=2 → c=1..25 (c2-fleet) | 4 runners; c=1 at 12 h | tested=25,167 region | 24 h cap |
+| `bash-pd38jjem` | Erdős #470, P3=11 · a=2·b=1 → c=1..21 (i3-fleet) | 4 runners; c=1 at 12 h | tested=19,637 region | 24 h cap |
 | `bash-m485lu1s` | Erdős #470, a=1·b=1 · c=2 (12 h) + c=3 (6 h) retries | dense small-node pockets | 13.8 tests/M nodes in c=2 | 18 h |
+
+**#470 j2-fleet (P3=13 · a=2) done (2026-07-27), 0 weird:** b=9..33 complete. **b=1..8 timed out**: b=1 (657.2B nodes, tested=8,166 — queued for c-split behind the whale), b=2 (72.9B/797), b=3 (75.4B/38), b=4 (68.7B/34), b=5 (5.0B/30), b=6 (43.9B/9), b=7 (53.8B/0), b=8 (46.9B/0).
+
+**Why the whale is the end of the spine (2026-07-27):** the recursion's first-exponent shards inherit ~90–95% of the parent's mass because they sit at the abundancy frontier: prefix 3·5·7 = 105 has σ/n = 1.83 (deficient), and 3·5·7·11 = 1155 has σ/n = **1.996** — just below 2 — so the (1,1,1,1,…) prefix allows maximal depth and maximal tree mass at every level. Fully exhausting the whale by continued EXPD-style splitting is days more for a decaying ~2/min candidate trickle. Decision: one final 23 h run (`bash-7z1aw8h1`); afterwards the whale region is written up as "explored to ~2.8T nodes, 263,623+ candidates tested, 0 weird, arrival rate decayed to ≈0–2/min" and the sweep wraps up with the coverage map.
 
 **#470 c-fleet (a=1·b=1) done (2026-07-27), 0 weird:** c=8..27 complete (c=8: 33.9B nodes, 43 min, descending). **c=1..7 timed out**: c=1 (**943.8B nodes, tested=263,623** — the whale; gets a 24 h run at the next free slot), c=2 (985M/tested=13,552 — 50× denser per node than c=1; retry running), c=3 (77.0B/438; retry running), c=4 (18.8B/31), c=5 (42.1B/15), c=6 (44.5B/1), c=7 (49.2B/0) — c=4..7 queued.
 

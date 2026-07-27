@@ -6,10 +6,12 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-wbgfojqi` | Erdős #470, monster a=1 → b=1..33 (b-fleet) | 4 runners; b=1 at 12 h, rest 1 h | EXPB split of the 952B-node a=1 | 24 h cap |
+| `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
 | `bash-a5h1m2bz` | Erdős #470, monster a=2 → b=1..33 (b2-fleet) | 4 runners; b=1 at 12 h | b=2..33 done instantly (all mass in b=1) | 24 h cap |
 | `bash-vfqahtb3` | Erdős #470, P2=5 · P3=13 a=1..50 (fleet J) | 4 parallel runners, 1 h caps | tested=289 region | 24 h cap |
 | `bash-q33vidli` | Erdős #470, P2=5 · P3=11 · a=2 → b-shards (i2-fleet) | 4 runners; b=1 at 12 h | tested=19,332 — richest open region | 24 h cap |
+
+**#470 monster a=1 b-fleet done (2026-07-26), 0 weird:** b=10..33 complete (b=10: 27.7B nodes, 34 min, descending). **b=1..9 timed out at 1 h** (~600B nodes): b=1 (952.16B — 99.96% of a=1's mass, tested=263,623), b=2 (67.6B/**tested=25,167** — third-richest region), b=3 (77.7B/650), b=4 (75.7B/104), b=5..9 (52–76B/≤19). Response: `EXPC` added (fix exponent of 7), union gate at 10⁹ exact (tested 81,950 = 81,950; nodes bit-identical 121,536 = 121,536). a=1·b=1 relaunched as c-fleet (`bash-069j36i8`, c=1 at 12 h); b=2..9 c-splits queued (b=2 first).
 
 **#470 fleet I done (2026-07-26), 0 weird:** a=14..50 complete (a=14: 36.0B nodes, 42 min, descending). **a=1..13 ALL timed out at 1 h** (~620B nodes covered): a=1 (77.1B/tested=880), a=2 (69.1B/**tested=19,332** — second-highest density anywhere), a=3 (76.9B/775), a=4 (783M/393 — slow dense pathology), a=5 (1.04B/1,398 — same), a=6 (79.4B/677), a=7..13 (23–50B/≤85). All 13 stragglers queued for b-splits in tested order (a=2 first, running; then a=5, a=1, a=3, a=6, …).
 

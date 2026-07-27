@@ -568,6 +568,8 @@ int main(void) {
         (disjoint partition over a=1..amax; trivially complete union) */
     u128 EXPB = parse_env_u128("EXPB", 0); /* >0: fix exponent of P2 to EXPB
         (same partition argument, one level down) */
+    u128 EXPC = parse_env_u128("EXPC", 0); /* >0: fix exponent of P3 to EXPC
+        (same partition argument, two levels down) */
 
     t0 = now();
     if (SPF >= 2) {
@@ -638,6 +640,7 @@ int main(void) {
                             ppp *= P3;
                             sp3 += ppp;
                             c++;
+                            if (EXPC >= 1 && (u128)c != EXPC) continue;
                             fac[2].p = P3;
                             fac[2].a = c;
                             dfs(next_prime(P3), n2 * ppp, s2 * sp3, 3);

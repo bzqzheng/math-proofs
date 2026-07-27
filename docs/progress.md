@@ -8,8 +8,10 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
 | `bash-x9fa27c2` | Erdős #470, monster a=1·b=2 → c=1..25 (c2-fleet) | 4 runners; c=1 at 12 h | tested=25,167 region; c=1 dense (20.5k tests in first 30 s) | 24 h cap |
-| `bash-q33vidli` | Erdős #470, P2=5 · P3=11 · a=2 → b-shards (i2-fleet) | 4 runners; b=1 at 12 h | tested=19,332 — richest open region | 24 h cap |
+| `bash-pd38jjem` | Erdős #470, P3=11 · a=2·b=1 → c=1..21 (i3-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 892B-node b=1 (tested=19,637) | 24 h cap |
 | `bash-1ocbdki3` | Erdős #470, P2=5 · P3=13 · a=2 → b-shards (j2-fleet) | 4 runners; b=1 at 12 h | tested=7,793 | 24 h cap |
+
+**#470 i2-fleet (P3=11 · a=2) done (2026-07-27), 0 weird:** b=9..33 complete (b=9: 45.4B nodes, 52 min, descending). **b=1..8 timed out at 1 h**: b=1 (**892.7B nodes, tested=19,637** — third ~900B subtree; relaunched as i3 c-fleet `bash-pd38jjem`), b=2 (898M/2,140), b=3 (78.4B/2,984), b=4 (1.17B/43), b=5 (13.0B/15), b=6 (29.7B/8), b=7 (48.1B/6), b=8 (45.3B/0) — b=2..8 c-splits queued (b=3, b=2 first by tested).
 
 **#470 monster a=2 b-fleet done (2026-07-27), 0 weird:** b=2..33 all complete in seconds (b=2: 21,819 nodes/tested=153; rest negligible). **a=2·b=1 timed out at 12 h** — 8,428,879,872 nodes, tested=8,048 (~195k n/s slow-dense rate), queued for a c-split behind the richer a=1·b=2.
 

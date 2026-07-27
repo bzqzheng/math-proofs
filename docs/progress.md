@@ -6,10 +6,14 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-a5h1m2bz` | Erdős #470, monster a=2 → b=1..33 (b2-fleet) | 4 runners; b=1 at 12 h | b=2..33 done instantly (all mass in b=1) | 24 h cap |
-| `bash-fn3uo9nd` | Erdős #470, P2=5 · P3=11 a=1..50 (fleet I) | 4 parallel runners, 1 h caps | EXPA split of fleet B's 368B-node timeout | 24 h cap |
 | `bash-wbgfojqi` | Erdős #470, monster a=1 → b=1..33 (b-fleet) | 4 runners; b=1 at 12 h, rest 1 h | EXPB split of the 952B-node a=1 | 24 h cap |
+| `bash-a5h1m2bz` | Erdős #470, monster a=2 → b=1..33 (b2-fleet) | 4 runners; b=1 at 12 h | b=2..33 done instantly (all mass in b=1) | 24 h cap |
 | `bash-vfqahtb3` | Erdős #470, P2=5 · P3=13 a=1..50 (fleet J) | 4 parallel runners, 1 h caps | tested=289 region | 24 h cap |
+| `bash-q33vidli` | Erdős #470, P2=5 · P3=11 · a=2 → b-shards (i2-fleet) | 4 runners; b=1 at 12 h | tested=19,332 — richest open region | 24 h cap |
+
+**#470 fleet I done (2026-07-26), 0 weird:** a=14..50 complete (a=14: 36.0B nodes, 42 min, descending). **a=1..13 ALL timed out at 1 h** (~620B nodes covered): a=1 (77.1B/tested=880), a=2 (69.1B/**tested=19,332** — second-highest density anywhere), a=3 (76.9B/775), a=4 (783M/393 — slow dense pathology), a=5 (1.04B/1,398 — same), a=6 (79.4B/677), a=7..13 (23–50B/≤85). All 13 stragglers queued for b-splits in tested order (a=2 first, running; then a=5, a=1, a=3, a=6, …).
+
+**Queue-growth note (2026-07-26):** each a-fleet completion adds ~13 b-split candidates — the outstanding list is growing superlinearly, and P2=5·P3=17..59 (11 subtrees) hasn't even started. Realistic remaining: **multiple machine-days** for the full P2=5 spine, ~1 more for the barren remainder. The discovery-meaningful work is now: monster b=1 + a=2·b=1 (running), P3=11·a=2 b=1 (running), then P3=11·a=5/a=1/a=3/a=6, P3=13 stragglers (fleet J running), P3=17..59. Everything else is completeness-only.
 
 **#470 monster a=2 timed out at 12 h (2026-07-26):** 8,519,983,104 nodes, tested=8,051, weird=0 — a=2's tree is slow (197k n/s: deep p-loops at high abundancy headroom) but small in absolute terms vs a=1. Split to b-shards: b=2..33 all completed in seconds (b=2: 21,819 nodes/tested=153; b ≥ 3 negligible); **all mass is in b=1** — the recursion follows the least-abundant spine (a=1, b=1, c, …), where the tree is deepest. b=1 running at 12 h (`bash-a5h1m2bz`); if it times out, the next axis is EXPC (exponent of 7).
 

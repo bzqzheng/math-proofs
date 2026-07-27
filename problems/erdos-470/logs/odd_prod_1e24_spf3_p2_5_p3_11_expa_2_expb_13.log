@@ -1,0 +1,42 @@
+search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07, MIN_DEPTH=6
+SPF shard: smallest prime factor = 3
+P2 sub-shard: second prime factor = 5
+P3 sub-sub-shard: third prime factor = 11
+progress: nodes=10,000,000 tested=0 found=0 n=544672755208223876953125 elapsed=1s
+progress: nodes=20,000,000 tested=0 found=0 n=480793056570516357421875 elapsed=2s
+progress: nodes=30,000,000 tested=0 found=0 n=416296814551929931640625 elapsed=3s
+progress: nodes=40,000,000 tested=0 found=0 n=775321516080802001953125 elapsed=3s
+progress: nodes=50,000,000 tested=0 found=0 n=182059073513294677734375 elapsed=4s
+progress: nodes=60,000,000 tested=0 found=0 n=220232368934329833984375 elapsed=5s
+progress: nodes=70,000,000 tested=0 found=0 n=726567428928878173828125 elapsed=6s
+progress: nodes=80,000,000 tested=0 found=0 n=288390051110753173828125 elapsed=7s
+progress: nodes=90,000,000 tested=0 found=0 n=325136249104822998046875 elapsed=8s
+progress: nodes=100,000,000 tested=0 found=0 n=203167389961021728515625 elapsed=8s
+progress: nodes=110,000,000 tested=0 found=0 n=669223077651199951171875 elapsed=9s
+progress: nodes=120,000,000 tested=0 found=0 n=751725857801217041015625 elapsed=10s
+progress: nodes=130,000,000 tested=0 found=0 n=25005926985018310546875 elapsed=10s
+progress: nodes=140,000,000 tested=0 found=0 n=20520671015906982421875 elapsed=11s
+progress: nodes=150,000,000 tested=0 found=0 n=458249529582982177734375 elapsed=12s
+progress: nodes=160,000,000 tested=0 found=0 n=504632237867830810546875 elapsed=12s
+progress: nodes=170,000,000 tested=0 found=0 n=249826098058187255859375 elapsed=13s
+progress: nodes=180,000,000 tested=0 found=0 n=285038847653895263671875 elapsed=13s
+progress: nodes=190,000,000 tested=0 found=0 n=262911248046925048828125 elapsed=14s
+progress: nodes=200,000,000 tested=0 found=0 n=776714560102408447265625 elapsed=14s
+progress: nodes=210,000,000 tested=0 found=0 n=451424106841036376953125 elapsed=15s
+progress: nodes=220,000,000 tested=0 found=0 n=204291476793929443359375 elapsed=16s
+progress: nodes=230,000,000 tested=0 found=0 n=399044875963634033203125 elapsed=16s
+progress: nodes=240,000,000 tested=0 found=0 n=902749263233675537109375 elapsed=17s
+progress: nodes=250,000,000 tested=0 found=0 n=335627261358057861328125 elapsed=18s
+progress: nodes=260,000,000 tested=0 found=0 n=721924947968675537109375 elapsed=18s
+progress: nodes=270,000,000 tested=0 found=0 n=519780916022969970703125 elapsed=19s
+progress: nodes=280,000,000 tested=0 found=0 n=727836145610086669921875 elapsed=20s
+progress: nodes=290,000,000 tested=0 found=0 n=465800579528214111328125 elapsed=20s
+progress: nodes=300,000,000 tested=0 found=0 n=865616109707032470703125 elapsed=21s
+progress: nodes=310,000,000 tested=0 found=0 n=382567684629385986328125 elapsed=22s
+progress: nodes=320,000,000 tested=0 found=0 n=528208026545533447265625 elapsed=23s
+progress: nodes=330,000,000 tested=0 found=0 n=354617222957677001953125 elapsed=24s
+progress: nodes=340,000,000 tested=0 found=0 n=688006354727186279296875 elapsed=24s
+progress: nodes=350,000,000 tested=0 found=0 n=92501232098851318359375 elapsed=25s
+progress: nodes=360,000,000 tested=0 found=0 n=7431754476697998046875 elapsed=26s
+
+done in 26.4s | nodes=365,886,973 | tested=0 | weird=0

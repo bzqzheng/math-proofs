@@ -8,9 +8,11 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
 | `bash-7z1aw8h1` | Erdős #470, **a=1·b=1·c=1 (the whale)** | 23 h budget, k_max_cap binary | 263,623-test region; likely final spine run | 24 h cap |
-| `bash-wrnfb7ib` | Erdős #470, P3=13 · a=2·b=1 → c=1..20 (j3-fleet) | 4 runners; c=1 at 12 h | tested=8,166 region | 24 h cap |
 | `bash-6o6m2392` | Erdős #470, monster a=2·b=1 → c=1..22 (b3-fleet) | 4 runners; c=1 at 12 h | tested=8,048 region | 24 h cap |
 | `bash-xafu61n7` | Erdős #470, P3=11 · a=2·b=3 → c=1..20 (i4-fleet) | 4 runners; c=1 at 12 h | tested=2,984 region | 24 h cap |
+| `bash-vdnd6edi` | Erdős #470, P3=13 · a=2·b=1 · c=2 retry | 12 h budget | dense pocket, 3,823 tests discovered | 13 h |
+
+**#470 j3-fleet (P3=13 · a=2·b=1) done (2026-07-28), 0 weird:** c=6..20 complete (c=6: 20.7B nodes, 25 min, descending). **c=1 timed out at 12 h — 671.5B nodes, tested=8,166** (prefix 585: σ/n = 1.867 — fourth frontier spine, documented-bound). c=2..5 timed out: c=2 (661M/**3,823** — dense; retry running as `bash-vdnd6edi`), c=3 (75.1B/24), c=4 (72.8B/9), c=5 (52.9B/0) — c=3..5 queued.
 
 **#470 c=2/c=3 retries (2026-07-27→28):** c=2 timed out at 12 h — 11.85B nodes, tested=13,568, weird=0 (slow-dense ~274k n/s; documented-bound treatment: the split axis into it degenerates and a from-scratch re-run redoes the same 11.85B). c=3 started, killed by the 18 h task cap before finishing (partial work lost; queued). Remaining open pockets are all ≤ ~3k tests: P3=11·a=2·b=3 (2,984 — running as `bash-xafu61n7`), b=1·c=2 (2,665), b=2 (2,140), P3=13·a=3 (1,153), a=1·b=1·c=3 (438). **Wrap-up starts when the whale lands (~8 h): the negative-result writeup does not wait for the mop-up tail.**
 

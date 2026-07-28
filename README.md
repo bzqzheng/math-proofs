@@ -38,7 +38,7 @@ The live dashboard with per-problem status is **`problems/README.md`**. Headline
 | Jacobian conjecture (dim 3) | Is the Alpöge–Fable 5 counterexample valid? | `det(JF) ≡ −2` and the 3-to-1 collision confirmed exactly | **Verified** |
 | Erdős #164 | Primitive sets and `Σ 1/(a log a)` | Statement holds exhaustively on all 163,368 primitive subsets of `{2..26}` | **Statement confirmed** |
 | Erdős #699 | `gcd(C(n,i), C(n,j))` prime factor ≥ i | **Zero counterexamples for all `n ≤ 10⁹`** (10.34B pairs); composite-`i` case closed via Sylvester–Schur | Bound extended |
-| Erdős #470 | Odd weird numbers | Constructive sweep to 10²⁴, sharded by smallest prime factor; SPF=5..53 complete, zero finds; SPF=3 running | Scanning |
+| Erdős #470 | Odd weird numbers | Constructive sweep to 10²⁴ complete as designed: **0 finds across ≥12T nodes / ≥350k candidates**; 5 abundancy-frontier spines documented (264,140 tests deepest) | Bound extended |
 | Erdős #779 | Fortune's conjecture | No composite Fortunate number for `n ≤ 780` | Bound extended |
 | Erdős #458 | lcm inequality | No counterexample for `k ≤ 10⁷`; minimum margin 0.15415 | Bound extended |
 | Erdős #993 | Independence-polynomial unimodality for trees | No counterexample across five families; best near-miss 0.995652 | Deprioritized |

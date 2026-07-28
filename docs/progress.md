@@ -8,9 +8,11 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
 | `bash-7z1aw8h1` | Erdős #470, **a=1·b=1·c=1 (the whale)** | 23 h budget, k_max_cap binary | 263,623-test region; likely final spine run | 24 h cap |
-| `bash-pd38jjem` | Erdős #470, P3=11 · a=2·b=1 → c=1..21 (i3-fleet) | 4 runners; c=1 at 12 h | tested=19,637 region | 24 h cap |
 | `bash-m485lu1s` | Erdős #470, a=1·b=1 · c=2 (12 h) + c=3 (6 h) retries | dense small-node pockets | 13.8 tests/M nodes in c=2 | 18 h |
 | `bash-wrnfb7ib` | Erdős #470, P3=13 · a=2·b=1 → c=1..20 (j3-fleet) | 4 runners; c=1 at 12 h | tested=8,166 region | 24 h cap |
+| `bash-6o6m2392` | Erdős #470, monster a=2·b=1 → c=1..22 (b3-fleet) | 4 runners; c=1 at 12 h | tested=8,048 region | 24 h cap |
+
+**#470 i3-fleet (P3=11 · a=2·b=1) done (2026-07-27), 0 weird:** c=6..21 complete (c=6: 40.1B nodes, 47 min, descending). **c=1 timed out at 12 h — 895.7B nodes, tested=19,655** (prefix 495: σ/n = 1.891 — third abundancy-frontier whale, documented-bound treatment). c=2..5 timed out: c=2 (45.6B/2,665), c=3 (72.5B/41), c=4 (62.5B/21), c=5 (50.7B/5) — queued. All top-5 dense pockets have now had their c-level pass; the three whales (263,623 / 25,629 / 19,655 tests) are documented to ~900–950B nodes each, 0 weird.
 
 **#470 c2-fleet (a=1·b=2) done (2026-07-27), 0 weird:** c=8..25 complete. **c=1 timed out at 12 h — 937.2B nodes, tested=25,629** (prefix 525: σ/n = 1.889 — another abundancy-frontier whale; gets the documented-bound treatment per the wrap-up plan, not a marathon). c=2..7 timed out: c=2 (77.6B/732), c=3 (69.9B/78), c=4 (77.2B/16), c=5 (1.7B/10), c=6 (64.8B/0), c=7 (48.7B/0) — queued behind j3.
 

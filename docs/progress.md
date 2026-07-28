@@ -8,9 +8,11 @@ Last updated: 2026-07-24
 |---|---|---|---|---|
 | `bash-069j36i8` | Erdős #470, monster a=1·b=1 → c=1..27 (c-fleet) | 4 runners; c=1 at 12 h | EXPC split of the 952B-node b=1 | 24 h cap |
 | `bash-7z1aw8h1` | Erdős #470, **a=1·b=1·c=1 (the whale)** | 23 h budget, k_max_cap binary | 263,623-test region; likely final spine run | 24 h cap |
-| `bash-6o6m2392` | Erdős #470, monster a=2·b=1 → c=1..22 (b3-fleet) | 4 runners; c=1 at 12 h | tested=8,048 region | 24 h cap |
 | `bash-xafu61n7` | Erdős #470, P3=11 · a=2·b=3 → c=1..20 (i4-fleet) | 4 runners; c=1 at 12 h | tested=2,984 region | 24 h cap |
 | `bash-vdnd6edi` | Erdős #470, P3=13 · a=2·b=1 · c=2 retry | 12 h budget | dense pocket, 3,823 tests discovered | 13 h |
+| `bash-mcavwhz2` | Erdős #470, P3=11 · a=2·b=1 · c=2 retry | 6 h budget | dense pocket, 2,665 tests discovered | 7 h |
+
+**#470 b3-fleet (monster a=2·b=1) done (2026-07-28), 0 weird:** c=2..22 all complete instantly (c=2: 33,362 nodes/tested=90; rest negligible). **c=1 timed out at 12 h — 8,531,447,808 nodes, tested=8,051** (prefix 315: σ/n = 1.981 — frontier shard; second identical 12 h pass, so it gets the **documented-bound treatment**: no third partial run; slots go to completable pockets instead).
 
 **#470 j3-fleet (P3=13 · a=2·b=1) done (2026-07-28), 0 weird:** c=6..20 complete (c=6: 20.7B nodes, 25 min, descending). **c=1 timed out at 12 h — 671.5B nodes, tested=8,166** (prefix 585: σ/n = 1.867 — fourth frontier spine, documented-bound). c=2..5 timed out: c=2 (661M/**3,823** — dense; retry running as `bash-vdnd6edi`), c=3 (75.1B/24), c=4 (72.8B/9), c=5 (52.9B/0) — c=3..5 queued.
 

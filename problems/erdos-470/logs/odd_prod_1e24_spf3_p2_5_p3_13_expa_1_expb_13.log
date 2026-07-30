@@ -1,0 +1,18 @@
+search v2: odd=True, N_CAP=1.00e+24, DELTA_MAX=1.0e+07, MIN_DEPTH=6
+SPF shard: smallest prime factor = 3
+P2 sub-shard: second prime factor = 5
+P3 sub-sub-shard: third prime factor = 13
+progress: nodes=10,000,000 tested=0 found=0 n=455473770717440185546875 elapsed=1s
+progress: nodes=20,000,000 tested=0 found=0 n=79172660570716552734375 elapsed=2s
+progress: nodes=30,000,000 tested=0 found=0 n=523765438589945068359375 elapsed=2s
+progress: nodes=40,000,000 tested=0 found=0 n=38229780046995849609375 elapsed=3s
+progress: nodes=50,000,000 tested=0 found=0 n=627406535443070068359375 elapsed=4s
+progress: nodes=60,000,000 tested=0 found=0 n=173889375415821533203125 elapsed=5s
+progress: nodes=70,000,000 tested=0 found=0 n=249513352429024658203125 elapsed=6s
+progress: nodes=80,000,000 tested=0 found=0 n=134327021799378662109375 elapsed=7s
+progress: nodes=90,000,000 tested=0 found=0 n=551224581197567138671875 elapsed=7s
+progress: nodes=100,000,000 tested=0 found=0 n=712442641996226806640625 elapsed=8s
+progress: nodes=110,000,000 tested=0 found=0 n=913177117819639892578125 elapsed=9s
+progress: nodes=120,000,000 tested=0 found=0 n=302516196102989501953125 elapsed=10s
+
+done in 10.2s | nodes=125,985,387 | tested=0 | weird=0

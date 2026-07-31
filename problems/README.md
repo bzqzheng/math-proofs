@@ -16,7 +16,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 | Dir | Problem | Status | Key result |
 |---|---|---|---|
 | `erdos-699/` | `gcd(C(n,i),C(n,j))` prime factor ≥ i | **BOUND-EXTENDED** | **0 counterexamples for all n ≤ 10⁹** (10.34B pairs, two segments); composite-i closed via Sylvester–Schur; proof angle closed (Price/GPT-5.6 partial resolution on file) |
-| `erdos-470/` | Odd weird numbers | **BOUND-EXTENDED** | **Sweep complete as designed: 0 finds across ≥12T nodes / ≥350k candidates** — all barren/off-spine regions exhausted to 10²⁴; 5 abundancy-frontier spines documented to 671B–1.79T nodes (264,140 tests on the deepest). Full coverage map: `RESULTS.md` |
+| `erdos-470/` | Odd weird numbers | **CLOSED** (bound extended, substrate banked) | **Sweep complete as designed: 0 finds across ≥12T nodes / ≥350k candidates**; mining harvest: 356,066 candidates (`candidates.csv.gz`), δ cap binds but near-miss run-lengths maximal everywhere (min 83) — class robustly semiperfect; δ-sweep declined on that evidence. Coverage map: `RESULTS.md` |
 | `erdos-458/` | lcm inequality | **BOUND-EXTENDED** | 0 counterexamples for k ≤ 10⁷; min margin 0.15415 at k=4 |
 | `erdos-779/` | Fortune's conjecture | **BOUND-EXTENDED** | No composite Fortunate number for n ≤ 780 |
 | `erdos-375/` | Grimm's conjecture: distinct prime divisors for consecutive composites | **SCANNING** | C engine (segmented sieve + k-smooth reduction + exact Hopcroft–Karp) gated against a sympy oracle: full/reduced agreement on all 664,577 blocks ≤ 10⁷, OEIS A005250 gap check exact to 10⁹, stitch-verified resume; **0 counterexamples ≤ 10¹⁰** in 288s/core (34.7M ints/s); ~9 core-hours priced to 10¹² |

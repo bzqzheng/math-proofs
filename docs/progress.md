@@ -1,6 +1,8 @@
 # Progress notes — math-proof campaign
 
-Last updated: 2026-07-24
+Last updated: 2026-07-31 (M4 Max)
+
+**#470 MINING COMPLETE — PROBLEM CLOSED (2026-07-31).** Full 25-region harvest: **356,066 deduped candidates** (`candidates.csv.gz`), `MINING-report.md`. δ-distribution: min=90, median 5.18M, p99=9.90M vs cap 10⁷ — the cap binds. But the near-miss metrics kill the follow-up: among the 1,000 smallest-δ candidates (where weirdness would most plausibly hide, cf. known even weirds at δ=4..12) the closest-to-weird has run-length **83** (92% of δ covered); from δ≈1050 up every 1000-window saturates at 1000/1000. Semiperfection is robust across the whole class; a DELTA_MAX=10⁹ sweep would sample candidates with *more* divisor mass per target — expressibility gets easier, not harder. **Decision: no δ-sweep, no barren tail. #470 is closed at "sweep complete as designed + substrate banked"; remaining EV lowest in portfolio.**
 
 ## Active background scans
 

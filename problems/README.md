@@ -21,7 +21,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 | `erdos-779/` | Fortune's conjecture | **BOUND-EXTENDED** | No composite Fortunate number for n ≤ 780 |
 | `erdos-313/` | Primary pseudoperfect numbers | **ANALYZED** | Frontier documented (10 PPNs known, Wang May 2026); ω=9 sweep 2,538/2,910 shards (resumable); C/GMP engine in dir |
 | `erdos-993/` | Tree independence-polynomial unimodality | **DEPRIORITIZED** | No counterexample across 5 families; best near-miss 0.995652; literature frontier n=29 |
-| `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 45 (exhaustive MITM, `mitm_287.py`); k=46–48 running; k ≥ 49 needs C port |
+| `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 48 (exhaustive MITM, `mitm_287.py`); k ≥ 49 needs C port |
 | `erdos-647/` | Divisor-function maxima | **DEPRIORITIZED** | Idén (June 2026) verified to 10¹²; brute force dead below that |
 | `erdos-364-366/` | Consecutive powerful numbers | **ATTEMPTED** | Scans logged; see dir README |
 | `erdos-1052/` | Sixth unitary perfect number | **DEPRIORITIZED** | Calibrated; search space enormous, no near-miss signal |

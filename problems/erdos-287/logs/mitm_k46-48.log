@@ -1,0 +1,6 @@
+# mitm_287.py --exhaustive 46 48  (M4 Max, 2026-07-31)
+# halves = first_half + second_half table sizes; hits = candidate collisions reaching Fraction verify
+k=46: none (halves=45844733+67500779, hits=0, 316.1s)
+k=47: none (halves=47971376+144536739, hits=0, 488.6s)
+k=48: none (halves=95654131+145130144, hits=0, 686.8s)
+done: no counterexample in range

@@ -28,7 +28,8 @@ hours to reach k=21.
 
 ## Results
 - No counterexample for k ≤ 21 (old DFS + MITM gate (b)).
-- **No counterexample for k ≤ 45 (exhaustive MITM, ≤ 313 s per k, 2026-07-30).**
+- No counterexample for k ≤ 45 (exhaustive MITM, ≤ 313 s per k, 2026-07-30).
+- **No counterexample for k ≤ 48 (exhaustive MITM, M4 Max, 2026-07-31; k=48: 95.6M+145.1M halves, 687 s — `logs/mitm_k46-48.log`).**
 - k = 46..48 feasible on 32 GB (table ~12–25 GB); k ≥ 49 needs a C port or
   more RAM. Growth: ~2× halves and ~2× time per k.
 

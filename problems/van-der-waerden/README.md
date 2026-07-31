@@ -30,21 +30,34 @@ checkable in milliseconds by scanning all k-APs (`check_coloring` in `vdw.py`).
 
 ## Approach
 1. `vdw.py` — CNF encoder (2-color: one var per integer; r-color: one-hot) +
-   independent checker + certificate writer (`colorings/`). DONE, gates above.
-2. `probsat.c` (planned) — probSAT-style stochastic local search, parallel
-   seeds; the finding tool at the record frontier (complete CDCL grinds there —
-   measured: r=5 k=3 n=170 exceeds minutes; Heule used ubcsat).
-3. Attack ladder: W(5,3) n=171.., W(6,3) n=226.. (near-free first experiments),
-   then the marquee **W(2,7) n=3704..** (~2.3M clauses; local search at scale).
-4. UNSAT side (upper bounds / exact values, e.g. W(5,3)) needs CDCL + DRAT —
-   deferred until the finding side maps the frontier.
+   independent checker + certificate writer (`colorings/`) + `dimacs` writer.
+   DONE, gates above.
+2. `probsat.c` — generic probSAT on DIMACS (any SAT-encoded target).
+   Tuned CB=3.0 (solves W(2,5)>177 in 0.89 s) but **fails on the record
+   instances** (W(5,3)>170, W(6,3)>225, W(2,6)>1131: 1.5B flips × 3 seeds
+   each, all UNKNOWN, 2026-07-31). Kept for moderate/CNF-native targets.
+3. `vdwls.c` — NATIVE local search (recolor-one-integer move set; the
+   published records' approach). Incremental mono-AP score; probSAT-weighted
+   (member,color) choice on net = break−make; short tabu tenure; plateau
+   perturbation. Debugged via an incremental-vs-rescan drift gate which
+   exposed a CSR off-by-one (I12-style: the rescan caught what the
+   incremental count missed). Build: `clang -O3 -o vdwls vdwls.c -lm`.
+4. Attack ladder: reproduce records (W(5,3)>170, W(6,3)>225, W(2,6)>1131) as
+   must-find gates, then hunt n=171 / n=226 / n=3704 (W(2,7) marquee).
+5. UNSAT side (upper bounds / exact values) needs CDCL + DRAT — deferred.
 
 ## Results
-- Encoder + checker validated on all seven exact nontrivial values' neighborhoods
-  (gate (a) 8/8).
-- Measured CDCL frontier (Cadical153, r=5 k=3): n=100 SAT in 0.68 s; n=120
-  and n=170 (the Heule record) do not return within minutes — the record
-  region is out of complete-solver reach; motivates probsat.c.
+- `vdw.py` CDCL gates 9/9 (exact values both sides; n=100 r=5 k=3 in 0.68 s).
+- Measured CDCL frontier (Cadical153, r=5 k=3): n=120 and n=170 (the Heule
+  record) do not return within minutes — the record region is out of
+  complete-solver reach.
+- `probsat.c` CB-swept (2.3/2.5/2.7/3.0/3.5 on n=177): CB=3.0 optimal
+  (0.89 s). Record instances: all UNKNOWN at 1.5B flips × 3 seeds — plain
+  CNF probSAT is the wrong tool at the records (documented negative).
+- `vdwls.c` (native, NOISE=0, CBW=3.0, TABU=10): solves W(2,4)>34 (54k
+  steps), W(5,3)>100 (137k), **W(2,5)>177 (943k steps)**. Record gate
+  attempts so far: W(5,3)>170 best mono=88 (pre-tabu engine), retuned sweeps
+  in flight.
 
 ## Verdict
 Encoder/oracle banked. Next single action: write probsat.c, validate by

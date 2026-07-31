@@ -140,6 +140,17 @@ def main():
         else:
             print(f"UNSAT W({r},{k}) <= {n} ({dt:.1f}s)")
         return
+    if args[0] == "dimacs":
+        r, k, n = map(int, args[1:4])
+        out = args[4] if len(args) > 4 else f"vdw_r{k}_c{r}_n{n}.cnf"
+        nvars, clauses = encode(r, k, n)
+        with open(out, "w") as f:
+            f.write(f"c vdW W({r},{k}) > {n}: {r}-coloring of [{n}], no mono {k}-AP\n")
+            f.write(f"p cnf {nvars} {len(clauses)}\n")
+            for cl in clauses:
+                f.write(" ".join(map(str, cl)) + " 0\n")
+        print(f"wrote {out}: {nvars} vars, {len(clauses)} clauses")
+        return
     if args[0] == "find":
         r, k, n0, n1 = map(int, args[1:5])
         for n in range(n0, n1 + 1):

@@ -135,6 +135,17 @@ negligible). Not core-days: the reduction makes almost every block
 nearly free, and the largest block below 10¹⁰ has k = 353 with only
 10 smooth members to match.
 
+## Production result (2026-07-31, M4 Max, 8 shards × ~94 min)
+
+**Grimm's conjecture verified for all blocks with n ≤ 10¹² — ZERO
+counterexamples.** 37,607,912,016 blocks checked; 18,575,021 k-smooth members,
+all matched exactly (largest single-block matching: 10); longest block k=539;
+throughput ≈ 22.0–23.1M ints/s/core sustained; ≈ 12.6 core-hours total.
+Published refereed frontier: n ≤ 19,236,701,629 ≈ 1.9×10¹⁰ (Laishram–Shorey,
+IJNT 2006) — this is a **52× extension** with open code and logs
+(`logs/grimm_1e12_s1..s8.log`). Unverified claims to 10¹¹/10¹³ exist with no
+public code or certificates; this run is the reproducible artifact at 10¹².
+
 ## Verdict
 
 **Settled here.** The engine is exact against an independent sympy oracle:
@@ -142,12 +153,14 @@ block-by-block agreement on all 664,577 blocks below 10⁷, the k-smooth
 reduction itself validated against full matchings on all 78,496 blocks below
 10⁶, prime-gap detection exact against OEIS A005250 below 10⁹, and the
 resume semantics verified by an exact stitch experiment. Grimm's conjecture
-re-verified for all blocks with n ≤ 10¹⁰ (455,052,509 blocks, 0
-counterexamples, 0 matching failures) — still below the published frontier,
-so a calibration pass, not yet an extension.
+verified for all blocks with n ≤ 10¹² (37.6B blocks, 0 counterexamples, 0
+matching failures) — **52× past the published frontier** (see Production
+result above).
 
-**Next action (production run to the frontier and beyond).** 8 shards to
-10¹², e.g.:
+**Next action (optional further extension).** 10¹³ is ~10× the cost
+(≈ 5–6 core-days ≈ 15–18 h wall on 8 shards); an unverified 10¹³ claim
+exists, so priority is lower than 10¹² was. Resume from any shard boundary
+with N_START/N_MAX:
 
 ```bash
 for i in 0 1 2 3 4 5 6 7; do

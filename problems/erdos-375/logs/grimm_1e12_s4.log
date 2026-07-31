@@ -1,0 +1,26 @@
+config: N_MAX=500000000000 N_START=375000000000 SEG=10000000 PROGRESS=20000000000 DUMP_BLOCKS=0
+record-gap: p=374999999989 gap=90
+record-gap: p=375000000379 gap=130
+record-gap: p=375000005411 gap=146
+record-gap: p=375000029519 gap=152
+record-gap: p=375000043177 gap=172
+record-gap: p=375000046513 gap=190
+record-gap: p=375000070399 gap=204
+record-gap: p=375000120323 gap=290
+record-gap: p=375002692763 gap=318
+record-gap: p=375008741351 gap=332
+progress: n=375010000000 blocks=375212 smooth=155 maxk=331 elapsed=1s
+record-gap: p=375029669789 gap=342
+record-gap: p=375178735079 gap=404
+record-gap: p=378583199387 gap=456
+progress: n=380000000000 blocks=187571961 smooth=78746 maxk=455 elapsed=246s
+record-gap: p=389353209841 gap=478
+progress: n=400000000000 blocks=936922570 smooth=390395 maxk=477 elapsed=1185s
+record-gap: p=416608695821 gap=516
+progress: n=420000000000 blocks=1684888738 smooth=693448 maxk=515 elapsed=2133s
+progress: n=440000000000 blocks=2431530159 smooth=990632 maxk=515 elapsed=3030s
+progress: n=460000000000 blocks=3176893099 smooth=1282528 maxk=515 elapsed=3922s
+record-gap: p=461690510011 gap=532
+progress: n=480000000000 blocks=3921044774 smooth=1567757 maxk=531 elapsed=4790s
+progress: n=500000000000 blocks=4664053055 smooth=1847746 maxk=531 elapsed=5626s
+done: N_MAX=500000000000 N_START=375000000000 blocks=4664053055 smooth=1847746 maxk=531 maxmatch=4 counterexamples=0 elapsed=5625.8s rate=22219029 ints/s

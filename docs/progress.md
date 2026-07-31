@@ -6,9 +6,7 @@ Last updated: 2026-07-24
 
 | Task | Problem | Command / file | Current status | Timeout |
 |---|---|---|---|---|
-| `bash-xz60x8kz` | Erdős #470, monster a=1·b=3 · c=2 retry | 12 h budget | 522-test slow-dense region | 13 h |
-| `bash-uw37rahu` | Erdős #470, P3=13 · a=1 → b-shards (j9-fleet) | b=1 at 12 h | 262-test region | 24 h cap |
-| `bash-xwhx5sif` | Erdős #470, P3=13 · a=5 → b-shards (j10-fleet) | b=1 at 12 h | 247-test region | 24 h cap |
+| — | all sweep fleets complete | see `problems/erdos-470/RESULTS.md` | **sweep done as designed (2026-07-30)** | — |
 
 **#470 MOP-UP — discovery-relevant work complete (2026-07-30).** All pockets with ≥ 250 tests have had deep passes; every straggler is exhausted or documented-bound, zero weird everywhere. **j8-fleet:** P3=13·a=4·b=2·c=1 timed out at 918,948,290,560 nodes, tested=1,416 (prefix 26325, σ/n = **1.995** — ninth ~900B-class spine, closest to 2 yet); c≥2 instant. Spine registry (nine spines, ALL σ/n ∈ (1.80, 1.995), zero exceptions): 105/1.83 (1.79T, 264,140) · 525/1.889 (937.2B, 25,629) · 495/1.891 (895.7B, 19,655) · 585/1.867 (671.5B, 8,166) · 315/1.981 (8.53B, 8,051) · 12375/1.967 (905.1B, 3,407) · 1755/1.914 (561.2B, 3,158) · 2925/1.929 (904.9B, 845) · 825/1.803 (891.9B, 1,960) · 26325/1.995 (918.9B, 1,416). Remaining: 3 pockets ≤ 522 tests landing (table above); barren tail P3=17..59 (~1.5T nodes, ~1 day, expected ≤ 7 tests each) held for the user's call.
 

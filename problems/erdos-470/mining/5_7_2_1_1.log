@@ -7882,3 +7882,19 @@ progress: nodes=30,000,000 tested=7,874 found=0 n=59437004308572152328255 elapse
 progress: nodes=40,000,000 tested=7,874 found=0 n=80774996327970615338535 elapsed=152s
 progress: nodes=50,000,000 tested=7,874 found=0 n=102393296917346307740805 elapsed=195s
 progress: nodes=60,000,000 tested=7,874 found=0 n=124237285253073811771785 elapsed=241s
+progress: nodes=70,000,000 tested=7,874 found=0 n=146267444296025735958135 elapsed=288s
+progress: nodes=80,000,000 tested=7,874 found=0 n=168456296005950253939155 elapsed=333s
+progress: nodes=90,000,000 tested=7,874 found=0 n=190785198966089718541635 elapsed=379s
+progress: nodes=100,000,000 tested=7,874 found=0 n=213238533482865310833315 elapsed=425s
+progress: nodes=110,000,000 tested=7,874 found=0 n=235803393006707787520455 elapsed=471s
+progress: nodes=120,000,000 tested=7,874 found=0 n=258467127262102696442715 elapsed=518s
+progress: nodes=130,000,000 tested=7,874 found=0 n=281222221957666440531255 elapsed=565s
+progress: nodes=140,000,000 tested=7,874 found=0 n=304064457394044393320715 elapsed=613s
+progress: nodes=150,000,000 tested=7,874 found=0 n=326987113309301408958855 elapsed=661s
+progress: nodes=160,000,000 tested=7,874 found=0 n=349981676573422306901985 elapsed=709s
+progress: nodes=170,000,000 tested=7,874 found=0 n=373043736331814870577045 elapsed=758s
+progress: nodes=180,000,000 tested=7,874 found=0 n=396170348793820212325455 elapsed=805s
+progress: nodes=190,000,000 tested=7,874 found=0 n=419363531382407360053095 elapsed=853s
+progress: nodes=200,000,000 tested=7,874 found=0 n=442613435191565709595545 elapsed=900s
+
+done in 900.0s | nodes=200,056,832 | tested=7,874 | weird=0

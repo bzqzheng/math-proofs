@@ -28,9 +28,9 @@ hours to reach k=21.
 
 ## Results
 - No counterexample for k ≤ 21 (old DFS + MITM gate (b)).
-- **No counterexample for k ≤ 39 (exhaustive MITM, ≤ 33 s per k, 2026-07-30).**
-- k = 40..45 exhaustive: running (~1–20 min each expected). k ≥ 46 likely
-  needs a C port — the Python hash table grows ~2× per k.
+- **No counterexample for k ≤ 45 (exhaustive MITM, ≤ 313 s per k, 2026-07-30).**
+- k = 46..48 feasible on 32 GB (table ~12–25 GB); k ≥ 49 needs a C port or
+  more RAM. Growth: ~2× halves and ~2× time per k.
 
 ## Run
 ```

@@ -23,6 +23,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 | `erdos-313/` | Primary pseudoperfect numbers | **ANALYZED** | Frontier documented (10 PPNs known, Wang May 2026); ω=9 sweep 2,538/2,910 shards (resumable); C/GMP engine in dir |
 | `erdos-993/` | Tree independence-polynomial unimodality | **DEPRIORITIZED** | No counterexample across 5 families; best near-miss 0.995652; literature frontier n=29 |
 | `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 48 (exhaustive MITM, `mitm_287.py`); k ≥ 49 needs C port |
+| `erdos-617/` | Erdős–Gyárfás balanced colorings | **ATTACK-READY** | r=5 (K_26) first open case since 1999; SAT encoder + checker gated (r=3 K_10 UNSAT reproduced, 546 s); r=4 K_17 re-proof in flight; both SAT and UNSAT publishable |
 | `erdos-647/` | Divisor-function maxima | **DEPRIORITIZED** | Idén (June 2026) verified to 10¹²; brute force dead below that |
 | `erdos-364-366/` | Consecutive powerful numbers | **ATTEMPTED** | Scans logged; see dir README |
 | `erdos-1052/` | Sixth unitary perfect number | **DEPRIORITIZED** | Calibrated; search space enormous, no near-miss signal |

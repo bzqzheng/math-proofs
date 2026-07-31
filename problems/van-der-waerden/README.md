@@ -54,11 +54,21 @@ checkable in milliseconds by scanning all k-APs (`check_coloring` in `vdw.py`).
 - `probsat.c` CB-swept (2.3/2.5/2.7/3.0/3.5 on n=177): CB=3.0 optimal
   (0.89 s). Record instances: all UNKNOWN at 1.5B flips × 3 seeds — plain
   CNF probSAT is the wrong tool at the records (documented negative).
-- `vdwls.c` (native, NOISE=0, CBW=3.0, TABU=10): solves W(2,4)>34 (54k
-  steps), W(5,3)>100 (137k), **W(2,5)>177 (943k steps)**. Record gate
-  attempts so far: W(5,3)>170 best mono=88 (pre-tabu engine), retuned sweeps
-  in flight.
+- `vdwls.c` (native, NOISE=0, CBW=3.0): solves W(2,4)>34 (10k steps),
+  **W(2,5)>177 (≤1M steps, 2/3 seeds)**. Parameter map measured (2026-07-31):
+  2-color wants MAKEMODE=1 TABU=10; multi-color wants MAKEMODE=0 TABU=0
+  (tabu *hurts* multi-color: 0/4 vs 2/3 seeds on W(5,3)>100). Record gate
+  attempts: W(5,3)>170 best mono≈66, W(2,6)>1131 best mono≈2512 (vs ~3983
+  random) — the published records sit beyond the engine's envelope; the
+  record-holders used construction+SAT hybrids (Kouril–Paul, Heule), not
+  blind SLS. SAPS clause-weighting implemented (WUP env) but not a clear win.
 
 ## Verdict
-Encoder/oracle banked. Next single action: write probsat.c, validate by
-reproducing W(5,3)>170 / W(6,3)>225 records, then hunt n=171 / n=226 / n=3704.
+Encoder + native engine banked with a measured envelope: CDCL exact to
+W(2,5)=178; vdwls solves ≤ n≈180 2-color and ≤ n≈100+ multi-color reliably.
+Next: (a) production hunts n=171 (r=5), n=226 (r=6), n=3704 (r=2 k=7) as
+background seed-filler (honest odds: engine is below record-envelope, but
+each seed is an independent ticket and cores are otherwise idle);
+(b) if records are the goal, the next engine needs structure (cyclic /
+Rabung-method constructions) or a construction+SAT hybrid, not more SLS
+tuning.

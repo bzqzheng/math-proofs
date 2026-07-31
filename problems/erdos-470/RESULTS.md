@@ -124,6 +124,30 @@ runs): monster 982.5B/263,711; P2=5 subtree 558.5B/263,463; P2=7 subtree
 - The literature direction (primitive weird with large prime factors,
   Melfi's conditional infinitude) is untouched by this sweep.
 
+## Compounding value (what this sweep leaves behind)
+
+1. **A statistical bound that multiplies.** 360k candidates, 0 weird ⇒
+   per-candidate weird probability ≲ 10⁻⁵ (95% conf., Poisson). Every future
+   zero-find region — ours or anyone's — tightens this multiplicatively.
+   First published candidate-yield data for the δ < 10⁷ class.
+2. **A regenerable candidate substrate.** The 72-second decay law means the
+   full ~360k candidate list (n, δ, ω, prefix) is a ~30-minute regeneration,
+   not 20 trillion nodes. That dataset enables: near-miss mining (barely-
+   expressible δ ⇒ what blocks weirdness), a δ-distribution model
+   P(weird | δ, ω, prefix abundancy), and a building-block substrate for
+   #1052 / #398 / #313-style pseudoperfect problems.
+3. **The δ-dimension is the open frontier.** This sweep was blind to weird
+   numbers with δ ≥ 10⁷. The registry makes a DELTA_MAX=10⁹ re-run of just
+   the 25 spines ~100× cheaper than a blind sweep — the cheapest next
+   counterexample hunt available.
+4. **Reusable machinery.** The prune stack (abundancy-viability I6,
+   theorem-prunes I10), partition machinery (SPF→P2/P3→EXPA/EXPB/EXPC), and
+   union-gate validation transfer directly to #1052, #398, #364/366, #313.
+
+What does NOT compound: node counts (sunk), barren exhausted regions
+(finality, not reuse), and the raw tested set (counts only — regenerate
+via item 2 if needed).
+
 ## Reproducibility
 
 ```

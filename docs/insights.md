@@ -41,6 +41,21 @@ verifiable/falsifiable) outperformed my P1–P5 scoring in precision. General
 pattern: when attacking a curated corpus, exploit the curators' metadata
 before inventing your own triage. **Read the schema before the problems.**
 
+## I12. Derive prunes from the reachability algebra, not from intuition —
+##     and test them on a case where the answer is known
+Found in: #287 (MITM vs old DFS). The old backtracker pruned with the
+inequality BACKWARDS: it cut branches whose partial sum + MAXIMUM remaining
+sum exceeded 1 (killing valid tuples like 2,3,6 for k=3) and never cut
+branches that couldn't reach 1 (the actually useful direction). It only
+avoided lying by luck (it found solutions inside its wrongly-restricted
+subset for every k it reported). The MITM prune — cut when
+partial + maxRemaining < 1, with a float epsilon and monotone-safety
+checked — turned days-at-k=22 into 0.1 s for all k ≤ 21. General pattern:
+for every prune, write down (a) the exact reachability inequality that
+makes the cut valid, (b) whether the bound is monotone-safe along children,
+(c) a known-positive case the pipeline MUST still find. A prune you can't
+justify from the algebra is a bug you haven't caught yet.
+
 ## I11. When the natural split axis degenerates, split on a bounded
 ##     dimension instead
 Found in: #470 (monster P2=5·P3=7, ~1T nodes). Splitting it by the fourth

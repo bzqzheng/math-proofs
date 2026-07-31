@@ -94,7 +94,7 @@ Last updated: 2026-07-24
 
 ## Started / partial
 
-- **#287 Egyptian-fraction gaps** — searching for `1 = Σ 1/n_i` with `1<n_1<...<n_k` and all gaps `≤2`. No counterexample for `k ≤ 21`; backtracking cost explodes at `k=22`.
+- **#287 Egyptian-fraction gaps** — MITM reformulation (`mitm_287.py`): **no counterexample for k ≤ 45 exhaustive** (k=45: 23M+67M halves, 313 s; gates pass). k=46–48 running on M4 Max; k ≥ 49 needs a C port.
 
 ## Blocked / deprioritized
 

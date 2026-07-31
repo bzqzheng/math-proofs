@@ -42,7 +42,7 @@ The live dashboard with per-problem status is **`problems/README.md`**. Headline
 | Erdős #779 | Fortune's conjecture | No composite Fortunate number for `n ≤ 780` | Bound extended |
 | Erdős #458 | lcm inequality | No counterexample for `k ≤ 10⁷`; minimum margin 0.15415 | Bound extended |
 | Erdős #993 | Independence-polynomial unimodality for trees | No counterexample across five families; best near-miss 0.995652 | Deprioritized |
-| Erdős #287 | Egyptian fractions with gaps ≤ 2 | No counterexample for `k ≤ 21` | Blocked — needs a better algorithm |
+| Erdős #287 | Egyptian fractions with gaps ≤ 2 | No counterexample for `k ≤ 45` (exhaustive MITM) | Bound extended |
 | Erdős #64 | Erdős–Gyárfás power-of-2 cycles | Enumeration explodes below the known 30-vertex bound | Blocked — needs a construction |
 
 ## Repo layout

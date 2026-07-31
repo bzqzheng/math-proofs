@@ -22,7 +22,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 | `erdos-375/` | Grimm's conjecture: distinct prime divisors for consecutive composites | **SCANNING** | C engine (segmented sieve + k-smooth reduction + exact Hopcroft–Karp) gated against a sympy oracle: full/reduced agreement on all 664,577 blocks ≤ 10⁷, OEIS A005250 gap check exact to 10⁹, stitch-verified resume; **0 counterexamples ≤ 10¹⁰** in 288s/core (34.7M ints/s); ~9 core-hours priced to 10¹² |
 | `erdos-313/` | Primary pseudoperfect numbers | **ANALYZED** | Frontier documented (10 PPNs known, Wang May 2026); ω=9 sweep 2,538/2,910 shards (resumable); C/GMP engine in dir |
 | `erdos-993/` | Tree independence-polynomial unimodality | **DEPRIORITIZED** | No counterexample across 5 families; best near-miss 0.995652; literature frontier n=29 |
-| `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 48 (exhaustive MITM, `mitm_287.py`); k ≥ 49 needs C port |
+| `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 52 (C MITM `mitm_287.c`, exact-equivalence gates vs Python; k=52: 414M+627M halves, 84 s); k=53 running (last that fits 64 GB) |
 | `erdos-617/` | Erdős–Gyárfás balanced colorings | **ATTACK-READY** | r=5 (K_26) first open case since 1999; SAT encoder + checker gated (r=3 K_10 UNSAT reproduced, 546 s); r=4 K_17 re-proof in flight; both SAT and UNSAT publishable |
 | `erdos-647/` | Divisor-function maxima | **DEPRIORITIZED** | Idén (June 2026) verified to 10¹²; brute force dead below that |
 | `erdos-364-366/` | Consecutive powerful numbers | **ATTEMPTED** | Scans logged; see dir README |

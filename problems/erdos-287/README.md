@@ -90,10 +90,12 @@ k=49 (first_half 99.9M) → 2²⁸ slots, 4.33 GB; k=50 (first_half 199.2M) →
 - **No counterexample for k = 51 (207,742,586+605,527,283 halves, 60.0 s —
   `logs/mitm_c_k51.log`), k = 52 (414,336,931+627,479,503 halves, 83.9 s,
   16 GB table — `logs/mitm_c_k52.log`), k = 53 (431,340,373+1,268,572,265
-  halves, 139.4 s — `logs/mitm_c_k53.log`); verify_hits 0/0 throughout.
-  Frontier: no counterexample for k ≤ 53.** k=54 in flight (2³¹ slots ≈
-  34 GB — last that fits 64 GB; k=55 needs ~137 GB or a streaming-table
-  redesign).
+  halves, 139.4 s — `logs/mitm_c_k53.log`), k = 54 (860,399,078+1,331,785,728
+  halves, 189.4 s, 32 GB table — `logs/mitm_c_k54.log`); verify_hits 0/0
+  throughout. **Frontier: no counterexample for k ≤ 54 — the 64 GB wall for
+  this engine (k=55 needs 2³² slots ≈ 137 GB); further k needs a
+  streaming/external-memory table redesign.**
+  Frontier: no counterexample for k ≤ 53.**
 
 ## Run
 ```

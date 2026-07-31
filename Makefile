@@ -19,6 +19,12 @@ verify-unit-distance:
 scan-699:
 	N_MAX=1e9 $(PY) problems/erdos-699/scan_699.py
 
+verify-erdos-375:
+	$(PY) problems/erdos-375/grimm_reference.py gate
+
+scan-375:
+	cd problems/erdos-375 && clang -O3 -o grimm grimm.c -lm && N_MAX=1e10 ./grimm
+
 scan-458:
 	$(PY) problems/erdos-458/scan_458_fast.py
 

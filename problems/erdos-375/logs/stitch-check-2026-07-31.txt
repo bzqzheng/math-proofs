@@ -1,0 +1,2 @@
+full= 5761453 shardA= 3001132 shardB= 2760321 duplicates=0
+STITCH-EXACT: sharded union == single run

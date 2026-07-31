@@ -1,0 +1,3 @@
+gate c OK: all 29 record prime gaps below 1e9 match OEIS A000230/A005250; no counterexamples. engine done: N_MAX=1000000000 N_START=2 blocks=50847532 smooth=409844 maxk=281 maxmatch=10 counterexamples=0 elapsed=27.4s rate=36526403 ints/s
+gate c PASSED (27.4s)
+

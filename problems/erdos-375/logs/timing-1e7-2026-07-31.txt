@@ -1,0 +1,23 @@
+config: N_MAX=10000000 N_START=2 SEG=10000000 PROGRESS=100000000 DUMP_BLOCKS=0
+record-gap: p=3 gap=2
+record-gap: p=7 gap=4
+record-gap: p=23 gap=6
+record-gap: p=89 gap=8
+record-gap: p=113 gap=14
+record-gap: p=523 gap=18
+record-gap: p=887 gap=20
+record-gap: p=1129 gap=22
+record-gap: p=1327 gap=34
+record-gap: p=9551 gap=36
+record-gap: p=15683 gap=44
+record-gap: p=19609 gap=52
+record-gap: p=31397 gap=72
+record-gap: p=155921 gap=86
+record-gap: p=360653 gap=96
+record-gap: p=370261 gap=112
+record-gap: p=492113 gap=114
+record-gap: p=1349533 gap=118
+record-gap: p=1357201 gap=132
+record-gap: p=2010733 gap=148
+record-gap: p=4652353 gap=154
+done: N_MAX=10000000 N_START=2 blocks=664577 smooth=29312 maxk=153 maxmatch=10 counterexamples=0 elapsed=0.3s rate=39592663 ints/s

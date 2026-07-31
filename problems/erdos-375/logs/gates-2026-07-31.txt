@@ -1,0 +1,14 @@
+gate a.1 OK: hopcroft-karp == brute force on 300 random tiny graphs
+gate a.2 OK: block 8..10 assignment is exactly {8:2, 9:3, 10:5}
+gate a.3 OK: block 114..126 (k=13) full==reduced, smooth=5
+gate a.3 OK: block 524..540 (k=17) full==reduced, smooth=4
+gate a.3 OK: block 8192..8208 (k=17) full==reduced, smooth=1
+gate a PASSED (0.0s)
+
+gate b OK: 664577 blocks below 1e7 agree block-by-block (OK/FAIL + smooth + match counts); 78496 blocks below 1e6 additionally agree with full sympy matchings
+gate b PASSED (48.2s)
+
+gate c OK: all 29 record prime gaps below 1e9 match OEIS A000230/A005250; no counterexamples. engine done: N_MAX=1000000000 N_START=2 blocks=50847532 smooth=409844 maxk=281 maxmatch=10 counterexamples=0 elapsed=27.4s rate=36434570 ints/s
+gate c PASSED (27.5s)
+
+ALL GATES PASSED (total 75.7s)

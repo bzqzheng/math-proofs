@@ -19,6 +19,7 @@ Single source of truth for campaign status. Pipeline and status definitions:
 | `erdos-470/` | Odd weird numbers | **BOUND-EXTENDED** | **Sweep complete as designed: 0 finds across ≥12T nodes / ≥350k candidates** — all barren/off-spine regions exhausted to 10²⁴; 5 abundancy-frontier spines documented to 671B–1.79T nodes (264,140 tests on the deepest). Full coverage map: `RESULTS.md` |
 | `erdos-458/` | lcm inequality | **BOUND-EXTENDED** | 0 counterexamples for k ≤ 10⁷; min margin 0.15415 at k=4 |
 | `erdos-779/` | Fortune's conjecture | **BOUND-EXTENDED** | No composite Fortunate number for n ≤ 780 |
+| `erdos-375/` | Grimm's conjecture: distinct prime divisors for consecutive composites | **SCANNING** | C engine (segmented sieve + k-smooth reduction + exact Hopcroft–Karp) gated against a sympy oracle: full/reduced agreement on all 664,577 blocks ≤ 10⁷, OEIS A005250 gap check exact to 10⁹, stitch-verified resume; **0 counterexamples ≤ 10¹⁰** in 288s/core (34.7M ints/s); ~9 core-hours priced to 10¹² |
 | `erdos-313/` | Primary pseudoperfect numbers | **ANALYZED** | Frontier documented (10 PPNs known, Wang May 2026); ω=9 sweep 2,538/2,910 shards (resumable); C/GMP engine in dir |
 | `erdos-993/` | Tree independence-polynomial unimodality | **DEPRIORITIZED** | No counterexample across 5 families; best near-miss 0.995652; literature frontier n=29 |
 | `erdos-287/` | Egyptian fractions, gaps ≤ 2 | **BOUND-EXTENDED** | No counterexample for k ≤ 48 (exhaustive MITM, `mitm_287.py`); k ≥ 49 needs C port |

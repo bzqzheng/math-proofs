@@ -1406,3 +1406,7 @@ progress: nodes=30,000,000 tested=1,398 found=0 n=95553583746245540685495 elapse
 progress: nodes=40,000,000 tested=1,398 found=0 n=459271321693069476333105 elapsed=133s
 progress: nodes=50,000,000 tested=1,398 found=0 n=841046660716967976009915 elapsed=174s
 progress: nodes=60,000,000 tested=1,398 found=0 n=207489038131443909086235 elapsed=199s
+progress: nodes=70,000,000 tested=1,398 found=0 n=578943447479451840036735 elapsed=238s
+progress: nodes=80,000,000 tested=1,398 found=0 n=964142736250519647358515 elapsed=279s
+progress: nodes=90,000,000 tested=1,398 found=0 n=323007307701589577742885 elapsed=303s
+progress: nodes=100,000,000 tested=1,398 found=0 n=699928602915431442392235 elapsed=343s

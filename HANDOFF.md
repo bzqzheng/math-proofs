@@ -77,6 +77,14 @@ If `problems/erdos-470/mining/` is incomplete in the clone (fleet was still
 running on the old machine), just re-run `problems/erdos-470/run_mining.sh`
 — idempotent, ~2× faster on this machine.
 
+Preview findings from the partial analysis (345,223 candidates, ~10 regions):
+median δ ≈ 5.17M, p99 ≈ 9.9M vs DELTA_MAX = 10⁷ — **the δ cap binds**
+(candidates crowd the top of the window), supporting the δ-dimension as the
+open frontier. Closest-to-weird candidate had run-length 83 (weird = 0):
+semiperfection is robust in this class; no candidate came anywhere near
+inexpressible. Partial artifacts (`candidates.csv.gz`, `MINING-report.md`)
+were left uncommitted on the old machine — regenerate after the full run.
+
 ## How to continue
 
 1. `git pull`; read the four memory files above.

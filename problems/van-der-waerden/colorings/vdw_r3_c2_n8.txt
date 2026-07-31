@@ -1,0 +1,10 @@
+# van der Waerden certificate: 2-coloring of [8], no mono 3-AP
+# W(2,3) > 8
+0
+0
+1
+1
+0
+0
+1
+1

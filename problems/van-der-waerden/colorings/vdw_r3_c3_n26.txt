@@ -1,0 +1,28 @@
+# van der Waerden certificate: 3-coloring of [26], no mono 3-AP
+# W(3,3) > 26
+1
+1
+2
+2
+0
+1
+1
+0
+1
+0
+2
+2
+0
+0
+2
+2
+0
+1
+0
+1
+1
+0
+2
+2
+1
+1

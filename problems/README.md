@@ -33,3 +33,4 @@ Single source of truth for campaign status. Pipeline and status definitions:
 |---|---|---|---|
 | `hadwiger-nelson/` | 6-chromatic unit-distance graph | **ORACLE VALIDATED** | DSATUR colorer + Moser spindle reconstruction done; generation out of reach this iteration |
 | `ramsey-r55/` | R(5,5) ≥ 44 via explicit graph | **ATTEMPTED** | Circulant families scanned, no witness; see dir README |
+| `van-der-waerden/` | vdW lower-bound coloring certificates (W(5,3)>170, W(2,7)>3703, …) | **ATTACK-READY** | SAT encoder + checker gated 8/8 on exact values (`vdw.py`); CDCL can't reach record region (documented); probSAT local-search engine next |

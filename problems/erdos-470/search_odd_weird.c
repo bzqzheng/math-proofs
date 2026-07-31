@@ -76,6 +76,7 @@ static int ALLOW_EVEN;
 static long TIME_BUDGET;
 static long MIN_DEPTH;  /* 0 = off; weird-eligibility requires depth >= MIN_DEPTH
                          * (Liddy–Riedl: odd weird => >= 6 distinct primes) */
+static int DUMP;        /* 1 = print every tested candidate (CAND n delta fac) */
 
 /* ------------------------------ state ----------------------------------- */
 
@@ -445,6 +446,14 @@ static void dfs(u128 p_start, u128 n, u128 sig, int depth) {
         if (delta >= DELTA_MAX) return;
         if (depth >= MIN_DEPTH) { /* below MIN_DEPTH not weird-eligible (Liddy–Riedl) */
             tested++;
+            if (DUMP) { /* near-miss mining: emit every candidate (n, delta, fac) */
+                char nb[64], db[64];
+                u128_str(nb, n);
+                u128_str(db, delta);
+                printf("CAND %s %s ", nb, db);
+                fprint_fac(stdout, fac, depth);
+                putchar('\n');
+            }
             if (!delta_expressible(depth, delta)) {
             char nb[64], db[64];
             if (nfound == found_cap) {
@@ -536,6 +545,7 @@ int main(void) {
     ALLOW_EVEN = getenv("ALLOW_EVEN") && strcmp(getenv("ALLOW_EVEN"), "1") == 0;
     TIME_BUDGET = getenv("TIME_BUDGET") ? atol(getenv("TIME_BUDGET")) : 600;
     MIN_DEPTH = getenv("MIN_DEPTH") ? atol(getenv("MIN_DEPTH")) : 0;
+    DUMP = getenv("DUMP") && strcmp(getenv("DUMP"), "1") == 0;
 
     if (N_CAP < 1 || N_CAP > N_CAP_CLAMP) {
         fprintf(stderr, "N_CAP out of supported range (1..1e36)\n");

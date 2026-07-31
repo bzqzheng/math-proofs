@@ -1,0 +1,26 @@
+k=46: first_half=45844733, table 134217728 slots (2048.0 MB)
+k=46: none (halves=45844733+67500779, cand=0, 6.0s)
+k=47: first_half=47971376, table 134217728 slots (2048.0 MB)
+k=47: none (halves=47971376+144536739, cand=0, 11.4s)
+k=48: first_half=95654131, table 268435456 slots (4096.0 MB)
+k=48: none (halves=95654131+145130144, cand=0, 17.1s)
+done: k=46..48 complete (verify hits files with verify_hits.py)
+       34.61 real        26.15 user         0.41 sys
+          6497091584  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              396722  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                9001  involuntary context switches
+        192274039921  instructions retired
+         90657329570  cycles elapsed
+          6499881856  peak memory footprint
+EXIT=0

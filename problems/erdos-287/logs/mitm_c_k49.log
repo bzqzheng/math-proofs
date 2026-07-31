@@ -1,0 +1,23 @@
+k=49: first_half=99906514, table 268435456 slots (4096.0 MB)
+k=49: none (halves=99906514+292376059, cand=0, 23.7s)
+done: k=49..49 complete (verify hits files with verify_hits.py)
+       23.71 real        20.76 user         0.23 sys
+          4332765184  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              264620  page reclaims
+                   1  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                3539  involuntary context switches
+        130411015435  instructions retired
+         71998149272  cycles elapsed
+          4334456144  peak memory footprint
+EXIT=0
+verify k=49: 0 verified, 0 rejected (of 0 candidates, gap<=2)
